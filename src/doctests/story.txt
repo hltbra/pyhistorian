@@ -1,0 +1,27 @@
+>>> from pyhistorian import Story
+
+>>> class FakeScenario(object):
+...     title = 'Fake Title'
+...
+...     def run(self):
+...         print 'Given I run it'
+...         print 'When I type X'
+...         print 'Then it shows me X'
+>>> fake_scenario = FakeScenario()
+
+>>> story = Story(title='Hacker Story',
+...               as_a='hacker',
+...               i_want_to='hack it',
+...               so_that='it is hacked!')
+>>> story.add_scenario(fake_scenario)
+>>> story.run()
+Story: Hacker Story
+As a hacker
+I want to hack it
+So that it is hacked!
+<BLANKLINE>
+Scenario 1: Fake Title
+  Given I run it
+  When I type X
+  Then it shows me X
+

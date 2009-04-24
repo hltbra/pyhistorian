@@ -1,16 +1,6 @@
 from should_dsl import DSLObject as _
 
 class Step(object):
-    '''
-
-        >>> def hello_world():
-        ...    return 'hello world!'
-        >>> hello_world = Step('test')(hello_world)
-        >>> hello_world.__doc__
-        'Step test'
-        >>> hello_world._step
-        'step'
-    '''
     def __init__(self, message):
         self._message = message
 
@@ -31,32 +21,6 @@ class Then(Step):
 
 
 class Story(object):
-    '''
-        >>> class FakeScenario(object):
-        ...     title = 'Fake Title'
-        ...
-        ...     def run(self):
-        ...         print 'Given I run it'
-        ...         print 'When I type X'
-        ...         print 'Then it shows me X'
-        >>> fake_scenario = FakeScenario()
-
-        >>> story = Story(title='Hacker Story',
-        ...               as_a='hacker',
-        ...               i_want_to='hack it',
-        ...               so_that='it is hacked!')
-        >>> story.add_scenario(fake_scenario)
-        >>> story.run()
-        Story: Hacker Story
-        As a hacker
-        I want to hack it
-        So that it is hacked!
-        <BLANKLINE>
-        Scenario 1: Fake Title
-          Given I run it
-          When I type X
-          Then it shows me X
-    '''
     def __init__(self, title='Empty Story',
                        as_a='',
                        i_want_to='',
@@ -82,136 +46,6 @@ class Story(object):
 
 
 class Scenario(object):
-    '''
-        >>> class NewScenario(Scenario):
-        ...     @Given('I test it')
-        ...     def i_test_it(self):
-        ...         self.first_state = "it's been tested!"
-        ...
-        ...     @When('I say OK')
-        ...     def i_say_ok(self):
-        ...          self.second_state = 'I have said OK'
-        ...
-        ...     @Then("It's done")
-        ...     def its_done(self):
-        ...         print "It's done!"
-
-        >>> new_scenario = NewScenario('First Scenario')
-
-        >>> story = Story(as_a='programmer',
-        ...               i_want_to='write this DSL',
-        ...               so_that='I test this new stuff')
-        >>> story.add_scenario(new_scenario)
-
-        >>> story.run()
-        Story: Empty Story
-        As a programmer
-        I want to write this DSL
-        So that I test this new stuff
-        <BLANKLINE>
-        Scenario 1: First Scenario
-          Given I test it
-          When I say OK
-          Then It's done
-        It's done!
-
-        >>> new_scenario.first_state
-        "it's been tested!"
-
-        >>> new_scenario.second_state
-        'I have said OK'
-
-
-        >>> class TemplateScenario(Scenario):
-        ...     @Given('I have a calculator')
-        ...     def i_have_a_calculator(self):
-        ...         pass
-        ...
-        ...     @When('I sum 1 to 1')
-        ...     def i_sum_number1_to_number2(self):
-        ...         self.sum = 1 + 1
-        ...
-        ...     @Then('the result is 2')
-        ...     def the_result_is_result(self):
-        ...         _(self.sum).should_be.equal_to(2)
-
-        >>> template_scenario = TemplateScenario('Second Scenario')
-
-        >>> template_story = Story(title='Second Test',
-        ...                        as_a='programmer',
-        ...                        i_want_to='write a test',
-        ...                        so_that='I can become happy')
-        >>> template_story.add_scenario(template_scenario)
-        >>> template_story.run()
-        Story: Second Test
-        As a programmer
-        I want to write a test
-        So that I can become happy
-        <BLANKLINE>
-        Scenario 1: Second Scenario
-          Given I have a calculator
-          When I sum 1 to 1
-          Then the result is 2
-
-
-        >>> story = Story(title='Running two different scenarios',
-        ...               as_a='programmer',
-        ...               i_want_to='put two different scenarios in a story',
-        ...               so_that='it run all right')
-        >>> story.add_scenario(new_scenario)
-        >>> story.add_scenario(template_scenario)
-        >>> story.run()
-        Story: Running two different scenarios
-        As a programmer
-        I want to put two different scenarios in a story
-        So that it run all right
-        <BLANKLINE>
-        Scenario 1: First Scenario
-          Given I test it
-          When I say OK
-          Then It's done
-        It's done!
-        <BLANKLINE>
-        Scenario 2: Second Scenario
-          Given I have a calculator
-          When I sum 1 to 1
-          Then the result is 2
-
-        >>> class ThirdScenario(Scenario):
-        ...     @Given('it is the 3rd scenario')
-        ...     def do_nothing(self):
-        ...         pass
-        ...
-        ...     @When('I do nothing')
-        ...     def do_nothing_again(self):
-        ...         pass
-        ...     @When("I don't know what to do")
-        ...     def what_should_i_do(self):
-        ...         self.what = 'write this software'
-        ...
-        ...     @Then('I go refactor this software')
-        ...     def refactor(self):
-        ...         pass
-        >>> third_scenario = ThirdScenario('It is my third scenario')
-
-        >>> story = Story(title='Showing how two whens become one when+and',
-        ...               as_a='software developer',
-        ...               i_want_to='improve my software',
-        ...               so_that='everybody loves it')
-        >>> story.add_scenario(third_scenario)
-        >>> story.run()
-        Story: Showing how two whens become one when+and
-        As a software developer
-        I want to improve my software
-        So that everybody loves it
-        <BLANKLINE>
-        Scenario 1: It is my third scenario
-          Given it is the 3rd scenario
-          When I do nothing
-          And I don't know what to do
-          Then I go refactor this software
-    '''
-
     def __init__(self, title='Empty title'):
         self._givens = []
         self._whens = []

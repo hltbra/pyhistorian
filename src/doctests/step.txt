@@ -1,0 +1,9 @@
+>>> from pyhistorian import Step
+
+>>> def hello_world():
+...    return 'hello world!'
+>>> hello_world = Step('test')(hello_world)
+>>> hello_world.__doc__
+'Step test'
+>>> hello_world._step
+'step'
