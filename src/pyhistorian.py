@@ -51,6 +51,7 @@ class Scenario(object):
         self._whens = []
         self._thens = []
         self._title = title
+        self._errors = []
         # reverse the list because in python
         # the methods are created bottom up
         all_attributes = reversed(self.__class__.__dict__.values())
@@ -84,15 +85,25 @@ class Scenario(object):
         self.run_steps(self._givens)
         self.run_steps(self._whens)
         self.run_steps(self._thens)
+        if self._errors:
+            print '\n\nFails:'
+            for error in self._errors:
+                if not error.args:
+                    error = 'Exception %s was thrown!' % str(error.__class__)
+                print ' ', error
 
     def run_steps(self, steps):
-        print ' ',  steps[0].__doc__
-        steps[0]()
+        try:
+            steps[0]()
+            print ' ',  steps[0].__doc__ + '   ... OK'
+        except Exception, e:
+            self._errors.append(e)
+            print ' ',  steps[0].__doc__ + '   ... FAIL'
+
         for step in steps[1:]:
-            print '  And ' + ' '.join(step.__doc__.split()[1:])
-            step()
-
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(optionflags=doctest.NORMALIZE_WHITESPACE)
+            try:
+                step()
+                print '  And ' + ' '.join(step.__doc__.split()[1:]) + '   ... OK'
+            except Exception, e:
+                print '  And ' + ' '.join(step.__doc__.split()[1:]) + '   ... FAIL'
+                self._errors.append(e)

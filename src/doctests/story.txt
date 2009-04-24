@@ -4,9 +4,9 @@
 ...     title = 'Fake Title'
 ...
 ...     def run(self):
-...         print 'Given I run it'
-...         print 'When I type X'
-...         print 'Then it shows me X'
+...         print 'Given I run it   ... OK'
+...         print 'When I type X   ... OK'
+...         print 'Then it shows me X   ... OK'
 >>> fake_scenario = FakeScenario()
 
 >>> story = Story(title='Hacker Story',
@@ -21,7 +21,7 @@ I want to hack it
 So that it is hacked!
 <BLANKLINE>
 Scenario 1: Fake Title
-  Given I run it
-  When I type X
-  Then it shows me X
+  Given I run it   ... OK
+  When I type X   ... OK
+  Then it shows me X   ... OK
 

@@ -28,10 +28,10 @@ I want to write this DSL
 So that I test this new stuff
 <BLANKLINE>
 Scenario 1: First Scenario
-  Given I test it
-  When I say OK
-  Then It's done
+  Given I test it   ... OK
+  When I say OK   ... OK
 It's done!
+  Then It's done   ... OK
 
 >>> new_scenario.first_state
 "it's been tested!"
@@ -67,9 +67,9 @@ I want to write a test
 So that I can become happy
 <BLANKLINE>
 Scenario 1: Second Scenario
-  Given I have a calculator
-  When I sum 1 to 1
-  Then the result is 2
+  Given I have a calculator   ... OK
+  When I sum 1 to 1   ... OK
+  Then the result is 2   ... OK
 
 
 >>> story = Story(title='Running two different scenarios',
@@ -85,15 +85,15 @@ I want to put two different scenarios in a story
 So that it run all right
 <BLANKLINE>
 Scenario 1: First Scenario
-  Given I test it
-  When I say OK
-  Then It's done
+  Given I test it   ... OK
+  When I say OK   ... OK
 It's done!
+  Then It's done   ... OK
 <BLANKLINE>
 Scenario 2: Second Scenario
-  Given I have a calculator
-  When I sum 1 to 1
-  Then the result is 2
+  Given I have a calculator   ... OK
+  When I sum 1 to 1   ... OK
+  Then the result is 2   ... OK
 
 >>> class ThirdScenario(Scenario):
 ...     @Given('it is the 3rd scenario')
@@ -124,8 +124,46 @@ I want to improve my software
 So that everybody loves it
 <BLANKLINE>
 Scenario 1: It is my third scenario
-  Given it is the 3rd scenario
-  When I do nothing
-  And I don't know what to do
-  Then I go refactor this software
+  Given it is the 3rd scenario   ... OK
+  When I do nothing   ... OK
+  And I don't know what to do   ... OK
+  Then I go refactor this software   ... OK
 
+
+>>> class FailScenario(Scenario):
+...     @Given('I wanna see FAILS and OKs')
+...     def nothing(self): pass
+...     
+...     @When('I put a failing spec')
+...     def failing_spec(self):
+...         def divide_one_by_zero(): return 1/0
+...         _(ZeroDivisionError).should_not_be.thrown_by(divide_one_by_zero)
+...     @When('I put another failing spec')
+...     def another_failing_spec(self):
+...         raise Exception#, 'raising Exception!'
+...     @Then('I see a FAIL in my output')
+...     def where_is_fail(self):
+...         pass
+
+>>> fail_scenario = FailScenario('Failing Scenario')
+>>> story = Story(title='foo',
+...               as_a='x',
+...               i_want_to='y',
+...               so_that='z')
+>>> story.add_scenario(fail_scenario)
+>>> story.run()
+Story: foo
+As a x
+I want to y
+So that z
+<BLANKLINE>
+Scenario 1: Failing Scenario
+Given I wanna see FAILS and OKs   ... OK
+When I put a failing spec   ... FAIL
+Then I see a FAIL in my output   ... OK
+<BLANKLINE>
+<BLANKLINE>
+Fails:
+  ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
+  Exception ...Exception... was thrown!
+>>>
