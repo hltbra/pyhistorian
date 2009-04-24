@@ -217,9 +217,9 @@ class Scenario(object):
         self._whens = []
         self._thens = []
         self._title = title
-        # revert the list because in python
+        # reverse the list because in python
         # the methods are created bottom up
-        all_attributes = self.__class__.__dict__.values()[::-1]
+        all_attributes = reversed(self.__class__.__dict__.values())
         steps = [step for step in all_attributes
                             if getattr(step, '_step', None)]
         for method in steps:
