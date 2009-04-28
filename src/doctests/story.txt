@@ -14,6 +14,8 @@
 ...               i_want_to='hack it',
 ...               so_that='it is hacked!')
 >>> story.add_scenario(fake_scenario)
+<pyhistorian.Story object at ...>
+
 >>> story.run()
 Story: Hacker Story
 As a hacker

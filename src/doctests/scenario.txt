@@ -20,6 +20,7 @@
 ...               i_want_to='write this DSL',
 ...               so_that='I test this new stuff')
 >>> story.add_scenario(new_scenario)
+<pyhistorian.Story object at ...>
 
 >>> story.run()
 Story: Empty Story
@@ -60,6 +61,8 @@ It's done!
 ...                        i_want_to='write a test',
 ...                        so_that='I can become happy')
 >>> template_story.add_scenario(template_scenario)
+<pyhistorian.Story object at ...>
+
 >>> template_story.run()
 Story: Second Test
 As a programmer
@@ -76,8 +79,11 @@ Scenario 1: Second Scenario
 ...               as_a='programmer',
 ...               i_want_to='put two different scenarios in a story',
 ...               so_that='it run all right')
->>> story.add_scenario(new_scenario)
->>> story.add_scenario(template_scenario)
+>>> (story
+...      .add_scenario(new_scenario)
+...      .add_scenario(template_scenario))
+<pyhistorian.Story object at ...>
+
 >>> story.run()
 Story: Running two different scenarios
 As a programmer
@@ -117,6 +123,8 @@ Scenario 2: Second Scenario
 ...               i_want_to='improve my software',
 ...               so_that='everybody loves it')
 >>> story.add_scenario(third_scenario)
+<pyhistorian.Story object at ...>
+
 >>> story.run()
 Story: Showing how two whens become one when+and
 As a software developer
@@ -151,6 +159,7 @@ Scenario 1: It is my third scenario
 ...               i_want_to='y',
 ...               so_that='z')
 >>> story.add_scenario(fail_scenario)
+<pyhistorian.Story object at ...>
 >>> story.run()
 Story: foo
 As a x

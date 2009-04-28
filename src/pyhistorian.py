@@ -57,6 +57,7 @@ class Story(object):
 
     def add_scenario(self, scenario):
         self._scenarios.append(scenario)
+        return self
 
     def show_story_title(self):
         print '%s: %s' % (self._language['story'], self._title)

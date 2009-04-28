@@ -46,8 +46,10 @@
 ...                              i_want_to='usar uma calculadora',
 ...                              so_that='eu descanse minha mente',
 ...                              language='pt-br')
->>> calculadora_historia.add_scenario(soma_cenario)
->>> calculadora_historia.add_scenario(subtracao_cenario)
+>>> (calculadora_historia.add_scenario(soma_cenario)
+...                      .add_scenario(subtracao_cenario))
+<pyhistorian.Story object at ...>
+
 >>> calculadora_historia.run()
 História: Calculadora em pt-br
 Como um matemático preguiçoso
