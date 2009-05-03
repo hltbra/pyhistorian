@@ -1,23 +1,33 @@
 # coding: utf-8
-from should_dsl import DSLObject as _
+#from should_dsl import DSLObject as _
 from language import StoryLanguage
+import sys
+import re
+
+
+TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
 class Step(object):
+    '''Step is a baseclass for step directives'''
+
     name = 'step'
-    _order = 0
 
-    def __init__(self, message):
+    def __init__(self, message, *args):
         self._message = message
+        self._args = args
 
-    def __call__(self, method):
-        method._step = self.__class__.name
-        method.__doc__ = self.repr() + ' ' + self._message
-        method._order = self.__class__._order
-        self.__class__._order += 1
+    def _set_step_attrs(self, local_attrs):
+        for private_step in ['_givens', '_whens', '_thens']:
+            if not private_step in local_attrs:
+                local_attrs[private_step] = []
+
+    def __call__(self, method=None):
+        frame = sys._getframe(1)
+        step = self.__class__.name
+        self._set_step_attrs(frame.f_locals)
+        steps = frame.f_locals['_%ss' % step]
+        steps.append((method, self._message, self._args))
         return method
-
-    def repr(self):
-        return self.__class__.__name__
 
 class Given(Step):
     name = 'given'
@@ -28,18 +38,14 @@ class When(Step):
 class Then(Step):
     name = 'then'
 
-class DadoQue(Step):
-    name = 'given'
-    def repr(self):
-        return 'Dado que'
+class DadoQue(Given):
+    '''given in portuguese'''
 
-class Quando(Step):
-    name = 'when'
+class Quando(When):
+    '''when in portuguese'''
 
-class Entao(Step):
-    name = 'then'
-    def repr(self):
-        return 'Então'
+class Entao(Then):
+    '''then in portuguese'''
 
 
 class Story(object):
@@ -55,7 +61,32 @@ class Story(object):
         self._so_that = so_that
         self._scenarios = []
 
+    def _set_defined_steps(self, scenario):
+        for step in ['_givens', '_whens', '_thens']:
+            scenario_steps = getattr(scenario, step)
+            for i in range(len(scenario_steps)):
+                method, msg, args = scenario_steps[i]
+                if method is None:
+                    for scenario2 in self._scenarios:
+                        ok = False
+                        for meth2, msg2, args2 in getattr(scenario2, step):
+                            msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.*)', msg2)
+                            regex = re.match(msg_pattern, msg)
+                            if regex:
+                                scenario_steps[i] = meth2, msg, regex.groups()
+                                ok = True
+                                break
+                        if ok:
+                            break
+                        
+                    else:
+                        def undefined_step(self):
+                            raise Exception('%s -- %s' % (self._language['undefined_step'], msg))
+                        scenario_steps[i] = undefined_step, msg, args
+
     def add_scenario(self, scenario):
+        scenario.set_story(self)
+        self._set_defined_steps(scenario)
         self._scenarios.append(scenario)
         return self
 
@@ -79,68 +110,52 @@ class Story(object):
 class Scenario(object):
     def __init__(self, title='', language='en-us'):
         self._language = StoryLanguage(language)
-        self._givens = []
-        self._whens = []
-        self._thens = []
-        self._title = title or self._language['empty_title']
+        self._title = title or self._language['empty_scenario_title']
         self._errors = []
-        # _order is used to know what method was called first
-        # because if not specified python will order by name
-        def sort_by_order(method1, method2):
-            return method1._order - method2._order
-        all_attributes = reversed(self.__class__.__dict__.values())
-        steps = [step for step in all_attributes
-                            if getattr(step, '_step', None)]
-        steps.sort(cmp=sort_by_order)
-        for method in steps:
-            self.add_step(getattr(self, method.func_name))
+        self._story = []
 
     @property
     def title(self):
         return self._title
 
-    def add_step(self, method):
-        if method._step == 'given':
-            self._add_given(method)
-        elif method._step == 'when':
-            self._add_when(method)
-        elif method._step == 'then':
-            self._add_then(method)
-
-    def _add_given(self, given):
-        self._givens.append(given)
-
-    def _add_when(self, when):
-        self._whens.append(when)
-
-    def _add_then(self, then):
-        self._thens.append(then)
+    def set_story(self, story):
+        self._story = story
+        self._language = story._language
 
     def run(self):
-        self.run_steps(self._givens)
-        self.run_steps(self._whens)
-        self.run_steps(self._thens)
+        #self._replace_templates()
+        self.run_steps(self._givens, 'given')
+        self.run_steps(self._whens, 'when')
+        self.run_steps(self._thens, 'then')
         if self._errors:
             print '\n\n%ss:' % self._language['fail']
             for error in self._errors:
                 if not error.args:
-                    error = 'Exception %s was thrown!' % str(error.__class__)
+                    error = self._language['exception_thrown'] % str(error.__class__)
                 print ' ', error
 
-    def run_steps(self, steps):
-        if steps == []:
-            return False
+    def _replace_template(self, message, args):
+        for arg in args:
+            message = re.sub(TEMPLATE_PATTERN, str(arg), message, 1)
+        return message
+
+    def _run_step(self, step, step_name):
+        method, message, args = step
+        message = self._replace_template(message, args)
         try:
-            steps[0]()
-            print ' ',  steps[0].__doc__ + '   ... OK'
+            method(self, *args)
+            print '  %s %s   ... OK' % (self._language[step_name], message)
         except Exception, e:
             self._errors.append(e)
-            print ' ',  steps[0].__doc__ + '   ... %s' % self._language['fail'].upper()
+            print '  %s %s   ... %s' % (self._language[step_name],
+                                    message,
+                                    self._language['fail'].upper())
+            self._errors.append(e)
 
+    def run_steps(self, steps, step_name):
+        if steps == []:
+            return False
+
+        self._run_step(steps[0], step_name)
         for step in steps[1:]:
-            try:
-                step()
-                print '  %s ' % self._language['and_word'] + ' '.join(step.__doc__.split()[1:]) + '   ... OK'
-            except Exception, e:
-                print '  %s ' % self._language['and_word'] + ' '.join(step.__doc__.split()[1:]) + '   ... %s' % self._language['fail'].upper()
-                self._errors.append(e)
+            self._run_step(step, 'and_word')

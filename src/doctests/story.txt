@@ -1,7 +1,10 @@
 >>> from pyhistorian import Story
 
 >>> class FakeScenario(object):
+...     _givens = _whens = _thens = []
 ...     title = 'Fake Title'
+...
+...     def set_story(self, story): pass
 ...
 ...     def run(self):
 ...         print 'Given I run it   ... OK'

@@ -20,74 +20,56 @@ class SomaCenario(Scenario):
     def criar_calculadora(self):
         self.calculadora = Calculadora()
 
-    @Quando('eu entro com 1 + 1')
+    @Quando('eu entro com 1 \+ 1')
     def somar_um_e_um(self):
-        self.soma = self.calculadora.somar(1, 1)
+        self.resultado = self.calculadora.somar(1, 1)
 
-    @Entao('eu tenho 2 como resultado')
-    def dois_como_resultado(self):
-        _(self.soma).should_be.equal_to(2)
+    @Entao('eu tenho $valor como resultado', '2')
+    def pegar_resultado(self, valor):
+        _(self.resultado).should_be.equal_to(int(valor))
 
 
 class SomaESubtracaoCenario(Scenario):
-    @DadoQue('eu tenho uma calculadora')
-    def criar_calculadora(self):
-        self.calculadora = Calculadora()
+    DadoQue('eu tenho uma calculadora')()
 
-    @Quando('eu entro com 1 + 1')
-    def um_mais_um(self):
-        self.resultado = self.calculadora.somar(1, 1)
+    Quando('eu entro com 1 + 1')()
 
     @Quando('eu subtraio 3 do resultado atual')
     def subtrair_tres_do_resultado_atual(self):
         self.resultado = self.calculadora.subtrair(self.resultado, 3)
 
-    @Entao('eu tenho -1 como resultado')
-    def pegar_resultado(self):
-        _(self.resultado).should_be.equal_to(-1)
+    Entao('eu tenho -1 como resultado')()
 
 
 class DivisaoCenario(Scenario):
-    @DadoQue('eu tenho uma calculadora')
-    def criar_calculadora(self):
-        self.calculadora = Calculadora()
+    DadoQue('eu tenho uma calculadora')()
 
     @Quando('eu entro com 5 / 2')
     def cinco_dividido_por_2(self):
         self.resultado = self.calculadora.dividir(5, 2)
 
-    @Entao('eu tenho 2 como resultado')
-    def pegar_resultado(self):
-        _(self.resultado).should_be.equal_to(2)
+    Entao('eu tenho 2 como resultado')()
 
 
 class MultiplyScenario(Scenario):
-    @DadoQue('eu tenho uma calculadora')
-    def criar_calculadora(self):
-        self.calculadora = Calculadora()
+    DadoQue('eu tenho uma calculadora')()
 
     @Quando('eu entro com 2 * 3')
     def multiplicar_dois_por_tres(self):
         self.resultado = self.calculadora.multiplicar(2, 3)
 
-    @Entao('eu tenho 6 como resultado')
-    def pegar_resultado(self):
-        _(self.resultado).should_be.equal_to(6)
+    Entao('eu tenho 6 como resultado')()
 
 
 if __name__ == '__main__':
     calculadora_historia = Story(title='Especificando minha nova calculadora',
-                             as_a='matem√°tico pregui√ßoso',
+                             as_a='matem·tico preguiÁoso',
                              i_want_to='usar uma calculadora',
-                             so_that="eu n√£o gaste tempo pensando",
+                             so_that="eu n„o gaste tempo pensando",
                              language='pt-br')
-    soma_cenario = SomaCenario('Soma de 1 e 1', 'pt-br')
-    sum_and_reduce_scenario = SomaESubtracaoCenario('Subtra√ß√£o de uma soma',
-                                                   'pt-br')
-    divisao_cenario = DivisaoCenario('Divis√£o de inteiros')
-    multipicacao_cenario = MultiplyScenario('Multiplica√ß√£o simples', 'pt-br')
-    calculadora_historia.add_scenario(soma_cenario)
-    calculadora_historia.add_scenario(sum_and_reduce_scenario)
-    calculadora_historia.add_scenario(divisao_cenario)
-    calculadora_historia.add_scenario(multipicacao_cenario)
-    calculadora_historia.run()
+    (calculadora_historia
+                        .add_scenario(SomaCenario('Soma de 1 e 1'))
+                        .add_scenario(SomaESubtracaoCenario('SubtraÁ„o de uma soma'))
+                        .add_scenario(DivisaoCenario('Divis„o de inteiros'))
+                        .add_scenario(MultiplyScenario('MultiplicaÁ„o simples'))
+                        .run())
