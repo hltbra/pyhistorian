@@ -1,11 +1,15 @@
 # coding: utf-8
-#from should_dsl import DSLObject as _
 from language import StoryLanguage
 import sys
 import re
 
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
+"""
+TODO:
+    prettify the output of defined steps (patterns), like:
+    @When(r'I sum 1 \+ 1'), prettify this kind of pattern
+"""
 
 class Step(object):
     '''Step is a baseclass for step directives'''
@@ -123,7 +127,6 @@ class Scenario(object):
         self._language = story._language
 
     def run(self):
-        #self._replace_templates()
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
