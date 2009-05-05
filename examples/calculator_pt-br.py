@@ -30,35 +30,35 @@ class SomaCenario(Scenario):
 
 
 class SomaESubtracaoCenario(Scenario):
-    DadoQue('eu tenho uma calculadora')()
+    DadoQue('eu tenho uma calculadora')
 
-    Quando('eu entro com 1 + 1')()
+    Quando('eu entro com 1 + 1')
 
     @Quando('eu subtraio 3 do resultado atual')
     def subtrair_tres_do_resultado_atual(self):
         self.resultado = self.calculadora.subtrair(self.resultado, 3)
 
-    Entao('eu tenho -1 como resultado')()
+    Entao('eu tenho -1 como resultado')
 
 
 class DivisaoCenario(Scenario):
-    DadoQue('eu tenho uma calculadora')()
+    DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 5 / 2')
     def cinco_dividido_por_2(self):
         self.resultado = self.calculadora.dividir(5, 2)
 
-    Entao('eu tenho 2 como resultado')()
+    Entao('eu tenho 2 como resultado')
 
 
 class MultiplyScenario(Scenario):
-    DadoQue('eu tenho uma calculadora')()
+    DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 2 * 3')
     def multiplicar_dois_por_tres(self):
         self.resultado = self.calculadora.multiplicar(2, 3)
 
-    Entao('eu tenho 6 como resultado')()
+    Entao('eu tenho 6 como resultado')
 
 
 if __name__ == '__main__':
