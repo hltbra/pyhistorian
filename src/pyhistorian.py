@@ -19,6 +19,11 @@ class Step(object):
     def __init__(self, message, *args):
         self._message = message
         self._args = args
+        self._context = sys._getframe(1)
+        self._set_step_attrs(self._context.f_locals)
+        step = self.__class__.name
+        self._steps = self._context.f_locals['_%ss' % step]
+        self._steps.append((None, self._message, self._args))
 
     def _set_step_attrs(self, local_attrs):
         for private_step in ['_givens', '_whens', '_thens']:
@@ -26,11 +31,8 @@ class Step(object):
                 local_attrs[private_step] = []
 
     def __call__(self, method=None):
-        frame = sys._getframe(1)
-        step = self.__class__.name
-        self._set_step_attrs(frame.f_locals)
-        steps = frame.f_locals['_%ss' % step]
-        steps.append((method, self._message, self._args))
+        del self._steps[-1]
+        self._steps.append((method, self._message, self._args))
         return method
 
 class Given(Step):
