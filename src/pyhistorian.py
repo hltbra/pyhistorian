@@ -67,6 +67,19 @@ class Story(object):
         self._so_that = so_that
         self._scenarios = []
 
+    def _convert_to_int(self, args):
+        '''returns a new container where each string
+           containing just integer (delimited by spaces)
+           will be converted to real integers - casting with int().
+           what is not an integer, will not be affected'''
+        new_args = []
+        for arg in args:
+            if type(arg) == str:
+                if re.search(r'^\s*-?\d+\s*$', arg):
+                    arg = int(arg)
+            new_args.append(arg)
+        return new_args
+
     def _set_defined_steps(self, scenario):
         for step in ['_givens', '_whens', '_thens']:
             scenario_steps = getattr(scenario, step)
@@ -76,10 +89,11 @@ class Story(object):
                     for scenario2 in self._scenarios:
                         ok = False
                         for meth2, msg2, args2 in getattr(scenario2, step):
-                            msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.*)', msg2)
+                            msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg2)
                             regex = re.match(msg_pattern, msg)
                             if regex:
-                                scenario_steps[i] = meth2, msg, regex.groups()
+                                args = self._convert_to_int(regex.groups())
+                                scenario_steps[i] = meth2, msg, args
                                 ok = True
                                 break
                         if ok:
@@ -88,6 +102,7 @@ class Story(object):
                     else:
                         def undefined_step(self):
                             raise Exception('%s -- %s' % (self._language['undefined_step'], msg))
+                        args = self._convert_to_int(regex.groups())
                         scenario_steps[i] = undefined_step, msg, args
 
     def add_scenario(self, scenario):
