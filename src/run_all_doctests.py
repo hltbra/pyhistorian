@@ -3,6 +3,7 @@
 
 import doctest
 import os
+import language
 
 if __name__ == '__main__':
     doctests_path = os.path.join(os.path.dirname(__file__), 'doctests')
@@ -11,3 +12,5 @@ if __name__ == '__main__':
             continue
         doctest.testfile(os.path.join(doctests_path, doctest_file),
                          optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+    doctest.testmod(language,
+                    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
