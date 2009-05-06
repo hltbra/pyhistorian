@@ -148,7 +148,10 @@ Scenario 1: It is my third scenario
 ...         _(ZeroDivisionError).should_not_be.thrown_by(divide_one_by_zero)
 ...     @When('I put another failing spec')
 ...     def another_failing_spec(self):
-...         raise Exception#, 'raising Exception!'
+...         raise Exception( 'raising Exception!' )
+...     @When('I raise an empty exception')
+...     def raise_empty_exception(self):
+...         raise Exception
 ...     @Then('I see a FAIL in my output')
 ...     def where_is_fail(self):
 ...         pass
@@ -174,5 +177,6 @@ Then I see a FAIL in my output   ... OK
 <BLANKLINE>
 Fails:
   ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
+  raising Exception!
   Exception ...Exception... was thrown!
 >>>
