@@ -63,13 +63,13 @@ class MultiplyScenario(Scenario):
 
 if __name__ == '__main__':
     calculadora_historia = Story(title='Especificando minha nova calculadora',
-                             as_a='matem·tico preguiÁoso',
+                             as_a='matem√°tico pregui√ßoso',
                              i_want_to='usar uma calculadora',
-                             so_that="eu n„o gaste tempo pensando",
+                             so_that='eu n√£o gastei tempo pensando',
                              language='pt-br')
     (calculadora_historia
                         .add_scenario(SomaCenario('Soma de 1 e 1'))
-                        .add_scenario(SomaESubtracaoCenario('SubtraÁ„o de uma soma'))
-                        .add_scenario(DivisaoCenario('Divis„o de inteiros'))
-                        .add_scenario(MultiplyScenario('MultiplicaÁ„o simples'))
+                        .add_scenario(SomaESubtracaoCenario('Subtra√ß√£o de uma soma'))
+                        .add_scenario(DivisaoCenario('Divis√£o de inteiros'))
+                        .add_scenario(MultiplyScenario('Multiplica√ß√£o simples'))
                         .run())
