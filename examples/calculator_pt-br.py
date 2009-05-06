@@ -24,9 +24,9 @@ class SomaCenario(Scenario):
     def somar_um_e_um(self):
         self.resultado = self.calculadora.somar(1, 1)
 
-    @Entao('eu tenho $valor como resultado', '2')
+    @Entao('eu tenho $valor como resultado', 2)
     def pegar_resultado(self, valor):
-        _(self.resultado).should_be.equal_to(int(valor))
+        _(self.resultado).should_be.equal_to(valor)
 
 
 class SomaESubtracaoCenario(Scenario):
