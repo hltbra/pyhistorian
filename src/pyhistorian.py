@@ -170,7 +170,6 @@ class Scenario(object):
             print '  %s %s   ... %s' % (self._language[step_name],
                                     message,
                                     self._language['fail'].upper())
-            self._errors.append(e)
 
     def run_steps(self, steps, step_name):
         if steps == []:
