@@ -100,7 +100,10 @@ class ScenarioTestCase(Scenario):
 
 class PyhistorianSuite(object):
     def __init__(self, *test_cases):
-        self._test_cases = test_cases
+        self._test_cases = test_cases or []
+
+    def addScenario(self, scenario):
+        self._test_cases.append(scenario)
 
     def __call__(self, result):
         for test_case in self._test_cases:
