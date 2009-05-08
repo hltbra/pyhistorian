@@ -59,12 +59,12 @@ except ImportError:
     failureException = PyhistorianFailure
 
 
-class Fail(object):
+class Failure(object):
     '''
         >>> try:
         ...     raise Exception('foo')
         ... except Exception, e:
-        ...     fail = Fail(e)
+        ...     fail = Failure(e)
         >>> fail.shortDescription()
         'foo'
     '''
@@ -104,9 +104,9 @@ class StoryTestCase(object):
                 test()
                 result.addSuccess(test)
             except failureException, e:
-                result.addFailure(Fail(e), sys.exc_info())
+                result.addFailure(Failure(e), sys.exc_info())
             except Exception, e:
-                result.addError(Fail(e), sys.exc_info())
+                result.addError(Failure(e), sys.exc_info())
 
 
 class PyhistorianSuite(object):
