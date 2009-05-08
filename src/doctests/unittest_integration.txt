@@ -1,6 +1,7 @@
 
     >>> from pyhistorian import *
     >>> from suite import *
+    >>> from should_dsl import DSLObject as _
     >>> from cStringIO import StringIO
     >>> import unittest
 
@@ -11,7 +12,7 @@
     ...     def test_should_fail(self):
     ...         self.fail()
 
-    >>> class sillyScenarioTestCase(ScenarioTestCase):
+    >>> class sillyScenarioTestCase(Scenario):
     ...     @Given('I just show you it works')
     ...     def do_nothing(self):
     ...         pass
@@ -22,11 +23,16 @@
     ...
     ...     @Then('I have two as result')
     ...     def two_as_result(self):
-    ...         self.expect(self.result).should_be.equal_to(2)
+    ...         _(self.result).should_be.equal_to(2)
 
 
-    >>> pyhistorian_suite = PyhistorianSuite()
-    >>> pyhistorian_suite.addScenario(sillyScenarioTestCase)
+    >>> story = Story('integrating a unittest testcase and a story',
+    ...               as_a='pyhistorian integrator',
+    ...               i_want_to='integrate suites of unittest and pyhistorian',
+    ...               so_that='it is possible to have a good continuous integration')
+    >>> story.add_scenario(sillyScenarioTestCase())
+    <pyhistorian.Story object at ...>
+    >>> pyhistorian_suite = PyhistorianSuite(story)
     >>> suite = unittest.TestSuite()
     >>> suite.addTest(pyhistorian_suite)
     >>> suite.addTest(unittest.TestLoader().loadTestsFromTestCase(sillyTestCase))

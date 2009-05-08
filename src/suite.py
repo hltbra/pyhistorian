@@ -1,14 +1,19 @@
 '''
-    >>> class newScenarioTestCase(ScenarioTestCase):
+    >>> class newScenario(Scenario):
     ...     attribute_to_be_ignored = True
     ...
     ...     @Given('foo')
     ...     def one_should_be_equal_to_one(self):
-    ...         self._expect(1, 2)
+    ...         _(1).should_be.equal_to(2)
     ...         
+    ...     @Given('a simple assert')
+    ...     def an_assert(self):
+    ...         assert 1==2
+    ...
     ...     @Then('bar')
     ...     def two_should_be_equal_to_two(self):
-    ...         self._expect(2, 2)
+    ...         #_(2).should_be.equal_to(2)
+    ...         pass
     ...
     ...     @Then('foobar')
     ...     def should_raise_an_exception(self):
@@ -18,19 +23,20 @@
     ...     def nothing(self):
     ...         return None
     ...
-    ...     # it is a general purpose expect test
-    ...     # (with should-dsl or not)
-    ...     def _expect(self, v1, v2):
-    ...         if should_dsl_imported:
-    ...             return self.expect(v1).should_be.equal_to(v2)
-    ...         return self.expect(v1 == v2)
-    ...
+
+    >>> story = Story('Integrating pyhistorian to unittest',
+    ...               as_a='unittest tester',
+    ...               i_want_to='have integration with pyhistorian',
+    ...               so_that='I have a nicer continuous integration')
+    >>> story.add_scenario(newScenario('scenario 1'))
+    <pyhistorian.Story object at ...>
+
     >>> suite = unittest.TestSuite()
-    >>> pyhistorian_suite = PyhistorianSuite(newScenarioTestCase)
-    >>> suite.addTest(pyhistorian_suite)
+    >>> story_suite = PyhistorianSuite(story)
+    >>> suite.addTest(story_suite)
     >>> runner = unittest.TextTestRunner(stream=StringIO())
     >>> runner.run(suite)
-    <unittest._TextTestResult run=4 errors=1 failures=1>
+    <unittest._TextTestResult run=5 errors=2 failures=1>
 '''
 
 import doctest
@@ -38,6 +44,7 @@ import unittest
 import sys
 from cStringIO import StringIO
 from pyhistorian import *
+from should_dsl import DSLObject as _
 
 
 class PyhistorianFailure(Exception):
@@ -67,17 +74,21 @@ class Fail(object):
         self._exception = exception
 
     def shortDescription(self):
-        return self._exception.args[0]
+        if len(self._exception.args):
+            return self._exception.args[0]
+        return ''
 
 
-class ScenarioTestCase(Scenario):
-    def __init__(self):
+class StoryTestCase(object):
+    def __init__(self, story):
+        self._story = story
         self._tests = []
         self._set_test_methods()
 
     def _set_test_methods(self):
-        for method in self._givens + self._whens + self._thens:
-            self._tests.append(getattr(self, method[0].func_name))
+        for scenario in self._story._scenarios:
+            for method in scenario._givens + scenario._whens + scenario._thens:
+                self._tests.append(getattr(scenario, method[0].func_name))
 
     def expect(self, value):
         if should_dsl_imported:
@@ -99,16 +110,16 @@ class ScenarioTestCase(Scenario):
 
 
 class PyhistorianSuite(object):
-    def __init__(self, *test_cases):
-        self._test_cases = test_cases or []
+    def __init__(self, *stories):
+        self._test_cases = [StoryTestCase(story) for story in stories]
 
-    def addScenario(self, scenario):
-        self._test_cases.append(scenario)
+    def addStory(self, story):
+        self._test_cases.append(StoryTestCase(story))
 
     def __call__(self, result):
-        for test_case in self._test_cases:
-            test_case().runTest(result)
+        for story in self._test_cases:
+            story.runTest(result)
 
 
 import doctest
-doctest.testmod()
+doctest.testmod(optionflags=doctest.ELLIPSIS)
