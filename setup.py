@@ -17,6 +17,7 @@ setup(name='pyhistorian',
       package_dir={'pyhistorian': 'src'},
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools'],
+      install_requires=['setuptools',
+                        'should_dsl',],
       entry_points="",
       )
