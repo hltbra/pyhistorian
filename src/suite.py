@@ -90,13 +90,6 @@ class StoryTestCase(object):
             for method in scenario._givens + scenario._whens + scenario._thens:
                 self._tests.append(getattr(scenario, method[0].func_name))
 
-    def expect(self, value):
-        if should_dsl_imported:
-            return DSLObject(value)
-        if value:
-            return True
-        raise failureException('Condition not satisfied!')
-
     def runTest(self, result):
         for test in self._tests:
             result.startTest(test)
