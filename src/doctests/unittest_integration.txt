@@ -1,7 +1,7 @@
 
     >>> from pyhistorian import *
     >>> from suite import *
-    >>> from should_dsl import DSLObject as _
+    >>> from should_dsl import *
     >>> from cStringIO import StringIO
     >>> import unittest
 
@@ -23,7 +23,7 @@
     ...
     ...     @Then('I have two as result')
     ...     def two_as_result(self):
-    ...         _(self.result).should_be.equal_to(2)
+    ...         self.result |should_be.equal_to| 2
 
 
     >>> story = Story('integrating a unittest testcase and a story',

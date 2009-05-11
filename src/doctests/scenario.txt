@@ -1,5 +1,5 @@
 >>> from pyhistorian import *
->>> from should_dsl import DSLObject as _
+>>> from should_dsl import *
 
 >>> class NewScenario(Scenario):
 ...     @Given('I test it')
@@ -52,7 +52,7 @@ It's done!
 ...
 ...     @Then('the result is 2')
 ...     def the_result_is_result(self):
-...         _(self.sum).should_be.equal_to(2)
+...         self.sum |should_be.equal_to| 2
 
 >>> template_scenario = TemplateScenario('Second Scenario')
 
@@ -145,7 +145,7 @@ Scenario 1: It is my third scenario
 ...     @When('I put a failing spec')
 ...     def failing_spec(self):
 ...         def divide_one_by_zero(): return 1/0
-...         _(ZeroDivisionError).should_not_be.thrown_by(divide_one_by_zero)
+...         ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
 ...     @When('I put another failing spec')
 ...     def another_failing_spec(self):
 ...         raise Exception( 'raising Exception!' )

@@ -1,5 +1,5 @@
 >>> from pyhistorian import *
->>> from should_dsl import DSLObject as _
+>>> from should_dsl import *
 
 >>> class Calculadora(object):
 ...    def somar(self, n1, n2):
@@ -19,7 +19,7 @@
 ...
 ...     @Entao('eu tenho $valor como resultado', 2)
 ...     def pegar_resultado(self, valor):
-...         _(self.resultado).should_be.equal_to(valor)
+...         self.resultado |should_be.equal_to| valor
 
 >>> class SubtracaoCenario(Scenario):
 ...     DadoQue('eu tenho uma calculadora')

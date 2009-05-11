@@ -4,7 +4,7 @@
     ...
     ...     @Given('foo')
     ...     def one_should_be_equal_to_one(self):
-    ...         _(1).should_be.equal_to(2)
+    ...         1 |should_be.equal_to| 2
     ...         
     ...     @Given('a simple assert')
     ...     def an_assert(self):
@@ -12,8 +12,7 @@
     ...
     ...     @Then('bar')
     ...     def two_should_be_equal_to_two(self):
-    ...         #_(2).should_be.equal_to(2)
-    ...         pass
+    ...         2 |should_be.equal_to| 2
     ...
     ...     @Then('foobar')
     ...     def should_raise_an_exception(self):
@@ -44,19 +43,10 @@ import unittest
 import sys
 from cStringIO import StringIO
 from pyhistorian import *
-from should_dsl import DSLObject as _
+from should_dsl import *
 
 
-class PyhistorianFailure(Exception):
-    '''a failure to be accessed by unittest'''
-
-should_dsl_imported = False
-try:
-    from should_dsl import DSLObject, ShouldNotSatisfied
-    failureException = ShouldNotSatisfied
-    should_dsl_imported = True
-except ImportError:
-    failureException = PyhistorianFailure
+failureException = ShouldNotSatisfied
 
 
 class Failure(object):
