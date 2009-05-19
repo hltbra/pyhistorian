@@ -1,4 +1,6 @@
 >>> from pyhistorian import Story
+>>> from cStringIO import StringIO
+>>> OUTPUT = StringIO()
 
 >>> class FakeScenario(object):
 ...     _givens = _whens = _thens = []
@@ -7,19 +9,21 @@
 ...     def set_story(self, story): pass
 ...
 ...     def run(self):
-...         print 'Given I run it   ... OK'
-...         print 'When I type X   ... OK'
-...         print 'Then it shows me X   ... OK'
+...         OUTPUT.write('Given I run it   ... OK\n')
+...         OUTPUT.write('When I type X   ... OK\n')
+...         OUTPUT.write('Then it shows me X   ... OK\n')
 >>> fake_scenario = FakeScenario()
 
 >>> story = Story(title='Hacker Story',
 ...               as_a='hacker',
 ...               i_want_to='hack it',
-...               so_that='it is hacked!')
+...               so_that='it is hacked!',
+...               output=OUTPUT)
 >>> story.add_scenario(fake_scenario)
 <pyhistorian.Story object at ...>
 
 >>> story.run()
+>>> print OUTPUT.getvalue()
 Story: Hacker Story
 As a hacker
 I want to hack it

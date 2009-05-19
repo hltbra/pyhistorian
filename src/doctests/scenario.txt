@@ -1,5 +1,7 @@
 >>> from pyhistorian import *
 >>> from should_dsl import *
+>>> from cStringIO import StringIO
+>>> OUTPUT = StringIO()
 
 >>> class NewScenario(Scenario):
 ...     @Given('I test it')
@@ -12,17 +14,19 @@
 ...
 ...     @Then("It's done")
 ...     def its_done(self):
-...         print "It's done!"
+...         OUTPUT.write("It's done!")
 
 >>> new_scenario = NewScenario('First Scenario')
 
 >>> story = Story(as_a='programmer',
 ...               i_want_to='write this DSL',
-...               so_that='I test this new stuff')
+...               so_that='I test this new stuff',
+...               output=OUTPUT)
 >>> story.add_scenario(new_scenario)
 <pyhistorian.Story object at ...>
 
 >>> story.run()
+>>> print OUTPUT.getvalue()
 Story: Empty Story
 As a programmer
 I want to write this DSL
@@ -56,14 +60,17 @@ It's done!
 
 >>> template_scenario = TemplateScenario('Second Scenario')
 
+>>> OUTPUT2 = StringIO()
 >>> template_story = Story(title='Second Test',
 ...                        as_a='programmer',
 ...                        i_want_to='write a test',
-...                        so_that='I can become happy')
+...                        so_that='I can become happy',
+...                        output=OUTPUT2)
 >>> template_story.add_scenario(template_scenario)
 <pyhistorian.Story object at ...>
 
 >>> template_story.run()
+>>> print OUTPUT2.getvalue()
 Story: Second Test
 As a programmer
 I want to write a test
@@ -75,16 +82,20 @@ Scenario 1: Second Scenario
   Then the result is 2   ... OK
 
 
+>>> OUTPUT3 = StringIO()
+>>> OUTPUT = OUTPUT3 # NewScenario uses OUTPUT
 >>> story = Story(title='Running two different scenarios',
 ...               as_a='programmer',
 ...               i_want_to='put two different scenarios in a story',
-...               so_that='it run all right')
+...               so_that='it run all right',
+...               output=OUTPUT3)
 >>> (story
 ...      .add_scenario(new_scenario)
 ...      .add_scenario(template_scenario))
 <pyhistorian.Story object at ...>
 
 >>> story.run()
+>>> print OUTPUT3.getvalue()
 Story: Running two different scenarios
 As a programmer
 I want to put two different scenarios in a story
@@ -100,6 +111,7 @@ Scenario 2: Second Scenario
   Given I have a calculator   ... OK
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
+<BLANKLINE>
 
 >>> class ThirdScenario(Scenario):
 ...     @Given('it is the 3rd scenario')
@@ -118,14 +130,17 @@ Scenario 2: Second Scenario
 ...         pass
 >>> third_scenario = ThirdScenario('It is my third scenario')
 
+>>> OUTPUT4 = StringIO()
 >>> story = Story(title='Showing how two whens become one when+and',
 ...               as_a='software developer',
 ...               i_want_to='improve my software',
-...               so_that='everybody loves it')
+...               so_that='everybody loves it',
+...               output=OUTPUT4)
 >>> story.add_scenario(third_scenario)
 <pyhistorian.Story object at ...>
 
 >>> story.run()
+>>> print OUTPUT4.getvalue()
 Story: Showing how two whens become one when+and
 As a software developer
 I want to improve my software
@@ -157,22 +172,28 @@ Scenario 1: It is my third scenario
 ...         pass
 
 >>> fail_scenario = FailScenario('Failing Scenario')
+
+>>> OUTPUT5 = StringIO()
 >>> story = Story(title='foo',
 ...               as_a='x',
 ...               i_want_to='y',
-...               so_that='z')
+...               so_that='z',
+...               output=OUTPUT5)
 >>> story.add_scenario(fail_scenario)
 <pyhistorian.Story object at ...>
 >>> story.run()
+>>> print OUTPUT5.getvalue()
 Story: foo
 As a x
 I want to y
 So that z
 <BLANKLINE>
 Scenario 1: Failing Scenario
-Given I wanna see FAILS and OKs   ... OK
-When I put a failing spec   ... FAIL
-Then I see a FAIL in my output   ... OK
+  Given I wanna see FAILS and OKs   ... OK
+  When I put a failing spec   ... FAIL
+  And I put another failing spec   ... FAIL
+  And I raise an empty exception   ... FAIL
+  Then I see a FAIL in my output   ... OK
 <BLANKLINE>
 <BLANKLINE>
 Fails:

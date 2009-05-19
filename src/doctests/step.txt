@@ -1,4 +1,6 @@
->>> from pyhistorian import Step,Scenario
+>>> from pyhistorian import Step, Scenario
+>>> from cStringIO import StringIO
+>>> OUTPUT = StringIO()
 
 >>> class myGiven(Step):
 ...     name = 'given'
@@ -19,13 +21,14 @@
 ...     @myWhen('when 2')
 ...     def when_2(self):pass
 
->>> sc = myScenario('lol')
+>>> sc = myScenario('lol', output=OUTPUT)
 >>> sc._givens
 [(<function given_1 at ...>, 'given 1', ()), (<function given_0 at ...>, 'given 0', ())]
 >>> sc._whens
 [(<function when_1 at ...>, 'when 1', ()), (<function when_2 at ...>, 'when 2', ())]
 
 >>> sc.run()
+>>> print OUTPUT.getvalue()
   Given given 1   ... OK
   And given 0   ... OK
   When when 1   ... OK

@@ -4,6 +4,7 @@
     >>> from should_dsl import *
     >>> from cStringIO import StringIO
     >>> import unittest
+    >>> OUTPUT = StringIO()
 
     >>> class sillyTestCase(unittest.TestCase):
     ...     def test_one_plus_one_should_be_two(self):
@@ -29,7 +30,8 @@
     >>> story = Story('integrating a unittest testcase and a story',
     ...               as_a='pyhistorian integrator',
     ...               i_want_to='integrate suites of unittest and pyhistorian',
-    ...               so_that='it is possible to have a good continuous integration')
+    ...               so_that='it is possible to have a good continuous integration',
+    ...               output=OUTPUT)
     >>> story.add_scenario(sillyScenarioTestCase())
     <pyhistorian.Story object at ...>
     >>> pyhistorian_suite = PyhistorianSuite(story)
