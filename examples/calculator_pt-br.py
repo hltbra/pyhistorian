@@ -1,5 +1,5 @@
 # coding: utf-8
-from should_dsl import DSLObject as _
+from should_dsl import *
 from pyhistorian import *
 
 class Calculadora(object):
@@ -26,7 +26,7 @@ class SomaCenario(Scenario):
 
     @Entao('eu tenho $valor como resultado', 2)
     def pegar_resultado(self, valor):
-        _(self.resultado).should_be.equal_to(valor)
+        self.resultado |should_be| valor
 
 
 class SomaESubtracaoCenario(Scenario):
@@ -66,7 +66,8 @@ if __name__ == '__main__':
                              as_a='matemático preguiçoso',
                              i_want_to='usar uma calculadora',
                              so_that='eu não gastei tempo pensando',
-                             language='pt-br')
+                             language='pt-br',
+                             colored=True)
     (calculadora_historia
                         .add_scenario(SomaCenario('Soma de 1 e 1'))
                         .add_scenario(SomaESubtracaoCenario('Subtração de uma soma'))

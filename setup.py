@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.5'
+version = '0.5dev'
 
 setup(name='pyhistorian',
       version=version,
@@ -18,6 +18,7 @@ setup(name='pyhistorian',
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
-                        'should_dsl',],
+                        #'should-dsl',
+                        'termcolor',],
       entry_points="",
       )

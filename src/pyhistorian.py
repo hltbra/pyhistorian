@@ -1,5 +1,6 @@
 # coding: utf-8
 from language import StoryLanguage
+from termcolor import colored
 import sys
 import re
 
@@ -60,7 +61,8 @@ class Story(object):
                        i_want_to='',
                        so_that='',
                        language='en-us',
-                       output=sys.stdout):
+                       output=sys.stdout,
+                       colored=False):
         self._language = StoryLanguage(language)
         self._title = title or self._language['empty_story_title']
         self._as_a = as_a
@@ -68,6 +70,7 @@ class Story(object):
         self._so_that = so_that
         self._scenarios = []
         self._output = output
+        self._colored = colored
 
     def _convert_to_int(self, args):
         '''returns a new container where each string
@@ -140,6 +143,12 @@ class Scenario(object):
         self._errors = []
         self._story = []
         self._output = output
+        self._should_be_colored = False
+
+    def _colored(self, message, color):
+        if self._should_be_colored:
+            return colored(message, color)
+        return message
 
     @property
     def title(self):
@@ -149,17 +158,20 @@ class Scenario(object):
         self._story = story
         self._language = story._language
         self._output = story._output
+        self._should_be_colored = story._colored
 
     def run(self):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
         if self._errors:
-            self._output.write('\n\n%ss:\n' % self._language['fail'])
+            self._output.write(self._colored('\n\n%ss:\n' %
+                                        self._language['fail'], color='red'))
             for error in self._errors:
                 if not error.args:
                     error = self._language['exception_thrown'] % str(error.__class__)
-                self._output.write('   %s\n' % error)
+                self._output.write(self._colored('   %s\n' % error,
+                                                    color='red'))
 
     def _replace_template(self, message, args):
         for arg in args:
@@ -171,13 +183,14 @@ class Scenario(object):
         message = self._replace_template(message, args)
         try:
             method(self, *args)
-            self._output.write('  %s %s   ... OK\n' % (self._language[step_name],
-                                                     message))
+            self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
+                                                     message), color='green'))
         except Exception, e:
             self._errors.append(e)
-            self._output.write('  %s %s   ... %s\n' % (self._language[step_name],
+            self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
-                                             self._language['fail'].upper()))
+                                             self._language['fail'].upper()),
+                                             color='red'))
 
     def run_steps(self, steps, step_name):
         if steps == []:
