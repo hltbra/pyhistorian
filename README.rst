@@ -4,13 +4,13 @@ A BDD tool for writing specifications using Given-When-Then template
 The goal of *pyhistorian* is to write an internal Given-When-Then template using Python.
 The ideas come from JBehave, RBehave, Cucumber and others.
 
-It's possible to write your stories in English and Portuguese, choose your prefered.
+It's possible to write your stories in English and Portuguese, choose your preferred.
 
 A good example of use ``[en-us, by default]`` follows (call this file *calculator.py*)
 
 ::
     
-    from should_dsl import DSLObject as _
+    from should_dsl import *
     from pyhistorian import *
     
     class Calculator(object):
