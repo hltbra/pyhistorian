@@ -19,13 +19,13 @@ class SumScenario(Scenario):
     def set_my_calculator(self):
         self.calculator = Calculator()
 
-    @When(r'I enter with 1 \+ 1')
+    @When('I enter with 1 + 1')
     def sum_one_to_one(self):
         self.result = self.calculator.sum(1, 1)
 
-    @Then(r'I have $value as result', '2')
+    @Then(r'I have $value as result', 2)
     def get_result(self, value):
-        self.result |should_be| int(value)
+        self.result |should_be| value
 
 
 class SumAndReduceScenario(Scenario):

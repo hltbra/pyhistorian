@@ -20,7 +20,7 @@ class SomaCenario(Scenario):
     def criar_calculadora(self):
         self.calculadora = Calculadora()
 
-    @Quando('eu entro com 1 \+ 1')
+    @Quando('eu entro com 1 + 1')
     def somar_um_e_um(self):
         self.resultado = self.calculadora.somar(1, 1)
 
