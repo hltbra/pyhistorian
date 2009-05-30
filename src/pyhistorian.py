@@ -6,11 +6,6 @@ import re
 
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
-"""
-TODO:
-    prettify the output of defined steps (patterns), like:
-    @When(r'I sum 1 \+ 1'), prettify this kind of pattern
-"""
 
 class Step(object):
     '''Step is a baseclass for step directives'''
