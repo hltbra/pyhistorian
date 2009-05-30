@@ -81,30 +81,30 @@ class Story(object):
         return new_args
 
     def _find_step_matching_to(self, step, msg_set, args_default):
+        def undefined_step(self):
+            raise Exception('%s -- %s' % (self._language['undefined_step'],
+                                          msg))
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
-                msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
+                msg_pattern = re.escape(re.sub(TEMPLATE_PATTERN,
+                                               r'(.+?)',
+                                               msg))
+                msg_pattern = msg_pattern.replace(re.escape(r'(.+?)'), r'(.+?)')
                 regex = re.match(msg_pattern, msg_set)
                 if regex:
                     new_args = self._convert_to_int(regex.groups())
                     return meth, msg_set, new_args
-        return None, msg_set, args_default
+        return undefined_step, msg_set, args_default
 
     def _set_defined_steps(self, scenario):
-        def undefined_step(self):
-            raise Exception('%s -- %s' % (self._language['undefined_step'],
-                                          msg))
-
         for step in ['_givens', '_whens', '_thens']:
             scenario_steps = getattr(scenario, step)
             for i in range(len(scenario_steps)):
                 method, msg, args = scenario_steps[i]
                 if method is None:
-                    method_, msg_, args_ = self._find_step_matching_to(step,
-                                                                       msg,
-                                                                       args)
-                    method_ = method_ or undefined_step
-                    scenario_steps[i] = method_, msg_, args_
+                    scenario_steps[i] = self._find_step_matching_to(step,
+                                                                    msg,
+                                                                    args)
 
     def add_scenario(self, scenario):
         scenario.set_story(self)
