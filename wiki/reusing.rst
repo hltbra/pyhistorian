@@ -78,7 +78,7 @@ But now - with the idea of directives implemented - we don't need that rewriting
         def set_my_calculator(self):
             self.calculator = Calculator()
 
-        @When(r'I enter with 1 \+ 1')
+        @When('I enter with 1 + 1')
         def sum_one_to_one(self):
             self.result = self.calculator.sum(1, 1)
 

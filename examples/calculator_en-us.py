@@ -23,7 +23,7 @@ class SumScenario(Scenario):
     def sum_one_to_one(self):
         self.result = self.calculator.sum(1, 1)
 
-    @Then(r'I have $value as result', 2)
+    @Then('I have $value as result', 2)
     def get_result(self, value):
         self.result |should_be| value
 
