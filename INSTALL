@@ -1,13 +1,9 @@
 To install pyhistorian you just need to have setuptools installed (it's a dependency).
-But to run all tests succesfully you will need should-dsl, and it can be found at http://code.google.com/p/should-dsl
+But to run all tests succesfully you will need should-dsl, and it can be found at http://github.com/hugobr/should-dsl
 
 There is just a little step to install pyhistorian, and it is:
 $ python setup.py install # maybe you must be root
 
 Now you can use pyhistorian!
-
-If you don't have setuptools installed or don't want to download it, you can just copy the pyhistorian.py file to your python site-packages directory.
-For example:
-$ cp pyhistorian.py /usr/lib/python2.5/lib/site-packages
 
 Enjoy it!
