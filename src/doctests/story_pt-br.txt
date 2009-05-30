@@ -1,6 +1,3 @@
->>> from pyhistorian import *
->>> from should_dsl import *
->>> from cStringIO import StringIO
 >>> OUTPUT = StringIO()
 
 >>> class Calculadora(object):

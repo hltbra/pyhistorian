@@ -1,5 +1,3 @@
->>> from pyhistorian import Step, Scenario
->>> from cStringIO import StringIO
 >>> OUTPUT = StringIO()
 
 >>> class myGiven(Step):

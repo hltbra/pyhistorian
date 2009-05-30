@@ -1,5 +1,3 @@
->>> from pyhistorian import Story
->>> from cStringIO import StringIO
 >>> OUTPUT = StringIO()
 
 >>> class FakeScenario(object):
