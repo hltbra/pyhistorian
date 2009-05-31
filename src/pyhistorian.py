@@ -136,6 +136,7 @@ class Scenario(object):
         self._language = StoryLanguage(language)
         self._title = title or self._language['empty_scenario_title']
         self._errors = []
+        self._failures = []
         self._story = []
         self._output = output
         self._should_be_colored = False
@@ -159,13 +160,17 @@ class Scenario(object):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
-        if self._errors:
+        self._output_problem(self._failures, 'fail')
+        self._output_problem(self._errors, 'error')
+                
+    def _output_problem(self, problems, problem_type):
+        if problems:
             self._output.write(self._colored('\n\n%ss:\n' %
-                                        self._language['fail'], color='red'))
-            for error in self._errors:
-                if not error.args:
-                    error = self._language['exception_thrown'] % str(error.__class__)
-                self._output.write(self._colored('   %s\n' % error,
+                                        self._language[problem_type], color='red'))
+            for problem in problems:
+                if not problem.args:
+                    problem = self._language['exception_thrown'] % str(problem.__class__)
+                self._output.write(self._colored('   %s\n' % problem,
                                                     color='red'))
 
     def _replace_template(self, message, args):
@@ -180,11 +185,17 @@ class Scenario(object):
             method(self, *args)
             self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
                                                      message), color='green'))
+        except AssertionError, e:
+            self._failures.append(e)
+            self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
+                                             message,
+                                             self._language['fail'].upper()),
+                                             color='red'))
         except Exception, e:
             self._errors.append(e)
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
-                                             self._language['fail'].upper()),
+                                             self._language['error'].upper()),
                                              color='red'))
 
     def run_steps(self, steps, step_name):

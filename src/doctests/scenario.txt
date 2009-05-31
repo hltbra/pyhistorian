@@ -151,7 +151,7 @@ Scenario 1: It is my third scenario
 
 
 >>> class FailScenario(Scenario):
-...     @Given('I wanna see FAILS and OKs')
+...     @Given('I wanna see FAILS, ERRORS and OKs')
 ...     def nothing(self): pass
 ...     
 ...     @When('I put a failing spec')
@@ -164,7 +164,7 @@ Scenario 1: It is my third scenario
 ...     @When('I raise an empty exception')
 ...     def raise_empty_exception(self):
 ...         raise Exception
-...     @Then('I see a FAIL in my output')
+...     @Then('I see one FAIL and two ERRORs in my output')
 ...     def where_is_fail(self):
 ...         pass
 
@@ -186,15 +186,18 @@ I want to y
 So that z
 <BLANKLINE>
 Scenario 1: Failing Scenario
-  Given I wanna see FAILS and OKs   ... OK
+  Given I wanna see FAILS, ERRORS and OKs'   ... OK
   When I put a failing spec   ... FAIL
-  And I put another failing spec   ... FAIL
-  And I raise an empty exception   ... FAIL
-  Then I see a FAIL in my output   ... OK
+  And I put another failing spec   ... ERROR
+  And I raise an empty exception   ... ERROR
+  Then I see one FAIL and two ERRORs in my output   ... OK
 <BLANKLINE>
 <BLANKLINE>
 Fails:
-  ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
-  raising Exception!
-  Exception ...Exception... was thrown!
+   <type 'exceptions.ZeroDivisionError'> is thrown by <function divide_one_by_zero at ...>
+<BLANKLINE>
+<BLANKLINE>
+Errors:
+   raising Exception!
+   Exception <type 'exceptions.Exception'> was thrown!
 >>>
