@@ -35,7 +35,7 @@
     >>> suite.addTest(story_suite)
     >>> runner = unittest.TextTestRunner(stream=StringIO())
     >>> runner.run(suite)
-    <unittest._TextTestResult run=5 errors=2 failures=1>
+    <unittest._TextTestResult run=5 errors=1 failures=2>
 '''
 
 import doctest
@@ -44,9 +44,6 @@ import sys
 from cStringIO import StringIO
 from pyhistorian import *
 from should_dsl import *
-
-
-failureException = ShouldNotSatisfied
 
 
 class Failure(object):
@@ -58,7 +55,7 @@ class Failure(object):
         >>> fail.shortDescription()
         'foo'
     '''
-    failureException = failureException
+    failureException = AssertionError
 
     def __init__(self, exception):
         self._exception = exception
@@ -86,7 +83,7 @@ class StoryTestCase(object):
             try:
                 test()
                 result.addSuccess(test)
-            except failureException, e:
+            except AssertionError, e:
                 result.addFailure(Failure(e), sys.exc_info())
             except Exception, e:
                 result.addError(Failure(e), sys.exc_info())
