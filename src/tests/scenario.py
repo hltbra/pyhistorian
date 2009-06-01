@@ -54,6 +54,46 @@ Scenario 2: Second Scenario
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
 <BLANKLINE>
+
+
+>>> third_scenario_story.run()
+>>> print third_scenario_output.getvalue()
+Story: Showing how two whens become one when+and
+As a software developer
+I want to improve my software
+So that everybody loves it
+<BLANKLINE>
+Scenario 1: It is my third scenario
+  Given it is the 3rd scenario   ... OK
+  When I do nothing   ... OK
+  And I don't know what to do   ... OK
+  Then I go refactor this software   ... OK
+<BLANKLINE>
+
+
+>>> fail_story.run()
+>>> print fail_scenario_output.getvalue()
+Story: foo
+As a x
+I want to y
+So that z
+<BLANKLINE>
+Scenario 1: Failing Scenario
+  Given I wanna see FAILS, ERRORS and OKs   ... OK
+  When I put a failing spec   ... FAIL
+  And I put an error spec   ... ERROR
+  And I raise an empty exception   ... ERROR
+  Then I see one FAIL and two ERRORs in my output   ... OK
+<BLANKLINE>
+<BLANKLINE>
+Fails:
+   ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
+<BLANKLINE>
+<BLANKLINE>
+Errors:
+   raising Exception!
+   Exception ...Exception... was thrown!
+<BLANKLINE>
 '''
 
 
@@ -116,91 +156,56 @@ two_different_scenarios_story = Story(title='Running two different scenarios',
               so_that='it run all right',
               output=two_different_scenarios_output)
 
-#class ThirdScenario(Scenario):
-#    @Given('it is the 3rd scenario')
-#    def do_nothing(self):
-#        pass
-#
-#    @When('I do nothing')
-#    def do_nothing_again(self):
-#        pass
-#    @When("I don't know what to do")
-#    def what_should_i_do(self):
-#        self.what = 'write this software'
-#
-#    @Then('I go refactor this software')
-#    def refactor(self):
-#        pass
-#third_scenario = ThirdScenario('It is my third scenario')
-#
-#OUTPUT4 = StringIO()
-#story = Story(title='Showing how two whens become one when+and',
-#              as_a='software developer',
-#              i_want_to='improve my software',
-#              so_that='everybody loves it',
-#              output=OUTPUT4)
-#story.add_scenario(third_scenario)
-#<pyhistorian.Story object at ...>
-#
-#story.run()
-#print OUTPUT4.getvalue()
-#Story: Showing how two whens become one when+and
-#As a software developer
-#I want to improve my software
-#So that everybody loves it
-#<BLANKLINE>
-#Scenario 1: It is my third scenario
-#  Given it is the 3rd scenario   OK
-#  When I do nothing   OK
-#  And I don't know what to do   OK
-#  Then I go refactor this software   OK
-#
-#
-#class FailScenario(Scenario):
-#    @Given('I wanna see FAILS and OKs')
-#    def nothing(self): pass
-#    
-#    @When('I put a failing spec')
-#    def failing_spec(self):
-#        def divide_one_by_zero(): return 1/0
-#        ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
-#    @When('I put another failing spec')
-#    def another_failing_spec(self):
-#        raise Exception( 'raising Exception!' )
-#    @When('I raise an empty exception')
-#    def raise_empty_exception(self):
-#        raise Exception
-#    @Then('I see a FAIL in my output')
-#    def where_is_fail(self):
-#        pass
-#
-#fail_scenario = FailScenario('Failing Scenario')
-#
-#OUTPUT5 = StringIO()
-#story = Story(title='foo',
-#              as_a='x',
-#              i_want_to='y',
-#              so_that='z',
-#              output=OUTPUT5)
-#story.add_scenario(fail_scenario)
-#<pyhistorian.Story object at ...>
-#story.run()
-#print OUTPUT5.getvalue()
-#Story: foo
-#As a x
-#I want to y
-#So that z
-#<BLANKLINE>
-#Scenario 1: Failing Scenario
-#  Given I wanna see FAILS and OKs   OK
-#  When I put a failing spec   FAIL
-#  And I put another failing spec   FAIL
-#  And I raise an empty exception   FAIL
-#  Then I see a FAIL in my output   OK
-#<BLANKLINE>
-#<BLANKLINE>
-#Fails:
-#  ...ZeroDivisionErroris thrown by <function divide_one_by_zero at ...>
-#  raising Exception!
-#  Exception ...Exceptionwas thrown!
-#>>>
+class ThirdScenario(Scenario):
+    @Given('it is the 3rd scenario')
+    def do_nothing(self):
+        pass
+
+    @When('I do nothing')
+    def do_nothing_again(self):
+        pass
+    @When("I don't know what to do")
+    def what_should_i_do(self):
+        self.what = 'write this software'
+
+    @Then('I go refactor this software')
+    def refactor(self):
+        pass
+third_scenario = ThirdScenario('It is my third scenario')
+
+third_scenario_output = StringIO()
+third_scenario_story = Story(title='Showing how two whens become one when+and',
+              as_a='software developer',
+              i_want_to='improve my software',
+              so_that='everybody loves it',
+              output=third_scenario_output)
+third_scenario_story.add_scenario(third_scenario)
+
+class FailScenario(Scenario):
+    @Given('I wanna see FAILS, ERRORS and OKs')
+    def nothing(self): pass
+    
+    @When('I put a failing spec')
+    def failing_spec(self):
+        def divide_one_by_zero(): return 1/0
+        ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
+    @When('I put an error spec')
+    def an_error_spec(self):
+        raise Exception( 'raising Exception!' )
+    @When('I raise an empty exception')
+    def raise_empty_exception(self):
+        raise Exception
+
+    @Then('I see one FAIL and two ERRORs in my output')
+    def where_is_fail(self):
+        pass
+
+fail_scenario = FailScenario('Failing Scenario')
+
+fail_scenario_output = StringIO()
+fail_story = Story(title='foo',
+              as_a='x',
+              i_want_to='y',
+              so_that='z',
+              output=fail_scenario_output)
+fail_story.add_scenario(fail_scenario)
