@@ -36,9 +36,8 @@ A good example of use ``[en-us, by default]`` follows (call this file *calculato
                                  i_want_to='rest my mind',
                                  so_that="I don't waste my time thinking")
         sum_scenario = SumScenario('Sum of 1 and 1')
-        (calculator_story
-                        .add_scenario(sum_scenario)
-                        .run())
+        (calculator_story.add_scenario(sum_scenario)
+                         .run())
 
 
 Running:
@@ -59,7 +58,7 @@ Running:
 
 pyhistorian is at github.com
 ----------------------------
-Due to DVCS I moved pyhistorian to `github.com <http://github.com>`_. I will try to maintain both repositories up to date, but the github will be the main one.
+Due to DVCS I moved pyhistorian from `Google Gode <http://code.google.com/p/pyhistorian>`_ to `github.com <http://github.com/hugobr/pyhistorian>`_. 
 
 You can get it at `here <http://github.com/hugobr/pyhistorian>`_:
 
