@@ -4,6 +4,10 @@ But to run all tests succesfully you will need should-dsl, and it can be found a
 There is just a little step to install pyhistorian, and it is:
 $ python setup.py install # maybe you must be root
 
+Or if you want to use easy_install and leave it install all dependencies to you, just type:
+$ easy_install pyhistorian # maybe you must be root
+
+
 Now you can use pyhistorian!
 
 Enjoy it!
