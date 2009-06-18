@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.5dev'
+version = '0.5'
 readme_fd = open('README.rst')
 readme = readme_fd.read()
 readme_fd.close()
@@ -31,7 +31,7 @@ setup(name='pyhistorian',
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
-                        #'should-dsl',
+                        'should-dsl',
                         'termcolor',],
       entry_points="",
       )
