@@ -18,7 +18,6 @@ setup(name='pyhistorian',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python',
           'Topic :: Software Development :: Documentation',
-          'Topic :: Software Development :: Libraries :: Python Modules'
           'Topic :: Software Development :: Testing',
       ],
       keywords='bdd dsl python',
