@@ -2,7 +2,7 @@ A BDD tool for writing specifications using Given-When-Then template
 ====================================================================
 
 The goal of *pyhistorian* is to write an internal Given-When-Then template using Python.
-The ideas come from JBehave, RBehave, Cucumber and others.
+The ideas came from JBehave, RBehave, Cucumber and others.
 
 It's possible to write your stories in English and Portuguese, choose your preferred.
 
