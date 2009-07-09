@@ -3,9 +3,9 @@
 
 import doctest
 import os
-import language
-import suite
-from tests import run_tests
+from pyhistorian import language
+from pyhistorian import suite
+from pyhistorian.tests import run_tests
 
 FLAGS = doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
 
