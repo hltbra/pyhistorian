@@ -40,4 +40,4 @@ story = Story('integrating a unittest testcase and a story',
               i_want_to='integrate suites of unittest and pyhistorian',
               so_that='it is possible to have a good continuous integration',
               output=output)
-story.add_scenario(sillyScenarioTestCase())
+story.add_scenario(sillyScenarioTestCase('Silly TestCase'))
