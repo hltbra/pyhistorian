@@ -8,7 +8,8 @@
 <unittest._TextTestResult run=5 errors=0 failures=1>
 '''
 
-from suite import *
+from pyhistorian import *
+from pyhistorian.suite import *
 import unittest
 
 class sillyTestCase(unittest.TestCase):
