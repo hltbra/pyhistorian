@@ -12,11 +12,12 @@ Failures and errors are red and sucessful is green.
 ... Scenario 2: Red color
 ... """+red_output+"""
 ... Scenario 3: Green and Red colors
-... """+green_and_red_output
+... """+green_and_red_output+"""
+... Ran 3 scenarios with 3 failures and 0 errors
+... """
 
 >>> output.getvalue() == colored_output
 True
-
 '''
 
 from pyhistorian import *

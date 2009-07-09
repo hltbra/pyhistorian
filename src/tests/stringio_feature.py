@@ -12,6 +12,9 @@ Scenario 1: StringIO feature
   Given I do not want to output at stdout   ... OK
   When I output any message   ... OK
   Then it should be written in a StringIO object   ... OK
+<BLANKLINE>
+Ran 1 scenario with 0 failures and 0 errors
+<BLANKLINE>
 '''
 
 from pyhistorian import *

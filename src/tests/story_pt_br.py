@@ -17,6 +17,9 @@ Cenário 2: Fazendo subtracao duas vezes
   Quando eu entro com 2 - 1   ... OK
   E eu subtraio 2 desse resultado   ... OK
   Então eu tenho -1 como resultado   ... OK
+<BLANKLINE>
+Rodou 2 cenários com 0 falhas e 0 erros
+<BLANKLINE>
 >>>
 '''
 

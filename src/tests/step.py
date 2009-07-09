@@ -1,6 +1,7 @@
 '''
 >>> sc = myScenario('lol', output=myscenario_output)
->>> sc.run()
+>>> sc.run() == ([], [])
+True
 >>> sc._givens
 [(<function given_1 at ...>, 'given 1', ()), (<function given_0 at ...>, 'given 0', ())]
 >>> sc._whens

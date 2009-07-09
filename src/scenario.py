@@ -35,6 +35,7 @@ class Scenario(object):
         self.run_steps(self._thens, 'then')
         self._output_problem(self._failures, 'fail')
         self._output_problem(self._errors, 'error')
+        return (self._failures, self._errors)
                 
     def _output_problem(self, problems, problem_type):
         if problems:

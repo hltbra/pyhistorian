@@ -7,6 +7,13 @@ import re
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
+__all__ = [ 'Story' ]
+
+def pluralize(word, size):
+    if size >= 2 or size == 0:
+        return size, word+'s'
+    return size, word
+
 
 class Story(object):
     def __init__(self, title='',
@@ -82,10 +89,22 @@ class Story(object):
     def run(self):
         self.show_story_title()
         self.show_header()
+        total_failures = total_errors = 0
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
             self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
                                                 number,
                                                 scenario.title))
-            scenario.run()
+            failures, errors = scenario.run()
+            total_failures += len(failures)
+            total_errors += len(errors)
 
-
+        scenario_word = self._language['scenario'].lower()
+        failure_word = self._language['failure'].lower()
+        error_word = self._language['error'].lower()
+        self._output.write('\n%s %s %s %s %s %s %s %s %s\n' % (
+          (self._language['ran'].capitalize(),)+\
+          pluralize(scenario_word, len(self._scenarios))+\
+          (self._language['with_word'].lower(),)+\
+          pluralize(failure_word, total_failures)+\
+          (self._language['and_word'].lower(),)+\
+          pluralize(error_word, total_errors)))
