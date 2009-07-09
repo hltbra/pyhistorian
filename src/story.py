@@ -11,8 +11,8 @@ __all__ = [ 'Story' ]
 
 def pluralize(word, size):
     if size >= 2 or size == 0:
-        return size, word+'s'
-    return size, word
+        return word+'s'
+    return word
 
 
 class Story(object):
@@ -70,6 +70,30 @@ class Story(object):
                                                                     msg,
                                                                     args)
 
+    def output_statistics(self, number_of_scenarios,
+                                number_of_failures,
+                                number_of_errors):
+        scenario_word = pluralize(self._language['scenario'],
+                                  number_of_scenarios).lower()
+        failure_word = pluralize(self._language['failure'],
+                                 number_of_failures).lower()
+        error_word = pluralize(self._language['error'],
+                               number_of_errors).lower()
+
+        ran = self._language['ran'].capitalize()
+        with_word = self._language['with_word'].lower()
+        and_word = self._language['and_word'].lower()
+        self._output.write('\n%s\n' % ' '.join(map(str,
+                                                      [ran,
+                                                      number_of_scenarios,
+                                                      scenario_word,
+                                                      with_word,
+                                                      number_of_failures,
+                                                      failure_word,
+                                                      and_word,
+                                                      number_of_errors,
+                                                      error_word,])))
+
     def add_scenario(self, scenario):
         scenario.set_story(self)
         self._set_defined_steps(scenario)
@@ -89,22 +113,19 @@ class Story(object):
     def run(self):
         self.show_story_title()
         self.show_header()
-        total_failures = total_errors = 0
+
+        number_of_scenarios = len(self._scenarios)
+        number_of_failures = number_of_errors = 0
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
             self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
                                                 number,
                                                 scenario.title))
             failures, errors = scenario.run()
-            total_failures += len(failures)
-            total_errors += len(errors)
+            number_of_failures += len(failures)
+            number_of_errors += len(errors)
 
-        scenario_word = self._language['scenario'].lower()
-        failure_word = self._language['failure'].lower()
-        error_word = self._language['error'].lower()
-        self._output.write('\n%s %s %s %s %s %s %s %s %s\n' % (
-          (self._language['ran'].capitalize(),)+\
-          pluralize(scenario_word, len(self._scenarios))+\
-          (self._language['with_word'].lower(),)+\
-          pluralize(failure_word, total_failures)+\
-          (self._language['and_word'].lower(),)+\
-          pluralize(error_word, total_errors)))
+        self.output_statistics(number_of_scenarios,
+                               number_of_failures,
+                               number_of_errors)
+        
+
