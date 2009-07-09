@@ -28,7 +28,7 @@
     ...               i_want_to='have integration with pyhistorian',
     ...               so_that='I have a nicer continuous integration')
     >>> story.add_scenario(newScenario('scenario 1'))
-    <pyhistorian.Story object at ...>
+    <...Story object at ...>
 
     >>> suite = unittest.TestSuite()
     >>> story_suite = PyhistorianSuite(story)
@@ -42,7 +42,9 @@ import doctest
 import unittest
 import sys
 from cStringIO import StringIO
-from pyhistorian import *
+from story import *
+from scenario import *
+from steps import *
 from should_dsl import *
 
 
