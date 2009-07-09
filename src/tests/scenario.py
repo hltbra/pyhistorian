@@ -128,7 +128,8 @@ class NewScenario(Scenario):
 new_scenario = NewScenario('First Scenario')
 new_scenario_output = StringIO()
 
-empty_story = Story(as_a='programmer',
+empty_story = Story('Empty Story',
+              as_a='programmer',
               i_want_to='write this DSL',
               so_that='I test this new stuff',
               output=new_scenario_output)

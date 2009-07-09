@@ -16,10 +16,10 @@ def pluralize(word, size):
 
 
 class Story(object):
-    def __init__(self, title='',
-                       as_a='',
-                       i_want_to='',
-                       so_that='',
+    def __init__(self, title,
+                       as_a,
+                       i_want_to,
+                       so_that,
                        language='en-us',
                        output=sys.stdout,
                        colored=False):
