@@ -66,7 +66,7 @@ if __name__ == '__main__':
                              as_a='lazy mathematician',
                              i_want_to='use a calculator',
                              so_that="I don't waste my time thinking",
-                             colored=False)
+                             colored=True)
     (calculator_story
                     .add_scenario(SumScenario('Sum of 1 and 1'))
                     .add_scenario(SumAndReduceScenario('Sum and Reduce'))
