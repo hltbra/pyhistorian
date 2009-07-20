@@ -14,9 +14,10 @@
     <...Story object at ...>
 
     >>> story.run()
-    >>> 'Given this step is written with '+\
-    'no implementation   ... PENDING' in my_output.getvalue()
+    >>> colored("""  Given this step is written with no implementation   ... PENDING
+    ... """, color='blue') in my_output.getvalue()
     True
+
 '''
 
 from pyhistorian import (Story,
@@ -26,6 +27,7 @@ from pyhistorian import (Story,
                          Then,
                          pending)
 from cStringIO import StringIO
+from termcolor import colored
 
 class ScenarioWithPendingGiven(Scenario):
     @pending
