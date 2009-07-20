@@ -10,6 +10,8 @@
 
 from pyhistorian import *
 from pyhistorian.suite import *
+from should_dsl import should_be
+from cStringIO import StringIO
 import unittest
 
 class sillyTestCase(unittest.TestCase):
