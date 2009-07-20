@@ -155,3 +155,4 @@ class Historia(Story):
                                        colored=colorido)
 
     adicionar_cenario = Story.add_scenario
+    rodar = Story.run

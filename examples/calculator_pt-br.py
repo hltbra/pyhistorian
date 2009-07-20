@@ -72,4 +72,4 @@ if __name__ == '__main__':
                         .adicionar_cenario(SomaESubtracaoCenario('Subtração de uma soma'))
                         .adicionar_cenario(DivisaoCenario('Divisão de inteiros'))
                         .adicionar_cenario(MultiplyScenario('Multiplicação simples'))
-                        .run())
+                        .rodar())
