@@ -6,12 +6,14 @@ The ideas came from JBehave, RBehave, Cucumber and others.
 
 It's possible to write your stories in English and Portuguese, choose your preferred.
 
-A good example of use ``[en-us, by default]`` follows (call this file *calculator.py*)
+A good example of use ``[en-us, by default]`` follows (call this file *calculator.py*)::
 
-::
-    
-    from should_dsl import *
-    from pyhistorian import *
+    from should_dsl import should_be
+    from pyhistorian import (Scenario,
+                             Given,
+                             When,
+                             Then,
+                             Story)
     
     class Calculator(object):
         def sum(self, n1, n2):
@@ -34,26 +36,27 @@ A good example of use ``[en-us, by default]`` follows (call this file *calculato
         calculator_story = Story(title='Specifying my new calculator',
                                  as_a='lazy mathematician',
                                  i_want_to='rest my mind',
-                                 so_that="I don't waste my time thinking")
+                                 so_that="I don't waste my time thinking",
+                                 colored=True)
         sum_scenario = SumScenario('Sum of 1 and 1')
         (calculator_story.add_scenario(sum_scenario)
                          .run())
 
 
-Running:
-
-::
+Running::
 
     $ python calculator.py 
     Story: Specifying my new calculator
     As a lazy mathematician
-    I want to rest my mind
+    I want to use a calculator
     So that I don't waste my time thinking
 
     Scenario 1: Sum of 1 and 1
       Given I have a calculator   ... OK
       When I enter with 1 + 1   ... OK
       Then I have 2 as result   ... OK
+
+    Ran 1 scenarios with 0 failures, 0 errors and 0 steps pending
 
 
 pyhistorian is at github.com

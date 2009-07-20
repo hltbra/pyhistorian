@@ -62,12 +62,11 @@ class MultiplyScenario(Scenario):
 
 
 if __name__ == '__main__':
-    calculadora_historia = Story(title='Especificando minha nova calculadora',
-                             as_a='matemático preguiçoso',
-                             i_want_to='usar uma calculadora',
-                             so_that='eu não gastei tempo pensando',
-                             language='pt-br',
-                             colored=True)
+    calculadora_historia = Historia('Especificando minha nova calculadora',
+                             como_um='matemático preguiçoso',
+                             eu_quero='usar uma calculadora',
+                             para_que='eu não gastei tempo pensando',
+                             colorido=True)
     (calculadora_historia
                         .add_scenario(SomaCenario('Soma de 1 e 1'))
                         .add_scenario(SomaESubtracaoCenario('Subtração de uma soma'))
