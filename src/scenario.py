@@ -7,7 +7,7 @@ import sys
 class Scenario(object):
     def __init__(self, title, language='en-us', output=sys.stdout):
         self._language = StoryLanguage(language)
-        self._title = title or self._language['empty_scenario_title']
+        self._title = title
         self._errors = []
         self._failures = []
         self._story = []
