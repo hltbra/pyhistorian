@@ -68,8 +68,8 @@ if __name__ == '__main__':
                              para_que='eu não gastei tempo pensando',
                              colorido=True)
     (calculadora_historia
-                        .add_scenario(SomaCenario('Soma de 1 e 1'))
-                        .add_scenario(SomaESubtracaoCenario('Subtração de uma soma'))
-                        .add_scenario(DivisaoCenario('Divisão de inteiros'))
-                        .add_scenario(MultiplyScenario('Multiplicação simples'))
+                        .adicionar_cenario(SomaCenario('Soma de 1 e 1'))
+                        .adicionar_cenario(SomaESubtracaoCenario('Subtração de uma soma'))
+                        .adicionar_cenario(DivisaoCenario('Divisão de inteiros'))
+                        .adicionar_cenario(MultiplyScenario('Multiplicação simples'))
                         .run())

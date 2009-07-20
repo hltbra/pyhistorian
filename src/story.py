@@ -153,3 +153,5 @@ class Historia(Story):
                                        language='pt-br',
                                        output=saida,
                                        colored=colorido)
+
+    adicionar_cenario = Story.add_scenario
