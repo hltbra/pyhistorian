@@ -72,27 +72,34 @@ class Story(object):
 
     def output_statistics(self, number_of_scenarios,
                                 number_of_failures,
-                                number_of_errors):
+                                number_of_errors,
+                                number_of_pendings):
         scenario_word = pluralize(self._language['scenario'],
                                   number_of_scenarios).lower()
         failure_word = pluralize(self._language['failure'],
                                  number_of_failures).lower()
         error_word = pluralize(self._language['error'],
                                number_of_errors).lower()
+        step_word = pluralize(self._language['step'],
+                               number_of_pendings).lower()
 
         ran = self._language['ran'].capitalize()
         with_word = self._language['with_word'].lower()
         and_word = self._language['and_word'].lower()
+        pending_word = self._language['pending'].lower()
         self._output.write('\n%s\n' % ' '.join(map(str,
                                                       [ran,
                                                       number_of_scenarios,
                                                       scenario_word,
                                                       with_word,
                                                       number_of_failures,
-                                                      failure_word,
-                                                      and_word,
+                                                      failure_word+',',
                                                       number_of_errors,
-                                                      error_word,])))
+                                                      error_word,
+                                                      and_word,
+                                                      number_of_pendings,
+                                                      step_word,
+                                                      pending_word])))
 
     def add_scenario(self, scenario):
         scenario.set_story(self)
@@ -115,17 +122,20 @@ class Story(object):
         self.show_header()
 
         number_of_scenarios = len(self._scenarios)
-        number_of_failures = number_of_errors = 0
+        number_of_failures = number_of_errors = number_of_pendings = 0
+
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
             self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
                                                 number,
                                                 scenario.title))
-            failures, errors = scenario.run()
+            failures, errors, pendings = scenario.run()
             number_of_failures += len(failures)
             number_of_errors += len(errors)
+            number_of_pendings += len(pendings)
 
         self.output_statistics(number_of_scenarios,
                                number_of_failures,
-                               number_of_errors)
+                               number_of_errors,
+                               number_of_pendings)
         
 

@@ -11,7 +11,7 @@ Scenario 1: Fake Title
   When I type X   ... OK
   Then it shows me X   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures and 0 errors
+Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 '''
 
@@ -21,7 +21,7 @@ output = StringIO()
 
 class FakeScenario(object):
     _givens = _whens = _thens = []
-    _failures = _errors = []
+    _failures = _errors = _pendings = []
     title = 'Fake Title'
 
     def set_story(self, story):
@@ -31,7 +31,7 @@ class FakeScenario(object):
         output.write('  Given I run it   ... OK\n')
         output.write('  When I type X   ... OK\n')
         output.write('  Then it shows me X   ... OK\n')
-        return (self._failures, self._errors)
+        return (self._failures, self._errors, self._pendings)
 
 fake_scenario = FakeScenario()
 

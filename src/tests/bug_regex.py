@@ -13,7 +13,7 @@ Scenario 2: Regex fails here
   Given an ((irregular regex[[   ... OK
   Then it should fail here   ... OK
 <BLANKLINE>
-Ran 2 scenarios with 0 failures and 0 errors
+Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 '''
 

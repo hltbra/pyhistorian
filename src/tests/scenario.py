@@ -12,7 +12,7 @@ Scenario 1: First Scenario
 It's done!
   Then It's done   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures and 0 errors
+Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
 >>> new_scenario.first_state
@@ -34,7 +34,7 @@ Scenario 1: Second Scenario
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures and 0 errors
+Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
 >>> (two_different_scenarios_story.add_scenario(new_scenario)
@@ -58,7 +58,7 @@ Scenario 2: Second Scenario
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
 <BLANKLINE>
-Ran 2 scenarios with 0 failures and 0 errors
+Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
 
@@ -75,7 +75,7 @@ Scenario 1: It is my third scenario
   And I don't know what to do   ... OK
   Then I go refactor this software   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures and 0 errors
+Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
 
@@ -102,7 +102,7 @@ Errors:
    raising Exception!
    Exception ...Exception... was thrown!
 <BLANKLINE>
-Ran 1 scenario with 1 failure and 2 errors
+Ran 1 scenario with 1 failure, 2 errors and 0 steps pending
 <BLANKLINE>
 '''
 

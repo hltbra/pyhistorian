@@ -8,8 +8,9 @@ class Scenario(object):
     def __init__(self, title, language='en-us', output=sys.stdout):
         self._language = StoryLanguage(language)
         self._title = title
-        self._errors = []
         self._failures = []
+        self._errors = []
+        self._pendings = []
         self._story = []
         self._output = output
         self._should_be_colored = False
@@ -35,7 +36,7 @@ class Scenario(object):
         self.run_steps(self._thens, 'then')
         self._output_problem(self._failures, 'fail')
         self._output_problem(self._errors, 'error')
-        return (self._failures, self._errors)
+        return (self._failures, self._errors, self._pendings)
                 
     def _output_problem(self, problems, problem_type):
         if problems:
@@ -52,17 +53,16 @@ class Scenario(object):
             message = re.sub(TEMPLATE_PATTERN, str(arg), message, 1)
         return message
 
-    """
-    TODO: show pending steps at the report
-    """
     def _run_step(self, step, step_name):
         method, message, args = step
         message = self._replace_template(message, args)
         if getattr(method, 'pending', False):
-            self._output.write(self._colored('  %s %s   ... PENDING\n' % (
+            self._output.write(self._colored('  %s %s   ... %s\n' % (
                                              self._language[step_name],
-                                             message),
+                                             message,
+                                             self._language['pending'].upper()),
                                             color='blue'))
+            self._pendings.append(method)
             return
         try:
             method(self, *args)

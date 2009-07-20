@@ -18,6 +18,10 @@
     ... """, color='blue') in my_output.getvalue()
     True
 
+    >>> "Ran 1 scenario with 0 failures, 0 errors and 1 step pending" in \
+                                                        my_output.getvalue()
+    True
+
 '''
 
 from pyhistorian import (Story,

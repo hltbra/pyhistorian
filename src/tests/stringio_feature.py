@@ -13,7 +13,7 @@ Scenario 1: StringIO feature
   When I output any message   ... OK
   Then it should be written in a StringIO object   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures and 0 errors
+Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 '''
 

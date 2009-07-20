@@ -18,6 +18,8 @@ _english = dict(story='Story',
                 undefined_step='Undefined Step',
                 ran='Ran',
                 with_word='with',
+                pending='pending',
+                step='step',
                 )
 
 _portuguese = dict(story='História',
@@ -38,6 +40,8 @@ _portuguese = dict(story='História',
                 undefined_step='Passo não definido',
                 ran='Rodou',
                 with_word='com',
+                pending='pendente',
+                step='passo',
                 )
 
 _LANGUAGES = {'en-us': _english,
