@@ -65,11 +65,10 @@ class SubtracaoCenario(Scenario):
 soma_cenario = SomaCenario('Somando 1 e 1')
 subtracao_cenario = SubtracaoCenario('Fazendo subtracao duas vezes')
 
-calculadora_historia = Story(title='Calculadora em pt-br',
-                             as_a='matemático preguiçoso',
-                             i_want_to='usar uma calculadora',
-                             so_that='eu descanse minha mente',
-                             language='pt-br',
-                             output=OUTPUT)
+calculadora_historia = Historia(titulo='Calculadora em pt-br',
+                             como_um='matemático preguiçoso',
+                             eu_quero='usar uma calculadora',
+                             para_que='eu descanse minha mente',
+                             saida=OUTPUT)
 (calculadora_historia.add_scenario(soma_cenario)
                      .add_scenario(subtracao_cenario))

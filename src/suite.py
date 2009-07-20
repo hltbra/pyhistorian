@@ -48,6 +48,9 @@ from steps import *
 from should_dsl import *
 
 
+__all__= ['PyhistorianSuite', ]
+
+
 class Failure(object):
     '''
         >>> try:

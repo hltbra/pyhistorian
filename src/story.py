@@ -7,7 +7,7 @@ import re
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
-__all__ = [ 'Story' ]
+__all__ = [ 'Story', 'Historia', ]
 
 def pluralize(word, size):
     if size >= 2 or size == 0:
@@ -139,3 +139,17 @@ class Story(object):
                                number_of_pendings)
         
 
+class Historia(Story):
+    def __init__(self, titulo,
+                       como_um,
+                       eu_quero,
+                       para_que,
+                       saida=sys.stdout,
+                       colorido=False):
+        super(Historia, self).__init__(title=titulo,
+                                       as_a=como_um,
+                                       i_want_to=eu_quero,
+                                       so_that=para_que,
+                                       language='pt-br',
+                                       output=saida,
+                                       colored=colorido)
