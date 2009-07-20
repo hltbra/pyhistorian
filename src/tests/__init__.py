@@ -8,6 +8,7 @@ import story
 import unittest_integration
 import stringio_feature
 import story_pt_br
+import pending
 
 FLAGS=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
 def run_tests():
@@ -18,7 +19,8 @@ def run_tests():
                  story,
                  unittest_integration,
                  stringio_feature,
-                 story_pt_br,]:
+                 story_pt_br,
+                 pending,]:
         doctest.testmod(test, optionflags=FLAGS)
 
 if __name__ == '__main__':

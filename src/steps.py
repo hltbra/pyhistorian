@@ -47,3 +47,5 @@ class Entao(Then):
     '''then in portuguese'''
 
 
+def pending(step_method):
+    step_method.pending = True

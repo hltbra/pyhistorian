@@ -55,6 +55,9 @@ class Scenario(object):
     def _run_step(self, step, step_name):
         method, message, args = step
         message = self._replace_template(message, args)
+        if getattr(method, 'pending', False):
+            self._output.write('  %s %s   ... PENDING\n' % (self._language[step_name],
+                                                            message))
         try:
             method(self, *args)
             self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
