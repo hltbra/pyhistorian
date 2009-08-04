@@ -1,11 +1,9 @@
 # coding: utf-8
-from language import StoryLanguage
+from language import StoryLanguage, TEMPLATE_PATTERN
 from termcolor import colored
+from scenario import Scenario
 import sys
 import re
-
-
-TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
 __all__ = [ 'Story', 'Historia', ]
 
@@ -47,6 +45,17 @@ class Story(object):
             raise ScenarioNotFound()
         return getattr(module_root, scenario)
 
+    def _get_scenarios_from_story_module(self):
+        module_root = __import__(self.__class__.__module__)
+        for module in self.__class__.__module__.split('.')[1:]:
+            module_root = getattr(module_root, module)
+        scenarios = []
+        for attr_name in dir(module_root):
+            attr = getattr(module_root, attr_name)
+            if isinstance(attr, type) and Scenario in attr.__bases__:
+                scenarios.append(attr)
+        return scenarios
+
     def _add_scenario(self, scenario):
         if scenario.__class__ in [unicode, str]:
             this_scenario_class = self._look_for_scenario_in_story_module(scenario)
@@ -58,8 +67,11 @@ class Story(object):
         return self
 
     def _add_scenarios(self):
-        for scenario in self.__class__.scenarios:
-            self._add_scenario(scenario)
+        scenarios = self.__class__.scenarios
+        if len(self.__class__.scenarios) == 0:
+            scenarios = self._get_scenarios_from_story_module()
+        for scenario in scenarios:
+                self._add_scenario(scenario)
 
     def _create_title_based_on_class_name(self):
         class_name = self.__class__.__name__

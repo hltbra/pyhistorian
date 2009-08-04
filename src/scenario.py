@@ -1,6 +1,5 @@
-from language import StoryLanguage
+from language import StoryLanguage, TEMPLATE_PATTERN
 from termcolor import colored
-from story import TEMPLATE_PATTERN
 import re
 import sys
 

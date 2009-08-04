@@ -1,5 +1,8 @@
 # coding: utf-8
 
+TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
+
+
 _english = dict(story='Story',
                 as_a='As a',
                 i_want_to='I want to',

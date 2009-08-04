@@ -9,6 +9,7 @@ import unittest_integration
 import stringio_feature
 import story_pt_br
 import pending
+import finding_scenarios_in_module
 
 FLAGS=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
 def run_tests():
@@ -20,7 +21,8 @@ def run_tests():
                  unittest_integration,
                  stringio_feature,
                  story_pt_br,
-                 pending,]:
+                 pending,
+                 finding_scenarios_in_module,]:
         doctest.testmod(test, optionflags=FLAGS)
 
 if __name__ == '__main__':
