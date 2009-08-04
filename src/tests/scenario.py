@@ -128,10 +128,12 @@ class NewScenario(Scenario):
 new_scenario = NewScenario('First Scenario')
 new_scenario_output = StringIO()
 
-empty_story = Story('Empty Story',
-              as_a='programmer',
-              i_want_to='write this DSL',
-              so_that='I test this new stuff',
+class EmptyStory(Story):
+    """As a programmer
+       I want to write this DSL
+       So that I test this new stuff"""
+
+empty_story = EmptyStory('Empty Story',
               output=new_scenario_output)
 empty_story.add_scenario(new_scenario)
 
@@ -152,19 +154,23 @@ class TemplateScenario(Scenario):
 template_scenario = TemplateScenario('Second Scenario')
 template_output = StringIO()
 
-template_story = Story(title='Second Test',
-                       as_a='programmer',
-                       i_want_to='write a test',
-                       so_that='I can become happy',
-                       output=template_output)
+class SecondStory(Story):
+    """As a programmer
+       I want to write a test
+       So that I can become happy"""
+
+template_story = SecondStory(title='Second Test',
+                             output=template_output)
 template_story.add_scenario(template_scenario)
 
 
 two_different_scenarios_output = StringIO()
-two_different_scenarios_story = Story(title='Running two different scenarios',
-              as_a='programmer',
-              i_want_to='put two different scenarios in a story',
-              so_that='it run all right',
+class RunningTwoDifferentScenarios(Story):
+    """As a programmer
+       I want to put two different scenarios in a story
+       So that it run all right"""
+
+two_different_scenarios_story = RunningTwoDifferentScenarios(title='Running two different scenarios',
               output=two_different_scenarios_output)
 
 class ThirdScenario(Scenario):
@@ -185,10 +191,11 @@ class ThirdScenario(Scenario):
 third_scenario = ThirdScenario('It is my third scenario')
 
 third_scenario_output = StringIO()
-third_scenario_story = Story(title='Showing how two whens become one when+and',
-              as_a='software developer',
-              i_want_to='improve my software',
-              so_that='everybody loves it',
+class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
+    """As a software developer
+       I want to improve my software
+       So that everybody loves it"""
+third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd(title='Showing how two whens become one when+and',
               output=third_scenario_output)
 third_scenario_story.add_scenario(third_scenario)
 
@@ -214,9 +221,11 @@ class FailScenario(Scenario):
 fail_scenario = FailScenario('Failing Scenario')
 
 fail_scenario_output = StringIO()
-fail_story = Story(title='foo',
-              as_a='x',
-              i_want_to='y',
-              so_that='z',
+class Failures(Story):
+    """As a x
+       I want to y
+       So that z"""
+
+fail_story = Failures(title='foo',
               output=fail_scenario_output)
 fail_story.add_scenario(fail_scenario)

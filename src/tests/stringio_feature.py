@@ -4,7 +4,7 @@
 ...       .run()) # see, no output
 >>> print string_io.getvalue()
 Story: StringIO feature
-As a pyhistorian owner
+As a pyhistorian commiter
 I want to add StringIO support
 So that output can be redirected to anywhere
 <BLANKLINE>
@@ -35,9 +35,11 @@ class StringIOScenario(Scenario):
     def nothing3(self):
         pass
 
-story = Story('StringIO feature',
-              as_a='pyhistorian owner',
-              i_want_to='add StringIO support',
-              so_that='output can be redirected to anywhere',
+class StringIOFeature(Story):
+    """As a pyhistorian commiter
+       I want to add StringIO support
+       So that output can be redirected to anywhere"""
+
+story = StringIOFeature('StringIO feature',
               output=string_io)
 

@@ -1,4 +1,6 @@
 '''
+>>> story.run()
+...
 >>> print output.getvalue(),
 Story: Fixing Regex Bug in Steps
 As a issue fixer
@@ -42,11 +44,13 @@ output = StringIO()
 regex_bugged_scenario = RegexBuggedScenario('Regex bugged')
 regex_fail = RegexFailScenario('Regex fails here')
 
-story = Story('Fixing Regex Bug in Steps',
-              as_a='issue fixer',
-              i_want_to='fix regex bugs',
-              so_that='people can put ANYTHING into steps texts',
-              output=output)
-(story.add_scenario(regex_bugged_scenario)
-      .add_scenario(regex_fail)
-      .run())
+class FixingRegexBugInSteps(Story):
+    """As a issue fixer
+       I want to fix regex bugs
+       So that people can put ANYTHING into steps texts"""
+
+story = FixingRegexBugInSteps('Fixing Regex Bug in Steps',
+                              output=output)
+
+story.add_scenario(regex_bugged_scenario)\
+     .add_scenario(regex_fail)

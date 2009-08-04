@@ -2,6 +2,8 @@
 Failures and errors are red and sucessful is green.
 
 
+>>> story.run()
+...
 >>> colored_output = """Story: Support to termcolor
 ... As a pyhistorian commiter
 ... I want to have support to colored output
@@ -65,17 +67,19 @@ def green_colored(text):
     return colored(text, color='green')
 
 output = StringIO()
-story = Story('Support to termcolor',
-              as_a='pyhistorian commiter',
-              i_want_to='have support to colored output',
-              so_that='the output becomes more readable',
+
+class ColoredStory(Story):
+    """As a pyhistorian commiter
+       I want to have support to colored output
+       So that the output becomes more readable"""
+
+story = ColoredStory('Support to termcolor',
               output=output,
               colored=True)
 
-(story.add_scenario(GreenScenario('Green color'))
-      .add_scenario(RedScenario('Red color'))
-      .add_scenario(GreenAndRedScenario('Green and Red colors'))
-      .run())
+story.add_scenario(GreenScenario('Green color'))\
+     .add_scenario(RedScenario('Red color'))\
+     .add_scenario(GreenAndRedScenario('Green and Red colors'))
 
 green_output = green_colored('\
   Given I want my output colored and it pass   ... OK\n')+ \

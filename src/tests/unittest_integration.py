@@ -37,9 +37,11 @@ class sillyScenarioTestCase(Scenario):
 
 output = StringIO()
 
-story = Story('integrating a unittest testcase and a story',
-              as_a='pyhistorian integrator',
-              i_want_to='integrate suites of unittest and pyhistorian',
-              so_that='it is possible to have a good continuous integration',
-              output=output)
+class IntegrationWithUnittest(Story):
+    """As a pyhistorian integrator
+       I want to integrate suites fo unittest and pyhistorian
+       So that it is possible to have a good continuous integration"""
+
+story = IntegrationWithUnittest('integrating a unittest testcase and a story',
+                                output=output)
 story.add_scenario(sillyScenarioTestCase('Silly TestCase'))

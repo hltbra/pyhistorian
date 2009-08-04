@@ -1,35 +1,4 @@
 '''
-    >>> class newScenario(Scenario):
-    ...     attribute_to_be_ignored = True
-    ...
-    ...     @Given('foo')
-    ...     def one_should_be_equal_to_one(self):
-    ...         1 |should_be.equal_to| 2
-    ...         
-    ...     @Given('a simple assert')
-    ...     def an_assert(self):
-    ...         assert 1==2
-    ...
-    ...     @Then('bar')
-    ...     def two_should_be_equal_to_two(self):
-    ...         2 |should_be.equal_to| 2
-    ...
-    ...     @Then('foobar')
-    ...     def should_raise_an_exception(self):
-    ...         raise Exception('just an error!')
-    ...
-    ...     @When('nothing happens')
-    ...     def nothing(self):
-    ...         return None
-    ...
-
-    >>> story = Story('Integrating pyhistorian to unittest',
-    ...               as_a='unittest tester',
-    ...               i_want_to='have integration with pyhistorian',
-    ...               so_that='I have a nicer continuous integration')
-    >>> story.add_scenario(newScenario('scenario 1'))
-    <...Story object at ...>
-
     >>> suite = unittest.TestSuite()
     >>> story_suite = PyhistorianSuite(story)
     >>> suite.addTest(story_suite)
@@ -105,6 +74,39 @@ class PyhistorianSuite(object):
         for story in self._test_cases:
             story.runTest(result)
 
+class newScenario(Scenario):
+    attribute_to_be_ignored = True
 
-import doctest
-doctest.testmod(optionflags=doctest.ELLIPSIS)
+    @Given('foo')
+    def one_should_be_equal_to_one(self):
+        1 |should_be.equal_to| 2
+        
+    @Given('a simple assert')
+    def an_assert(self):
+        assert 1==2
+
+    @Then('bar')
+    def two_should_be_equal_to_two(self):
+        2 |should_be.equal_to| 2
+
+    @Then('foobar')
+    def should_raise_an_exception(self):
+        raise Exception('just an error!')
+
+    @When('nothing happens')
+    def nothing(self):
+        return None
+
+
+class IntegrationWithUnittest(Story):
+    """As an unittest tester
+       I want to have integration with pyhistorian
+       So that I have a nicer continuous integration"""
+
+story = IntegrationWithUnittest('Integrating pyhistorian to unittest')
+story.add_scenario(newScenario('scenario 1'))
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(optionflags=doctest.ELLIPSIS)

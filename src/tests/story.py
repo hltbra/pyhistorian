@@ -35,9 +35,11 @@ class FakeScenario(object):
 
 fake_scenario = FakeScenario()
 
-story = Story(title='Faked Story',
-              as_a='fake',
-              i_want_to='run a simple story',
-              so_that='it runs sucessfully and give me a good output',
-              output=output)
+class FakedStory(Story):
+    """As a fake
+       I want to run a simple story
+       So that it runs sucessfully and give me a good output"""
+
+story = FakedStory(title='Faked Story',
+                   output=output)
 story.add_scenario(fake_scenario)

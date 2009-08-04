@@ -9,6 +9,9 @@ TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
 __all__ = [ 'Story', 'Historia', ]
 
+class InvalidStoryHeader(Exception):
+    '''Invalid Story Header!'''
+
 def pluralize(word, size):
     if size >= 2 or size == 0:
         return word+'s'
@@ -16,21 +19,40 @@ def pluralize(word, size):
 
 
 class Story(object):
+    _as_a = ''
+    _i_want_to = ''
+    _so_that = ''
+
     def __init__(self, title,
-                       as_a,
-                       i_want_to,
-                       so_that,
                        language='en-us',
                        output=sys.stdout,
                        colored=False):
         self._language = StoryLanguage(language)
         self._title = title or self._language['empty_story_title']
-        self._as_a = as_a
-        self._i_want_to = i_want_to
-        self._so_that = so_that
+        self._create_header()
         self._scenarios = []
         self._output = output
         self._colored = colored
+
+    def _create_header(self):
+        header = filter(None, self.__doc__.split('\n'))
+
+        if len(header) < 3:
+            raise InvalidStoryHeader()
+
+        if self._language['as_a'] == 'As a':
+            as_a_match = re.match(r'^\s*As an? (.+)', header[0])
+        else:
+            as_a_match = re.match(r'^\s*%s (.+)' % self._language['as_a'], header[0])
+        i_want_to_match = re.match(r'^\s*%s (.+)' % self._language['i_want_to'], header[1])
+        so_that_match = re.match(r'^\s*%s (.+)' % self._language['so_that'], header[2])
+
+        if as_a_match and i_want_to_match and so_that_match:
+            self._as_a = as_a_match.group(1)
+            self._i_want_to = i_want_to_match.group(1)
+            self._so_that = so_that_match.group(1)
+        else:
+            raise InvalidStoryHeader()
 
     def _convert_to_int(self, args):
         '''returns a new container where each string
@@ -141,15 +163,9 @@ class Story(object):
 
 class Historia(Story):
     def __init__(self, titulo,
-                       como_um,
-                       eu_quero,
-                       para_que,
                        saida=sys.stdout,
                        colorido=False):
         super(Historia, self).__init__(title=titulo,
-                                       as_a=como_um,
-                                       i_want_to=eu_quero,
-                                       so_that=para_que,
                                        language='pt-br',
                                        output=saida,
                                        colored=colorido)

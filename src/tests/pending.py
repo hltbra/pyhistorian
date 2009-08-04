@@ -1,18 +1,4 @@
 '''
-    >>> my_output = StringIO()
-    >>> scenario_with_pending_given = ScenarioWithPendingGiven(
-    ... 'Given is pending')
-
-    >>> story = Story('Specifying with pending stuff',
-    ...               as_a='programmer that writes stories with the stakeholder',
-    ...               i_want_to='be able to mark steps as pending',
-    ...               so_that='the stories and scenarios can be written and '+\
-                              'later implemented',
-    ...               output=my_output,
-    ...               colored=True)
-    >>> story.add_scenario(scenario_with_pending_given)
-    <...Story object at ...>
-
     >>> story.run()
     >>> colored("""  Given this step is written with no implementation   ... PENDING
     ... """, color='blue') in my_output.getvalue()
@@ -43,3 +29,15 @@ class ScenarioWithPendingGiven(Scenario):
     def given_is_pending(self):
         pass
 
+class Pending(Story):
+    """As a programmer that writes stories with the stakeholder
+       I want to be able to mark steps as pending
+       So that the stories and scenarios can be written and later implemented"""
+
+my_output = StringIO()
+story = Pending('Specifying with pending stuff',
+              output=my_output,
+              colored=True)
+
+scenario_with_pending_given = ScenarioWithPendingGiven('Given is pending')
+story.add_scenario(scenario_with_pending_given)
