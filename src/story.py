@@ -24,9 +24,10 @@ class Story(object):
     _so_that = ''
     output = sys.stdout
     colored = False
+    language = 'en-us'
 
-    def __init__(self, language='en-us'):
-        self._language = StoryLanguage(language)
+    def __init__(self):
+        self._language = StoryLanguage(self.__class__.language)
         self._title = self._create_title_based_on_class_name()
         self._create_header()
         self._scenarios = []
@@ -173,9 +174,10 @@ class Story(object):
 class Historia(Story):
     saida = sys.stdout
     colorido = False
+    language = 'pt-br'
 
     def __init__(self):
-        super(Historia, self).__init__(language='pt-br',)
+        super(Historia, self).__init__()
         self._output = self.__class__.saida
         self._colored = self.__class__.colorido
 
