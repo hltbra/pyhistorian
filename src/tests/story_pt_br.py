@@ -36,7 +36,7 @@ class Calculadora(object):
    def subtrair(self, n1, n2):
        return n1-n2
 
-class Somando1E1(Scenario):
+class Somando1E1(Cenario):
     @DadoQue('eu tenho uma calculadora')
     def cria_calculadora(self):
         self.calculadora = Calculadora()
@@ -49,7 +49,7 @@ class Somando1E1(Scenario):
     def pegar_resultado(self, valor):
         self.resultado |should_be.equal_to| valor
 
-class FazendoSubtracaoDuasVezes(Scenario):
+class FazendoSubtracaoDuasVezes(Cenario):
     DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 2 - 1')
