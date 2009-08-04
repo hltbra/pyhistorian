@@ -67,9 +67,6 @@ class PyhistorianSuite(object):
     def __init__(self, *stories):
         self._test_cases = [StoryTestCase(story) for story in stories]
 
-    def addStory(self, story):
-        self._test_cases.append(StoryTestCase(story))
-
     def __call__(self, result):
         for story in self._test_cases:
             story.runTest(result)
@@ -103,8 +100,7 @@ class IntegrationWithUnittest(Story):
        I want to have integration with pyhistorian
        So that I have a nicer continuous integration"""
 
-story = IntegrationWithUnittest()
-story.add_scenario(newScenario('scenario 1'))
+story = IntegrationWithUnittest().add_scenario(newScenario('scenario 1'))
 
 
 if __name__ == '__main__':

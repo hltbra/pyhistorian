@@ -25,6 +25,7 @@ class Story(object):
     output = sys.stdout
     colored = False
     language = 'en-us'
+    scenarios = []
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
@@ -33,6 +34,11 @@ class Story(object):
         self._scenarios = []
         self._output = self.__class__.output
         self._colored = self.__class__.colored
+        self._add_scenarios()
+
+    def _add_scenarios(self):
+        for scenario in self.__class__.scenarios:
+            self.add_scenario(scenario)
 
     def _create_title_based_on_class_name(self):
         class_name = self.__class__.__name__
