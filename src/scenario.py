@@ -7,6 +7,7 @@ import sys
 
 class Scenario(object):
     _language_code = 'en-us'
+
     def __init__(self):
         self._language = StoryLanguage(self.__class__._language_code)
         self._title = self._get_title_from_class_name_or_docstring()
