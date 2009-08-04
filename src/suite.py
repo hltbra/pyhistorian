@@ -103,7 +103,7 @@ class IntegrationWithUnittest(Story):
        I want to have integration with pyhistorian
        So that I have a nicer continuous integration"""
 
-story = IntegrationWithUnittest('Integrating pyhistorian to unittest')
+story = IntegrationWithUnittest()
 story.add_scenario(newScenario('scenario 1'))
 
 

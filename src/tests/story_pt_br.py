@@ -2,7 +2,7 @@
 '''
 >>> calculadora_historia.run()
 >>> print OUTPUT.getvalue()
-História: Calculadora em pt-br
+História: Calculadora brasileira
 Como um matemático preguiçoso
 Eu quero usar uma calculadora
 Para que eu descanse minha mente
@@ -70,7 +70,6 @@ class CalculadoraBrasileira(Historia):
        Eu quero usar uma calculadora
        Para que eu descanse minha mente"""
 
-calculadora_historia = CalculadoraBrasileira(titulo='Calculadora em pt-br',
-                                   saida=OUTPUT)
+calculadora_historia = CalculadoraBrasileira(saida=OUTPUT)
 calculadora_historia.adicionar_cenario(soma_cenario)\
                     .adicionar_cenario(subtracao_cenario)

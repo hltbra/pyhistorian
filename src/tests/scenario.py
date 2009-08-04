@@ -1,7 +1,7 @@
 '''
 >>> empty_story.run()
 >>> print new_scenario_output.getvalue()
-Story: Empty Story
+Story: Empty story
 As a programmer
 I want to write this DSL
 So that I test this new stuff
@@ -24,7 +24,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 
 >>> template_story.run()
 >>> print template_output.getvalue()
-Story: Second Test
+Story: Second story
 As a programmer
 I want to write a test
 So that I can become happy
@@ -64,7 +64,7 @@ Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
 
 >>> third_scenario_story.run()
 >>> print third_scenario_output.getvalue()
-Story: Showing how two whens become one when+and
+Story: Showing how two whens become when plus and
 As a software developer
 I want to improve my software
 So that everybody loves it
@@ -81,7 +81,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 
 >>> fail_story.run()
 >>> print fail_scenario_output.getvalue()
-Story: foo
+Story: Failures
 As a x
 I want to y
 So that z
@@ -133,8 +133,7 @@ class EmptyStory(Story):
        I want to write this DSL
        So that I test this new stuff"""
 
-empty_story = EmptyStory('Empty Story',
-              output=new_scenario_output)
+empty_story = EmptyStory(output=new_scenario_output)
 empty_story.add_scenario(new_scenario)
 
 
@@ -159,8 +158,7 @@ class SecondStory(Story):
        I want to write a test
        So that I can become happy"""
 
-template_story = SecondStory(title='Second Test',
-                             output=template_output)
+template_story = SecondStory(output=template_output)
 template_story.add_scenario(template_scenario)
 
 
@@ -170,7 +168,7 @@ class RunningTwoDifferentScenarios(Story):
        I want to put two different scenarios in a story
        So that it run all right"""
 
-two_different_scenarios_story = RunningTwoDifferentScenarios(title='Running two different scenarios',
+two_different_scenarios_story = RunningTwoDifferentScenarios(
               output=two_different_scenarios_output)
 
 class ThirdScenario(Scenario):
@@ -195,7 +193,7 @@ class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
     """As a software developer
        I want to improve my software
        So that everybody loves it"""
-third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd(title='Showing how two whens become one when+and',
+third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd(
               output=third_scenario_output)
 third_scenario_story.add_scenario(third_scenario)
 
@@ -226,6 +224,5 @@ class Failures(Story):
        I want to y
        So that z"""
 
-fail_story = Failures(title='foo',
-              output=fail_scenario_output)
+fail_story = Failures(output=fail_scenario_output)
 fail_story.add_scenario(fail_scenario)

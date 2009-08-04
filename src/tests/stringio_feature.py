@@ -1,9 +1,8 @@
 '''
->>> (story
-...       .add_scenario(StringIOScenario('StringIO feature'))
-...       .run()) # see, no output
+>>> story.add_scenario(StringIOScenario('StringIO feature'))\
+         .run() # see, no output
 >>> print string_io.getvalue()
-Story: StringIO feature
+Story: Different stream feature
 As a pyhistorian commiter
 I want to add StringIO support
 So that output can be redirected to anywhere
@@ -11,7 +10,7 @@ So that output can be redirected to anywhere
 Scenario 1: StringIO feature
   Given I do not want to output at stdout   ... OK
   When I output any message   ... OK
-  Then it should be written in a StringIO object   ... OK
+  Then it should be written in my StringIO object   ... OK
 <BLANKLINE>
 Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
@@ -31,15 +30,14 @@ class StringIOScenario(Scenario):
     def nothing2(self):
         pass
 
-    @Then('it should be written in a StringIO object')
+    @Then('it should be written in my StringIO object')
     def nothing3(self):
         pass
 
-class StringIOFeature(Story):
+class DifferentStreamFeature(Story):
     """As a pyhistorian commiter
        I want to add StringIO support
        So that output can be redirected to anywhere"""
 
-story = StringIOFeature('StringIO feature',
-              output=string_io)
+story = DifferentStreamFeature(output=string_io)
 

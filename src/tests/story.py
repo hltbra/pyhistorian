@@ -1,7 +1,7 @@
 '''
 >>> story.run()
 >>> print output.getvalue()
-Story: Faked Story
+Story: Faked story
 As a fake
 I want to run a simple story
 So that it runs sucessfully and give me a good output
@@ -40,6 +40,5 @@ class FakedStory(Story):
        I want to run a simple story
        So that it runs sucessfully and give me a good output"""
 
-story = FakedStory(title='Faked Story',
-                   output=output)
+story = FakedStory(output=output)
 story.add_scenario(fake_scenario)

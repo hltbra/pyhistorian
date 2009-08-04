@@ -68,14 +68,13 @@ def green_colored(text):
 
 output = StringIO()
 
-class ColoredStory(Story):
+class SupportToTermcolor(Story):
     """As a pyhistorian commiter
        I want to have support to colored output
        So that the output becomes more readable"""
 
-story = ColoredStory('Support to termcolor',
-              output=output,
-              colored=True)
+story = SupportToTermcolor(output=output,
+                                colored=True)
 
 story.add_scenario(GreenScenario('Green color'))\
      .add_scenario(RedScenario('Red color'))\

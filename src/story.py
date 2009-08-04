@@ -23,16 +23,25 @@ class Story(object):
     _i_want_to = ''
     _so_that = ''
 
-    def __init__(self, title,
-                       language='en-us',
+    def __init__(self, language='en-us',
                        output=sys.stdout,
                        colored=False):
         self._language = StoryLanguage(language)
-        self._title = title or self._language['empty_story_title']
+        self._title = self._create_title_based_on_class_name()
         self._create_header()
         self._scenarios = []
         self._output = output
         self._colored = colored
+
+    def _create_title_based_on_class_name(self):
+        class_name = self.__class__.__name__
+        expanded_cammel_case = class_name[0]
+        for char in class_name[1:]:
+            if char == char.capitalize():
+                expanded_cammel_case += ' ' + char.lower()
+            else:
+                expanded_cammel_case += char
+        return expanded_cammel_case
 
     def _create_header(self):
         header = filter(None, self.__doc__.split('\n'))
@@ -162,11 +171,9 @@ class Story(object):
         
 
 class Historia(Story):
-    def __init__(self, titulo,
-                       saida=sys.stdout,
+    def __init__(self, saida=sys.stdout,
                        colorido=False):
-        super(Historia, self).__init__(title=titulo,
-                                       language='pt-br',
+        super(Historia, self).__init__(language='pt-br',
                                        output=saida,
                                        colored=colorido)
 

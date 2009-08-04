@@ -42,6 +42,5 @@ class IntegrationWithUnittest(Story):
        I want to integrate suites fo unittest and pyhistorian
        So that it is possible to have a good continuous integration"""
 
-story = IntegrationWithUnittest('integrating a unittest testcase and a story',
-                                output=output)
+story = IntegrationWithUnittest(output=output)
 story.add_scenario(sillyScenarioTestCase('Silly TestCase'))

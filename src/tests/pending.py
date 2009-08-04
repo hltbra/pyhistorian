@@ -29,15 +29,14 @@ class ScenarioWithPendingGiven(Scenario):
     def given_is_pending(self):
         pass
 
-class Pending(Story):
+class SpecifyingWithPendingStuff(Story):
     """As a programmer that writes stories with the stakeholder
        I want to be able to mark steps as pending
        So that the stories and scenarios can be written and later implemented"""
 
 my_output = StringIO()
-story = Pending('Specifying with pending stuff',
-              output=my_output,
-              colored=True)
+story = SpecifyingWithPendingStuff(output=my_output,
+                                   colored=True)
 
 scenario_with_pending_given = ScenarioWithPendingGiven('Given is pending')
 story.add_scenario(scenario_with_pending_given)

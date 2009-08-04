@@ -2,7 +2,7 @@
 >>> story.run()
 ...
 >>> print output.getvalue(),
-Story: Fixing Regex Bug in Steps
+Story: Fixing regex bug in steps
 As a issue fixer
 I want to fix regex bugs
 So that people can put ANYTHING into steps texts
@@ -49,8 +49,7 @@ class FixingRegexBugInSteps(Story):
        I want to fix regex bugs
        So that people can put ANYTHING into steps texts"""
 
-story = FixingRegexBugInSteps('Fixing Regex Bug in Steps',
-                              output=output)
+story = FixingRegexBugInSteps(output=output)
 
 story.add_scenario(regex_bugged_scenario)\
      .add_scenario(regex_fail)
