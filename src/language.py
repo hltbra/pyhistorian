@@ -2,6 +2,21 @@
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
+def convert_from_cammel_case_to_spaces(text):
+    """
+        >>> convert_from_cammel_case_to_spaces('HelloWorld')
+        'Hello world'
+        >>> convert_from_cammel_case_to_spaces('helloMotto')
+        'hello motto'
+    """
+    spaced_text = text[0]
+    for char in text[1:]:
+        if char == char.capitalize():
+            spaced_text += ' ' + char.lower()
+        else:
+            spaced_text += char
+    return spaced_text
+ 
 
 _english = dict(story='Story',
                 as_a='As a',

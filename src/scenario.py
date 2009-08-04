@@ -1,11 +1,14 @@
-from language import StoryLanguage, TEMPLATE_PATTERN
+from language import (StoryLanguage,
+                      TEMPLATE_PATTERN,
+                      convert_from_cammel_case_to_spaces,)
 from termcolor import colored
 import re
 import sys
 
 class Scenario(object):
+    _language_code = 'en-us'
     def __init__(self):
-        self._language = StoryLanguage('en-us')
+        self._language = StoryLanguage(self.__class__._language_code)
         self._title = self._get_title_from_class_name_or_docstring()
         self._failures = []
         self._errors = []
@@ -15,17 +18,8 @@ class Scenario(object):
         self._should_be_colored = False
 
     def _get_title_from_class_name_or_docstring(self):
-        return self.__doc__ or self._convert_from_cammel_case_to_spaced()
-
-    def _convert_from_cammel_case_to_spaced(self):
-        class_name = self.__class__.__name__
-        spaced_name = class_name[0]
-        for char in class_name[1:]:
-            if char == char.capitalize():
-                spaced_name += ' ' + char.lower()
-            else:
-                spaced_name += char
-        return spaced_name
+        return self.__doc__ or\
+               convert_from_cammel_case_to_spaces(self.__class__.__name__)
 
     def _colored(self, message, color):
         if self._should_be_colored:
@@ -103,3 +97,8 @@ class Scenario(object):
         self._run_step(steps[0], step_name)
         for step in steps[1:]:
             self._run_step(step, 'and_word')
+
+class Cenario(Scenario):
+    """Portuguese translation"""
+    _language_code = 'pt-br'
+

@@ -1,5 +1,7 @@
 # coding: utf-8
-from language import StoryLanguage, TEMPLATE_PATTERN
+from language import (StoryLanguage,
+                      TEMPLATE_PATTERN,
+                      convert_from_cammel_case_to_spaces,)
 from termcolor import colored
 from scenario import Scenario
 import sys
@@ -30,7 +32,7 @@ class Story(object):
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
-        self._title = self._create_title_based_on_class_name()
+        self._title = convert_from_cammel_case_to_spaces(self.__class__.__name__)
         self._create_header()
         self._scenarios = []
         self._output = self.__class__.output
@@ -72,16 +74,6 @@ class Story(object):
             scenarios = self._get_scenarios_from_story_module()
         for scenario in scenarios:
                 self._add_scenario(scenario)
-
-    def _create_title_based_on_class_name(self):
-        class_name = self.__class__.__name__
-        expanded_cammel_case = class_name[0]
-        for char in class_name[1:]:
-            if char == char.capitalize():
-                expanded_cammel_case += ' ' + char.lower()
-            else:
-                expanded_cammel_case += char
-        return expanded_cammel_case
 
     def _create_header(self):
         header = filter(None, self.__doc__.split('\n'))
