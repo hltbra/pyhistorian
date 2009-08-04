@@ -54,4 +54,5 @@ class MyStory(Story):
        I want to make this stuff pass
        So that the code become simpler"""
     output = myscenario_output
+    colored = False
     scenarios = [myScenario]

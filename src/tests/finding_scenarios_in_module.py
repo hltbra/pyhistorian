@@ -26,6 +26,7 @@ class StoryWithModuleScenarios(Story):
        I want to avoid typing what scenarios I want in my story
        So that they are found in the module"""
     output = output
+    colored = False
        
 
 class FirstScenario(Scenario):

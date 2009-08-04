@@ -39,6 +39,7 @@ class DifferentStreamFeature(Story):
        I want to add StringIO support
        So that output can be redirected to anywhere"""
     output = string_io
+    colored = False
     scenarios = [StringIOScenario]
 
 story = DifferentStreamFeature()

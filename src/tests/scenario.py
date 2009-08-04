@@ -126,6 +126,7 @@ class EmptyStory(Story):
        I want to write this DSL
        So that I test this new stuff"""
     output = new_scenario_output
+    colored = False
     scenarios = [FirstScenario]
 
 empty_story = EmptyStory()
@@ -151,6 +152,7 @@ class SecondStory(Story):
        I want to write a test
        So that I can become happy"""
     output = template_output
+    colored = False
     scenarios = [TemplateScenario]
 template_story = SecondStory()
 
@@ -161,6 +163,7 @@ class RunningTwoDifferentScenarios(Story):
        I want to put two different scenarios in a story
        So that it run all right"""
     output = two_different_scenarios_output
+    colored = False
     scenarios = (FirstScenario, TemplateScenario)
 
 two_different_scenarios_story = RunningTwoDifferentScenarios()
@@ -187,6 +190,7 @@ class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
        I want to improve my software
        So that everybody loves it"""
     output = third_scenario_output
+    colored = False
     scenarios = [ItIsMyThirdScenario]
 
 third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd()
@@ -217,6 +221,7 @@ class Failures(Story):
        I want to y
        So that z"""
     output = fail_scenario_output
+    colored = False
     scenarios = [FailingScenario]
 
 fail_story = Failures()

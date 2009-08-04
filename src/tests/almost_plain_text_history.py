@@ -36,6 +36,7 @@ class GettingSomeMoney(Story):
        I want to get some money
        So that I can pay my bills"""
     output = output_filename
+    colored = False
     
 
 class IHaveMoney(Scenario):

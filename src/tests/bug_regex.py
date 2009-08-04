@@ -30,6 +30,7 @@ class FixingRegexBugInSteps(Story):
        I want to fix regex bugs
        So that people can put ANYTHING into steps texts"""
     output = output
+    colored = False
     scenarios = ('RegexBugged', 'RegexFails')
 
 class RegexBugged(Scenario):

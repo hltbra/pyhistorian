@@ -27,7 +27,7 @@ class Story(object):
     _i_want_to = ''
     _so_that = ''
     output = sys.stdout
-    colored = False
+    colored = True
     language = 'en-us'
     scenarios = []
 
@@ -210,7 +210,7 @@ class Story(object):
 
 class Historia(Story):
     saida = sys.stdout
-    colorido = False
+    colorido = True
     language = 'pt-br'
     cenarios = []
 

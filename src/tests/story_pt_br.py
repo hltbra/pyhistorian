@@ -68,6 +68,7 @@ class CalculadoraBrasileira(Historia):
        Eu quero usar uma calculadora
        Para que eu descanse minha mente"""
     saida = OUTPUT
+    colorido = False
     cenarios = (Somando1E1, FazendoSubtracaoDuasVezes)
 
 calculadora_historia = CalculadoraBrasileira()
