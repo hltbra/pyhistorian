@@ -113,7 +113,7 @@ class Story(object):
     def _find_step_matching_to(self, step, msg_set, args_default):
         def undefined_step(self):
             raise Exception('%s -- %s' % (self._language['undefined_step'],
-                                          msg))
+                                          msg_set))
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
                 msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
