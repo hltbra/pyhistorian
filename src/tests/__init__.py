@@ -10,6 +10,7 @@ import stringio_feature
 import story_pt_br
 import pending
 import finding_scenarios_in_module
+import almost_plain_text_history
 
 FLAGS=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
 def run_tests():
@@ -22,7 +23,8 @@ def run_tests():
                  stringio_feature,
                  story_pt_br,
                  pending,
-                 finding_scenarios_in_module,]:
+                 finding_scenarios_in_module,
+                 almost_plain_text_history,]:
         doctest.testmod(test, optionflags=FLAGS)
 
 if __name__ == '__main__':

@@ -48,5 +48,6 @@ class Entao(Then):
 
 
 def pending(step_method):
+    '''mark a step method as pending'''
     step_method.pending = True
     return step_method
