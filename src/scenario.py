@@ -5,14 +5,14 @@ import re
 import sys
 
 class Scenario(object):
-    def __init__(self, language='en-us', output=sys.stdout):
-        self._language = StoryLanguage(language)
+    def __init__(self):
+        self._language = StoryLanguage('en-us')
         self._title = self._get_title_from_class_name_or_docstring()
         self._failures = []
         self._errors = []
         self._pendings = []
         self._story = []
-        self._output = output
+        self._output = sys.stdout
         self._should_be_colored = False
 
     def _get_title_from_class_name_or_docstring(self):
@@ -37,11 +37,14 @@ class Scenario(object):
     def title(self):
         return self._title
 
-    def set_story(self, story):
-        self._story = story
-        self._language = story._language
-        self._output = story._output
-        self._should_be_colored = story._colored
+    @classmethod
+    def create_scenario(self, story):
+        scenario = self()
+        scenario._story = story
+        scenario._language = story._language
+        scenario._output = story._output
+        scenario._should_be_colored = story._colored
+        return scenario
 
     def run(self):
         self.run_steps(self._givens, 'given')

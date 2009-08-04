@@ -37,10 +37,7 @@ class Story(object):
         self._add_scenarios()
 
     def _add_scenario(self, scenario):
-        this_scenario = scenario
-        if isinstance(scenario, type):
-            this_scenario = scenario()
-        this_scenario.set_story(self)
+        this_scenario = scenario.create_scenario(self)
         self._set_defined_steps(this_scenario)
         self._scenarios.append(this_scenario)
         return self
