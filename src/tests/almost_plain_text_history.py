@@ -1,6 +1,7 @@
 '''
     >>> GettingSomeMoney().run()
-    >>> print output.getvalue()
+    >>> output_file = open(output_filename)
+    >>> print output_file.read()
     Story: Getting some money
     As a bank user
     I want to get some money
@@ -14,6 +15,8 @@
     <BLANKLINE>
     Ran 1 scenario with 0 failures, 0 errors and 4 steps pending
     <BLANKLINE>
+    >>> output_file.close()
+    >>> remove(output_filename)
 '''
 
 from pyhistorian import (Story,
@@ -22,13 +25,17 @@ from pyhistorian import (Story,
                          When,
                          Then,)
 from cStringIO import StringIO
+from os.path import dirname, abspath
+from os import remove
 
-output = StringIO()
+this_dir = dirname(abspath(__file__))
+output_filename = this_dir + '/outputs/money_output.txt'
+
 class GettingSomeMoney(Story):
     """As a bank user
        I want to get some money
        So that I can pay my bills"""
-    output = output
+    output = output_filename
     
 
 class IHaveMoney(Scenario):

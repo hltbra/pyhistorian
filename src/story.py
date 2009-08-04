@@ -36,9 +36,14 @@ class Story(object):
         self._title = convert_from_cammel_case_to_spaces(self.__class__.__name__)
         self._create_header()
         self._scenarios = []
-        self._output = self.__class__.output
+        self._output = self._get_output()
         self._colored = self.__class__.colored
         self._add_scenarios()
+
+    def _get_output(self):
+        if type(self.__class__.output) in [str, unicode]:
+            return open(self.__class__.output, 'w')
+        return self.__class__.output
 
     def _get_this_class_module(self):
         module_root = __import__(self.__class__.__module__)
@@ -136,6 +141,10 @@ class Story(object):
                                                                     msg,
                                                                     args)
 
+    def _close_output_stream(self):
+        if type(self._output) == file:
+            self._output.close()
+
     def output_statistics(self, number_of_scenarios,
                                 number_of_failures,
                                 number_of_errors,
@@ -197,7 +206,7 @@ class Story(object):
                                number_of_failures,
                                number_of_errors,
                                number_of_pendings)
-        
+        self._close_output_stream()
 
 class Historia(Story):
     saida = sys.stdout
