@@ -36,9 +36,19 @@ class Story(object):
         self._colored = self.__class__.colored
         self._add_scenarios()
 
+    def _add_scenario(self, scenario):
+        this_scenario = scenario
+        if isinstance(scenario, type):
+            this_scenario = scenario()
+        this_scenario.set_story(self)
+        self._set_defined_steps(this_scenario)
+        self._scenarios.append(this_scenario)
+        return self
+
+
     def _add_scenarios(self):
         for scenario in self.__class__.scenarios:
-            self.add_scenario(scenario)
+            self._add_scenario(scenario)
 
     def _create_title_based_on_class_name(self):
         class_name = self.__class__.__name__
@@ -139,15 +149,6 @@ class Story(object):
                                                       step_word,
                                                       pending_word])))
 
-    def add_scenario(self, scenario):
-        this_scenario = scenario
-        if isinstance(scenario, type):
-            this_scenario = scenario()
-        this_scenario.set_story(self)
-        self._set_defined_steps(this_scenario)
-        self._scenarios.append(this_scenario)
-        return self
-
     def show_story_title(self):
         self._output.write('%s: %s\n' % (self._language['story'], self._title))
 
@@ -192,5 +193,4 @@ class Historia(Story):
         self.__class__.output = self.__class__.saida
         super(Historia, self).__init__()
 
-    adicionar_cenario = Story.add_scenario
     rodar = Story.run
