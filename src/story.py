@@ -140,9 +140,12 @@ class Story(object):
                                                       pending_word])))
 
     def add_scenario(self, scenario):
-        scenario.set_story(self)
-        self._set_defined_steps(scenario)
-        self._scenarios.append(scenario)
+        this_scenario = scenario
+        if isinstance(scenario, type):
+            this_scenario = scenario()
+        this_scenario.set_story(self)
+        self._set_defined_steps(this_scenario)
+        self._scenarios.append(this_scenario)
         return self
 
     def show_story_title(self):

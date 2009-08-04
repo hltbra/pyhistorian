@@ -5,15 +5,28 @@ import re
 import sys
 
 class Scenario(object):
-    def __init__(self, title, language='en-us', output=sys.stdout):
+    def __init__(self, title='', language='en-us', output=sys.stdout):
         self._language = StoryLanguage(language)
-        self._title = title
+        self._title = title or self._get_title_from_class_name_or_docstring()
         self._failures = []
         self._errors = []
         self._pendings = []
         self._story = []
         self._output = output
         self._should_be_colored = False
+
+    def _get_title_from_class_name_or_docstring(self):
+        return self.__doc__ or self._convert_from_cammel_case_to_spaced()
+
+    def _convert_from_cammel_case_to_spaced(self):
+        class_name = self.__class__.__name__
+        spaced_name = class_name[0]
+        for char in class_name[1:]:
+            if char == char.capitalize():
+                spaced_name += ' ' + char.lower()
+            else:
+                spaced_name += char
+        return spaced_name
 
     def _colored(self, message, color):
         if self._should_be_colored:

@@ -10,7 +10,7 @@ Scenario 1: Regex bugged
   Given an ((irregular regex[[   ... OK
   Then it should not fail here   ... OK
 <BLANKLINE>
-Scenario 2: Regex fails here
+Scenario 2: Regex fails
   Given an ((irregular regex[[   ... OK
   Then it should fail here   ... OK
 <BLANKLINE>
@@ -23,7 +23,7 @@ from cStringIO import StringIO
 import doctest
 
 
-class RegexBuggedScenario(Scenario):
+class RegexBugged(Scenario):
     @Given('an ((irregular regex[[')
     def nothing(self):
         pass
@@ -32,7 +32,7 @@ class RegexBuggedScenario(Scenario):
         pass
 
 
-class RegexFailScenario(Scenario):
+class RegexFails(Scenario):
     Given('an ((irregular regex[[')
 
     @Then('it should fail here')
@@ -40,12 +40,10 @@ class RegexFailScenario(Scenario):
         pass
 
 output = StringIO()
-regex_bugged_scenario = RegexBuggedScenario('Regex bugged')
-regex_fail = RegexFailScenario('Regex fails here')
 
 class FixingRegexBugInSteps(Story):
     """As a issue fixer
        I want to fix regex bugs
        So that people can put ANYTHING into steps texts"""
     output = output
-    scenarios = (regex_bugged_scenario, regex_fail)
+    scenarios = (RegexBugged, RegexFails)
