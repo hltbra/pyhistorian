@@ -39,21 +39,23 @@ class Story(object):
         self._colored = self.__class__.colored
         self._add_scenarios()
 
-    def _look_for_scenario_in_story_module(self, scenario):
+    def _get_this_class_module(self):
         module_root = __import__(self.__class__.__module__)
         for module in self.__class__.__module__.split('.')[1:]:
             module_root = getattr(module_root, module)
-        if scenario not in dir(module_root):
+        return module_root
+
+    def _look_for_scenario_in_story_module(self, scenario):
+        module = self._get_this_class_module()
+        if scenario not in dir(module):
             raise ScenarioNotFound()
-        return getattr(module_root, scenario)
+        return getattr(module, scenario)
 
     def _get_scenarios_from_story_module(self):
-        module_root = __import__(self.__class__.__module__)
-        for module in self.__class__.__module__.split('.')[1:]:
-            module_root = getattr(module_root, module)
+        module = self._get_this_class_module()
         scenarios = []
-        for attr_name in dir(module_root):
-            attr = getattr(module_root, attr_name)
+        for attr_name in dir(module):
+            attr = getattr(module, attr_name)
             if isinstance(attr, type) and Scenario in attr.__bases__:
                 scenarios.append(attr)
         return scenarios
