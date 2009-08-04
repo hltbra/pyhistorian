@@ -5,9 +5,9 @@ import re
 import sys
 
 class Scenario(object):
-    def __init__(self, title='', language='en-us', output=sys.stdout):
+    def __init__(self, language='en-us', output=sys.stdout):
         self._language = StoryLanguage(language)
-        self._title = title or self._get_title_from_class_name_or_docstring()
+        self._title = self._get_title_from_class_name_or_docstring()
         self._failures = []
         self._errors = []
         self._pendings = []

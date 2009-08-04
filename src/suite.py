@@ -71,7 +71,7 @@ class PyhistorianSuite(object):
         for story in self._test_cases:
             story.runTest(result)
 
-class newScenario(Scenario):
+class Scenario1(Scenario):
     attribute_to_be_ignored = True
 
     @Given('foo')
@@ -99,8 +99,9 @@ class IntegrationWithUnittest(Story):
     """As an unittest tester
        I want to have integration with pyhistorian
        So that I have a nicer continuous integration"""
+    scenarios = [Scenario1]
 
-story = IntegrationWithUnittest().add_scenario(newScenario('scenario 1'))
+story = IntegrationWithUnittest()
 
 
 if __name__ == '__main__':

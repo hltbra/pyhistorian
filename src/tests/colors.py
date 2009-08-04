@@ -13,7 +13,7 @@ Failures and errors are red and sucessful is green.
 ... """+green_output+"""
 ... Scenario 2: Red color
 ... """+red_output+"""
-... Scenario 3: Green and Red colors
+... Scenario 3: Green and red colors
 ... """+green_and_red_output+"""
 ... Ran 3 scenarios with 3 failures, 0 errors and 0 steps pending
 ... """
@@ -27,7 +27,7 @@ from should_dsl import *
 from cStringIO import StringIO
 from termcolor import colored
 
-class GreenScenario(Scenario):
+class GreenColor(Scenario):
     @Given('I want my output colored and it pass')
     def nothing(self):
         pass
@@ -36,7 +36,7 @@ class GreenScenario(Scenario):
     def nothing2(self):
         pass
 
-class RedScenario(Scenario):
+class RedColor(Scenario):
     @Given('I want my output colored and it fails')
     def fail1(self):
          'this scenario' |should_be| 'red colored'
@@ -46,7 +46,7 @@ class RedScenario(Scenario):
         'this fail color' |should_be| 'red'
 
 
-class GreenAndRedScenario(Scenario):
+class GreenAndRedColors(Scenario):
    @Given('I want my output colored (green and red)')
    def nothing(self):
        pass
@@ -74,12 +74,9 @@ class SupportToTermcolor(Story):
        So that the output becomes more readable"""
     output = output
     colored = True
+    scenarios = (GreenColor, RedColor, GreenAndRedColors)
 
 story = SupportToTermcolor()
-
-story.add_scenario(GreenScenario('Green color'))\
-     .add_scenario(RedScenario('Red color'))\
-     .add_scenario(GreenAndRedScenario('Green and Red colors'))
 
 green_output = green_colored('\
   Given I want my output colored and it pass   ... OK\n')+ \

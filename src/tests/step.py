@@ -1,5 +1,5 @@
 '''
->>> sc = myScenario('lol', output=myscenario_output)
+>>> sc = myScenario(output=myscenario_output)
 >>> sc.run() == ([], [], [])
 True
 >>> sc._givens

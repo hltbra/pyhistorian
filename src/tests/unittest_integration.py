@@ -21,7 +21,7 @@ class sillyTestCase(unittest.TestCase):
     def test_should_fail(self):
         self.fail()
 
-class sillyScenarioTestCase(Scenario):
+class SillyTestcase(Scenario):
     @Given('I just show you it works')
     def do_nothing(self):
         pass
@@ -42,6 +42,6 @@ class IntegrationWithUnittest(Story):
        I want to integrate suites fo unittest and pyhistorian
        So that it is possible to have a good continuous integration"""
     output = output
+    scenarios = (SillyTestcase, )
 
 story = IntegrationWithUnittest()
-story.add_scenario(sillyScenarioTestCase('Silly TestCase'))

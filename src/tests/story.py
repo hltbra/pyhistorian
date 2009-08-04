@@ -6,7 +6,7 @@ As a fake
 I want to run a simple story
 So that it runs sucessfully and give me a good output
 <BLANKLINE>
-Scenario 1: Fake Title
+Scenario 1: Fake scenario
   Given I run it   ... OK
   When I type X   ... OK
   Then it shows me X   ... OK
@@ -22,7 +22,7 @@ output = StringIO()
 class FakeScenario(object):
     _givens = _whens = _thens = []
     _failures = _errors = _pendings = []
-    title = 'Fake Title'
+    title = 'Fake scenario'
 
     def set_story(self, story):
         """default interface (should do nothing)"""
@@ -33,13 +33,12 @@ class FakeScenario(object):
         output.write('  Then it shows me X   ... OK\n')
         return (self._failures, self._errors, self._pendings)
 
-fake_scenario = FakeScenario()
 
 class FakedStory(Story):
     """As a fake
        I want to run a simple story
        So that it runs sucessfully and give me a good output"""
     output = output
+    scenarios = [FakeScenario]
 
 story = FakedStory()
-story.add_scenario(fake_scenario)

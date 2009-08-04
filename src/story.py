@@ -184,11 +184,13 @@ class Historia(Story):
     saida = sys.stdout
     colorido = False
     language = 'pt-br'
+    cenarios = []
 
     def __init__(self):
+        self.__class__.scenarios = self.__class__.cenarios
+        self.__class__.colored = self.__class__.colorido
+        self.__class__.output = self.__class__.saida
         super(Historia, self).__init__()
-        self._output = self.__class__.saida
-        self._colored = self.__class__.colorido
 
     adicionar_cenario = Story.add_scenario
     rodar = Story.run

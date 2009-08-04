@@ -6,7 +6,7 @@ As a programmer
 I want to write this DSL
 So that I test this new stuff
 <BLANKLINE>
-Scenario 1: First Scenario
+Scenario 1: First scenario
   Given I test it   ... OK
   When I say OK   ... OK
 It's done!
@@ -14,12 +14,6 @@ It's done!
 <BLANKLINE>
 Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
-
->>> new_scenario.first_state
-"it's been tested!"
-
->>> new_scenario.second_state
-'I have said OK'
 
 
 >>> template_story.run()
@@ -29,7 +23,7 @@ As a programmer
 I want to write a test
 So that I can become happy
 <BLANKLINE>
-Scenario 1: Second Scenario
+Scenario 1: Template scenario
   Given I have a calculator   ... OK
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
@@ -37,9 +31,7 @@ Scenario 1: Second Scenario
 Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
->>> (two_different_scenarios_story.add_scenario(new_scenario)
-...                               .add_scenario(template_scenario)
-...                               .run())
+>>> two_different_scenarios_story.run()
 
 >>> print two_different_scenarios_output.getvalue()
 Story: Running two different scenarios
@@ -47,13 +39,13 @@ As a programmer
 I want to put two different scenarios in a story
 So that it run all right
 <BLANKLINE>
-Scenario 1: First Scenario
+Scenario 1: First scenario
   Given I test it   ... OK
   When I say ... OK
 It's done!
   Then It's done   ... OK
 <BLANKLINE>
-Scenario 2: Second Scenario
+Scenario 2: Template scenario
   Given I have a calculator   ... OK
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
@@ -86,7 +78,7 @@ As a x
 I want to y
 So that z
 <BLANKLINE>
-Scenario 1: Failing Scenario
+Scenario 1: Failing scenario
   Given I wanna see FAILS, ERRORS and OKs   ... OK
   When I put a failing spec   ... FAIL
   And I put an error spec   ... ERROR
@@ -112,7 +104,7 @@ from should_dsl import *
 from cStringIO import StringIO
 
 
-class NewScenario(Scenario):
+class FirstScenario(Scenario):
     @Given('I test it')
     def i_test_it(self):
         self.first_state = "it's been tested!"
@@ -124,8 +116,9 @@ class NewScenario(Scenario):
     @Then("It's done")
     def its_done(self):
         self._output.write("It's done!\n")
+        self.first_state |should_be.equal_to| "it's been tested!"
+        self.second_state |should_be.equal_to| 'I have said OK'
 
-new_scenario = NewScenario('First Scenario')
 new_scenario_output = StringIO()
 
 class EmptyStory(Story):
@@ -133,9 +126,9 @@ class EmptyStory(Story):
        I want to write this DSL
        So that I test this new stuff"""
     output = new_scenario_output
+    scenarios = [FirstScenario]
 
 empty_story = EmptyStory()
-empty_story.add_scenario(new_scenario)
 
 
 class TemplateScenario(Scenario):
@@ -151,7 +144,6 @@ class TemplateScenario(Scenario):
     def the_result_is_result(self):
         self.sum |should_be.equal_to| 2
 
-template_scenario = TemplateScenario('Second Scenario')
 template_output = StringIO()
 
 class SecondStory(Story):
@@ -159,8 +151,8 @@ class SecondStory(Story):
        I want to write a test
        So that I can become happy"""
     output = template_output
+    scenarios = [TemplateScenario]
 template_story = SecondStory()
-template_story.add_scenario(template_scenario)
 
 
 two_different_scenarios_output = StringIO()
@@ -169,10 +161,11 @@ class RunningTwoDifferentScenarios(Story):
        I want to put two different scenarios in a story
        So that it run all right"""
     output = two_different_scenarios_output
+    scenarios = (FirstScenario, TemplateScenario)
 
 two_different_scenarios_story = RunningTwoDifferentScenarios()
 
-class ThirdScenario(Scenario):
+class ItIsMyThirdScenario(Scenario):
     @Given('it is the 3rd scenario')
     def do_nothing(self):
         pass
@@ -187,7 +180,6 @@ class ThirdScenario(Scenario):
     @Then('I go refactor this software')
     def refactor(self):
         pass
-third_scenario = ThirdScenario('It is my third scenario')
 
 third_scenario_output = StringIO()
 class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
@@ -195,11 +187,11 @@ class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
        I want to improve my software
        So that everybody loves it"""
     output = third_scenario_output
+    scenarios = [ItIsMyThirdScenario]
 
 third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd()
-third_scenario_story.add_scenario(third_scenario)
 
-class FailScenario(Scenario):
+class FailingScenario(Scenario):
     @Given('I wanna see FAILS, ERRORS and OKs')
     def nothing(self): pass
     
@@ -218,7 +210,6 @@ class FailScenario(Scenario):
     def where_is_fail(self):
         pass
 
-fail_scenario = FailScenario('Failing Scenario')
 
 fail_scenario_output = StringIO()
 class Failures(Story):
@@ -226,6 +217,6 @@ class Failures(Story):
        I want to y
        So that z"""
     output = fail_scenario_output
+    scenarios = [FailingScenario]
 
 fail_story = Failures()
-fail_story.add_scenario(fail_scenario)

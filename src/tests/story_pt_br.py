@@ -36,7 +36,7 @@ class Calculadora(object):
    def subtrair(self, n1, n2):
        return n1-n2
 
-class SomaCenario(Scenario):
+class Somando1E1(Scenario):
     @DadoQue('eu tenho uma calculadora')
     def cria_calculadora(self):
         self.calculadora = Calculadora()
@@ -49,7 +49,7 @@ class SomaCenario(Scenario):
     def pegar_resultado(self, valor):
         self.resultado |should_be.equal_to| valor
 
-class SubtracaoCenario(Scenario):
+class FazendoSubtracaoDuasVezes(Scenario):
     DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 2 - 1')
@@ -62,15 +62,12 @@ class SubtracaoCenario(Scenario):
 
     Entao('eu tenho -1 como resultado')
 
-soma_cenario = SomaCenario('Somando 1 e 1')
-subtracao_cenario = SubtracaoCenario('Fazendo subtracao duas vezes')
 
 class CalculadoraBrasileira(Historia):
     """Como um matemático preguiçoso
        Eu quero usar uma calculadora
        Para que eu descanse minha mente"""
     saida = OUTPUT
+    cenarios = (Somando1E1, FazendoSubtracaoDuasVezes)
 
 calculadora_historia = CalculadoraBrasileira()
-calculadora_historia.adicionar_cenario(soma_cenario)\
-                    .adicionar_cenario(subtracao_cenario)
