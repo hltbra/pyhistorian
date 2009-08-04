@@ -12,6 +12,9 @@ __all__ = [ 'Story', 'Historia', ]
 class InvalidStoryHeader(Exception):
     '''Invalid Story Header!'''
 
+class ScenarioNotFound(Exception):
+    '''Scenario not found!'''
+
 def pluralize(word, size):
     if size >= 2 or size == 0:
         return word+'s'
@@ -36,12 +39,23 @@ class Story(object):
         self._colored = self.__class__.colored
         self._add_scenarios()
 
+    def _look_for_scenario_in_story_module(self, scenario):
+        module_root = __import__(self.__class__.__module__)
+        for module in self.__class__.__module__.split('.')[1:]:
+            module_root = getattr(module_root, module)
+        if scenario not in dir(module_root):
+            raise ScenarioNotFound()
+        return getattr(module_root, scenario)
+
     def _add_scenario(self, scenario):
-        this_scenario = scenario.create_scenario(self)
+        if scenario.__class__ in [unicode, str]:
+            this_scenario_class = self._look_for_scenario_in_story_module(scenario)
+            this_scenario = this_scenario_class.create_scenario(self)
+        else:
+            this_scenario = scenario.create_scenario(self)
         self._set_defined_steps(this_scenario)
         self._scenarios.append(this_scenario)
         return self
-
 
     def _add_scenarios(self):
         for scenario in self.__class__.scenarios:

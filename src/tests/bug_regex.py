@@ -23,6 +23,15 @@ from cStringIO import StringIO
 import doctest
 
 
+output = StringIO()
+
+class FixingRegexBugInSteps(Story):
+    """As a issue fixer
+       I want to fix regex bugs
+       So that people can put ANYTHING into steps texts"""
+    output = output
+    scenarios = ('RegexBugged', 'RegexFails')
+
 class RegexBugged(Scenario):
     @Given('an ((irregular regex[[')
     def nothing(self):
@@ -38,12 +47,3 @@ class RegexFails(Scenario):
     @Then('it should fail here')
     def should_fail_here(self):
         pass
-
-output = StringIO()
-
-class FixingRegexBugInSteps(Story):
-    """As a issue fixer
-       I want to fix regex bugs
-       So that people can put ANYTHING into steps texts"""
-    output = output
-    scenarios = (RegexBugged, RegexFails)

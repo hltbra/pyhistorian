@@ -33,10 +33,6 @@ class Scenario(object):
             return colored(message, color)
         return message
 
-    @property
-    def title(self):
-        return self._title
-
     @classmethod
     def create_scenario(self, story):
         scenario = self()
@@ -45,6 +41,10 @@ class Scenario(object):
         scenario._output = story._output
         scenario._should_be_colored = story._colored
         return scenario
+
+    @property
+    def title(self):
+        return self._title
 
     def run(self):
         self.run_steps(self._givens, 'given')
