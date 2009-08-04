@@ -72,9 +72,10 @@ class SupportToTermcolor(Story):
     """As a pyhistorian commiter
        I want to have support to colored output
        So that the output becomes more readable"""
+    output = output
+    colored = True
 
-story = SupportToTermcolor(output=output,
-                                colored=True)
+story = SupportToTermcolor()
 
 story.add_scenario(GreenScenario('Green color'))\
      .add_scenario(RedScenario('Red color'))\

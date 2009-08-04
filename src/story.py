@@ -22,16 +22,16 @@ class Story(object):
     _as_a = ''
     _i_want_to = ''
     _so_that = ''
+    output = sys.stdout
+    colored = False
 
-    def __init__(self, language='en-us',
-                       output=sys.stdout,
-                       colored=False):
+    def __init__(self, language='en-us'):
         self._language = StoryLanguage(language)
         self._title = self._create_title_based_on_class_name()
         self._create_header()
         self._scenarios = []
-        self._output = output
-        self._colored = colored
+        self._output = self.__class__.output
+        self._colored = self.__class__.colored
 
     def _create_title_based_on_class_name(self):
         class_name = self.__class__.__name__
@@ -171,11 +171,13 @@ class Story(object):
         
 
 class Historia(Story):
-    def __init__(self, saida=sys.stdout,
-                       colorido=False):
-        super(Historia, self).__init__(language='pt-br',
-                                       output=saida,
-                                       colored=colorido)
+    saida = sys.stdout
+    colorido = False
+
+    def __init__(self):
+        super(Historia, self).__init__(language='pt-br',)
+        self._output = self.__class__.saida
+        self._colored = self.__class__.colorido
 
     adicionar_cenario = Story.add_scenario
     rodar = Story.run

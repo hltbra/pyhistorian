@@ -69,7 +69,8 @@ class CalculadoraBrasileira(Historia):
     """Como um matemático preguiçoso
        Eu quero usar uma calculadora
        Para que eu descanse minha mente"""
+    saida = OUTPUT
 
-calculadora_historia = CalculadoraBrasileira(saida=OUTPUT)
+calculadora_historia = CalculadoraBrasileira()
 calculadora_historia.adicionar_cenario(soma_cenario)\
                     .adicionar_cenario(subtracao_cenario)

@@ -132,8 +132,9 @@ class EmptyStory(Story):
     """As a programmer
        I want to write this DSL
        So that I test this new stuff"""
+    output = new_scenario_output
 
-empty_story = EmptyStory(output=new_scenario_output)
+empty_story = EmptyStory()
 empty_story.add_scenario(new_scenario)
 
 
@@ -157,8 +158,8 @@ class SecondStory(Story):
     """As a programmer
        I want to write a test
        So that I can become happy"""
-
-template_story = SecondStory(output=template_output)
+    output = template_output
+template_story = SecondStory()
 template_story.add_scenario(template_scenario)
 
 
@@ -167,9 +168,9 @@ class RunningTwoDifferentScenarios(Story):
     """As a programmer
        I want to put two different scenarios in a story
        So that it run all right"""
+    output = two_different_scenarios_output
 
-two_different_scenarios_story = RunningTwoDifferentScenarios(
-              output=two_different_scenarios_output)
+two_different_scenarios_story = RunningTwoDifferentScenarios()
 
 class ThirdScenario(Scenario):
     @Given('it is the 3rd scenario')
@@ -193,8 +194,9 @@ class ShowingHowTwoWhensBecomeWhenPlusAnd(Story):
     """As a software developer
        I want to improve my software
        So that everybody loves it"""
-third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd(
-              output=third_scenario_output)
+    output = third_scenario_output
+
+third_scenario_story = ShowingHowTwoWhensBecomeWhenPlusAnd()
 third_scenario_story.add_scenario(third_scenario)
 
 class FailScenario(Scenario):
@@ -223,6 +225,7 @@ class Failures(Story):
     """As a x
        I want to y
        So that z"""
+    output = fail_scenario_output
 
-fail_story = Failures(output=fail_scenario_output)
+fail_story = Failures()
 fail_story.add_scenario(fail_scenario)

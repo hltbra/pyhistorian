@@ -38,6 +38,7 @@ class DifferentStreamFeature(Story):
     """As a pyhistorian commiter
        I want to add StringIO support
        So that output can be redirected to anywhere"""
+    output = string_io
 
-story = DifferentStreamFeature(output=string_io)
+story = DifferentStreamFeature()
 

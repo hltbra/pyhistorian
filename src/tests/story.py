@@ -39,6 +39,7 @@ class FakedStory(Story):
     """As a fake
        I want to run a simple story
        So that it runs sucessfully and give me a good output"""
+    output = output
 
-story = FakedStory(output=output)
+story = FakedStory()
 story.add_scenario(fake_scenario)
