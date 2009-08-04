@@ -49,3 +49,4 @@ class Entao(Then):
 
 def pending(step_method):
     step_method.pending = True
+    return step_method

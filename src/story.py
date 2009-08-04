@@ -4,6 +4,7 @@ from language import (StoryLanguage,
                       convert_from_cammel_case_to_spaces,)
 from termcolor import colored
 from scenario import Scenario
+from steps import pending
 import sys
 import re
 
@@ -111,9 +112,9 @@ class Story(object):
         return new_args
 
     def _find_step_matching_to(self, step, msg_set, args_default):
-        def undefined_step(self):
-            raise Exception('%s -- %s' % (self._language['undefined_step'],
-                                          msg_set))
+        @pending
+        def undefined_step(self, *args, **kw):
+            """it doesn't do anything, is just marked as pending"""
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
                 msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
