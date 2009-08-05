@@ -8,15 +8,16 @@ import sys
 class Scenario(object):
     _language_code = 'en-us'
 
-    def __init__(self):
-        self._language = StoryLanguage(self.__class__._language_code)
+    def __init__(self, story):
         self._title = self._get_title_from_class_name_or_docstring()
         self._failures = []
         self._errors = []
         self._pendings = []
-        self._story = []
         self._output = sys.stdout
-        self._should_be_colored = False
+        self._story = story
+        self._language = story._language
+        self._output = story._output
+        self._should_be_colored = story._colored
 
     def _get_title_from_class_name_or_docstring(self):
         return self.__doc__ or\
@@ -26,15 +27,6 @@ class Scenario(object):
         if self._should_be_colored:
             return colored(message, color)
         return message
-
-    @classmethod
-    def create_scenario(self, story):
-        scenario = self()
-        scenario._story = story
-        scenario._language = story._language
-        scenario._output = story._output
-        scenario._should_be_colored = story._colored
-        return scenario
 
     @property
     def title(self):

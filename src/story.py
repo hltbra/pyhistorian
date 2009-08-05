@@ -69,9 +69,9 @@ class Story(object):
     def _add_scenario(self, scenario):
         if scenario.__class__ in [unicode, str]:
             this_scenario_class = self._look_for_scenario_in_story_module(scenario)
-            this_scenario = this_scenario_class.create_scenario(self)
+            this_scenario = this_scenario_class(self)
         else:
-            this_scenario = scenario.create_scenario(self)
+            this_scenario = scenario(self)
         self._set_defined_steps(this_scenario)
         self._scenarios.append(this_scenario)
         return self

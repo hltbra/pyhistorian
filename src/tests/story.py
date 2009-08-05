@@ -24,10 +24,8 @@ class FakeScenario(object):
     _failures = _errors = _pendings = []
     title = 'Fake scenario'
 
-    @classmethod
-    def create_scenario(self, story):
+    def __init__(self, story):
         """default interface (should do nothing)"""
-        return self()
 
     def run(self):
         output.write('  Given I run it   ... OK\n')
