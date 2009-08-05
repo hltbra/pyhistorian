@@ -2,7 +2,7 @@
 Failures and errors are red and sucessful is green.
 
 
->>> story.run()
+>>> SupportToTermcolor.run()
 ...
 >>> colored_output = """Story: Support to termcolor
 ... As a pyhistorian commiter
@@ -75,8 +75,6 @@ class SupportToTermcolor(Story):
     output = output
     colored = True
     scenarios = (GreenColor, RedColor, GreenAndRedColors)
-
-story = SupportToTermcolor()
 
 green_output = green_colored('\
   Given I want my output colored and it pass   ... OK\n')+ \

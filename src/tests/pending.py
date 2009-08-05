@@ -1,5 +1,5 @@
 '''
-    >>> SpecifyingWithPendingStuff().run()
+    >>> SpecifyingWithPendingStuff.run()
     >>> colored("""  Given this step is written with no implementation   ... PENDING
     ... """, color='blue') in my_output.getvalue()
     True
@@ -8,7 +8,7 @@
                                                         my_output.getvalue()
     True
 
-    >>> SpecifyingPendingsWithNoDecorators().run()
+    >>> SpecifyingPendingsWithNoDecorators.run()
     >>> print second_output.getvalue()
     Story: Specifying pendings with no decorators
     As a DSL user

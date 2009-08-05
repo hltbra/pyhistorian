@@ -1,6 +1,6 @@
 # coding: utf-8
 '''
->>> calculadora_historia.run()
+>>> CalculadoraBrasileira.run()
 >>> print OUTPUT.getvalue()
 História: Calculadora brasileira
 Como um matemático preguiçoso
@@ -70,5 +70,3 @@ class CalculadoraBrasileira(Historia):
     saida = OUTPUT
     colorido = False
     cenarios = (Somando1E1, FazendoSubtracaoDuasVezes)
-
-calculadora_historia = CalculadoraBrasileira()

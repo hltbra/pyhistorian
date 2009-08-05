@@ -1,5 +1,5 @@
 '''
->>> empty_story.run()
+>>> EmptyStory.run()
 >>> print new_scenario_output.getvalue()
 Story: Empty story
 As a programmer
@@ -16,7 +16,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
 <BLANKLINE>
 
 
->>> template_story.run()
+>>> SecondStory.run()
 >>> print template_output.getvalue()
 Story: Second story
 As a programmer
@@ -129,8 +129,6 @@ class EmptyStory(Story):
     colored = False
     scenarios = [FirstScenario]
 
-empty_story = EmptyStory()
-
 
 class TemplateScenario(Scenario):
     @Given('I have a calculator')
@@ -154,7 +152,6 @@ class SecondStory(Story):
     output = template_output
     colored = False
     scenarios = [TemplateScenario]
-template_story = SecondStory()
 
 
 two_different_scenarios_output = StringIO()

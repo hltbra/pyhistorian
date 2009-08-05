@@ -186,15 +186,22 @@ class Story(object):
                                           self._i_want_to))
             self._output.write('%s %s\n' % (self._language['so_that'], self._so_that))
 
-    def run(self):
-        self.show_story_title()
-        self.show_header()
+    @classmethod
+    def run(instance_or_class):
+        """``run`` can be called with a Story instance or a Story subclass.
+           If passed a class, instantiates it"""
+        if isinstance(instance_or_class, type):
+            instance = instance_or_class()
+        else:
+            instance = instance_or_class
+        instance.show_story_title()
+        instance.show_header()
 
-        number_of_scenarios = len(self._scenarios)
+        number_of_scenarios = len(instance._scenarios)
         number_of_failures = number_of_errors = number_of_pendings = 0
 
-        for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
-            self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
+        for scenario, number in zip(instance._scenarios, range(1, len(instance._scenarios)+1)):
+            instance._output.write('\n%s %d: %s\n' % (instance._language['scenario'],
                                                 number,
                                                 scenario.title))
             failures, errors, pendings = scenario.run()
@@ -202,11 +209,11 @@ class Story(object):
             number_of_errors += len(errors)
             number_of_pendings += len(pendings)
 
-        self.output_statistics(number_of_scenarios,
+        instance.output_statistics(number_of_scenarios,
                                number_of_failures,
                                number_of_errors,
                                number_of_pendings)
-        self._close_output_stream()
+        instance._close_output_stream()
 
 class Historia(Story):
     saida = sys.stdout

@@ -1,5 +1,5 @@
 '''
->>> FixingRegexBugInSteps().run()
+>>> FixingRegexBugInSteps.run()
 >>> print output.getvalue(),
 Story: Fixing regex bug in steps
 As a issue fixer
