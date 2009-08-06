@@ -1,4 +1,6 @@
 # coding: utf-8
+import traceback
+import re
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
 
@@ -38,6 +40,9 @@ _english = dict(story='Story',
                 with_word='with',
                 pending='pending',
                 step='step',
+                file='File',
+                line='line',
+                in_word='in',
                 )
 
 _portuguese = dict(story='História',
@@ -60,6 +65,9 @@ _portuguese = dict(story='História',
                 with_word='com',
                 pending='pendente',
                 step='passo',
+                file='Arquivo',
+                line='linha',
+                in_word='em',
                 )
 
 _LANGUAGES = {'en-us': _english,
@@ -87,8 +95,32 @@ class StoryLanguage(object):
 
     def __getitem__(self, term):
         if term not in self._language:
-            raise StoryLanguageError('There is no term %s' % term)
+            raise StoryLanguageError('There is no term "%s"' % term)
         return self._language[term]
+
+def format_traceback(exc, value, tb, language):
+    def remove_initial_blanks(msg):
+        return re.sub('^\s*', '', msg)
+        
+    def translate_file_word(msg):
+        return re.sub(r'^File', language['file'].capitalize(), msg)
+
+    def translate_line_word(msg):
+        return re.sub(r', line ', ', %s ' %language['line'].lower(), msg)
+
+    def translate_in_word(msg):
+        return re.sub(r', in ', ', %s ' % language['in_word'].lower(), msg)
+
+    info_msg = ''
+    for info in traceback.format_tb(tb)[1:]:
+        file_info, call_info = map(remove_initial_blanks, info.split('\n')[:-1])
+        file_info = translate_in_word(
+                      translate_line_word(
+                        translate_file_word(file_info)))
+        info_msg += '  %s\n    %s\n'% (file_info, call_info)
+    last_line = '  ' + traceback.format_exception_only(exc, value)[-1]
+    return info_msg + last_line
+
 
 if __name__ == '__main__':
     import doctest

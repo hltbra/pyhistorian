@@ -1,9 +1,10 @@
+# coding: utf-8
 """
     >>> FormattingExceptions.run()
     >>> print english_output.getvalue()
     Story: Formatting exceptions
     As a user interested in rastreability
-    I want to know where the erros come from
+    I want to know where the errors come from
     So that I can go to the root of all evil
     <BLANKLINE>
     Scenario 1: Raising an exception
@@ -18,42 +19,36 @@
     Ran 1 scenario with 0 failures, 1 error and 0 steps pending
     <BLANKLINE>
 
-      
+    >>> FormatandoExcecoes.run()
+    >>> print portuguese_output.getvalue()
+    História: Formatando excecoes 
+    Como um usuário interessado em rastreabilidade
+    Eu quero saber de onde os erros vem
+    Para que eu possa ir para a raiz de todo o mal
+    <BLANKLINE>
+    Cenário 1: Levantando uma excecao
+      Então levante uma excecao com "Oi Motto"   ... ERRO
+    <BLANKLINE>
+    Erros:
+      Arquivo ".../tests/traceback_message.py", linha ..., em levantar_oi_motto
+        raise Exception("Oi Motto")
+    Exception: Oi Motto
+    <BLANKLINE>
+    <BLANKLINE>
+    Rodou 1 cenário com 0 falhas, 1 erro e 0 passos pendentes
+    <BLANKLINE>
+ 
 """
-
-#    #>>> language = StoryLanguage('en-us')
-#    #>>> try:
-#    #...     raise_and_exception_with_message('Hello Motto')
-#    #... except:
-#    #...     print format_exc(language)
-#    File ".../tests/module_with_exception_definition.py", line 2, in raise_and_exception_with_message
-#      raise Exception(msg)
-#    Exception: Hello Motto
-#    #<BLANKLINE>
-#
-#    #>>> language = StoryLanguage('pt-br')
-#    #>>> try:
-#    #...     raise_and_exception_with_message('Oi Motto')
-#    #... except:
-#    #...     print format_exc(language)
-#    Arquivo ".../tests/module_with_exception_definition.py", linha 2, em raise_and_exception_with_message
-#      raise Exception(msg)
-#    Exception: Oi Motto
-#    #<BLANKLINE>
-#
-
-from pyhistorian.scenario import format_exc
-from pyhistorian.language import StoryLanguage
-from pyhistorian import Story, Scenario, Then
-from module_with_exception_definition import raise_and_exception_with_message
+from pyhistorian import *
 from cStringIO import StringIO
 
 english_output = StringIO()
+portuguese_output = StringIO()
 
 
 class FormattingExceptions(Story):
     """As a user interested in rastreability
-    I want to know where the erros come from
+    I want to know where the errors come from
     So that I can go to the root of all evil"""
     scenarios = ('RaisingAnException',)
     colored = False
@@ -65,5 +60,16 @@ class RaisingAnException(Scenario):
         raise Exception("Hello Motto")
 
 
-#class FormatandoExcecoes(Historia):
+class FormatandoExcecoes(Historia):
+    """Como um usuário interessado em rastreabilidade
+    Eu quero saber de onde os erros vem
+    Para que eu possa ir para a raiz de todo o mal"""
+    cenarios = ('LevantandoUmaExcecao',)
+    colorido = False
+    saida = portuguese_output
+
+class LevantandoUmaExcecao(Cenario):
+    @Entao('levante uma excecao com "Oi Motto"')
+    def levantar_oi_motto(self):
+        raise Exception("Oi Motto")
 

@@ -157,11 +157,14 @@ class Story(object):
                                number_of_errors).lower()
         step_word = pluralize(self._language['step'],
                                number_of_pendings).lower()
+        pending_word = self._language['pending'].lower()
+        if self._language['pending'].lower() == 'pendente':
+            pending_word = pluralize('pendente',
+                                        number_of_pendings).lower()
 
         ran = self._language['ran'].capitalize()
         with_word = self._language['with_word'].lower()
         and_word = self._language['and_word'].lower()
-        pending_word = self._language['pending'].lower()
         self._output.write('\n%s\n' % ' '.join(map(str,
                                                       [ran,
                                                       number_of_scenarios,

@@ -85,14 +85,25 @@ Scenario 1: Failing scenario
   And I raise an empty exception   ... ERROR
   Then I see one FAIL and two ERRORs in my output   ... OK
 <BLANKLINE>
-<BLANKLINE>
-Fails:
-   ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
+Failures:
+  File ".../tests/scenario.py", line ..., in failing_spec
+    ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
+  File "/home/hugo/virtualenv2_4/lib/python2.4/site-packages/should_dsl-1.0-py2.4.egg/should_dsl/should_dsl.py", line 25, in __or__
+    return self._check_expectation()
+  File "/home/hugo/virtualenv2_4/lib/python2.4/site-packages/should_dsl-1.0-py2.4.egg/should_dsl/should_dsl.py", line 109, in _check_expectation
+    raise ShouldNotSatisfied(self._error_message % (self._lvalue,
+  ShouldNotSatisfied: ...ZeroDivisionError is thrown by <function divide_one_by_zero at ...>
 <BLANKLINE>
 <BLANKLINE>
 Errors:
-   raising Exception!
-   Exception ...Exception... was thrown!
+  File ".../tests/scenario.py", line ..., in an_error_spec
+    raise Exception( 'raising Exception!' )
+  Exception: raising Exception!
+<BLANKLINE>
+  File ".../tests/scenario.py", line ..., in raise_empty_exception
+    raise Exception
+  Exception
+<BLANKLINE>
 <BLANKLINE>
 Ran 1 scenario with 1 failure, 2 errors and 0 steps pending
 <BLANKLINE>

@@ -1,9 +1,11 @@
 all: install test
 
+PYTHON=python
+
 install:
-	@python setup.py install
+	$(PYTHON) setup.py install
 
 test:
 	@echo
 	@echo
-	@python src/tests/run_tests.py && echo 'Ran tests succesfully'
+	$(PYTHON) src/tests/run_tests.py && echo 'Ran tests succesfully' || echo 'Ran tests with failures'

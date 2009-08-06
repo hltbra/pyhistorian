@@ -1,9 +1,12 @@
 from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
-                      convert_from_cammel_case_to_spaces,)
+                      convert_from_cammel_case_to_spaces,
+                      format_traceback)
 from termcolor import colored
 import re
 import sys
+import traceback
+
 
 class Scenario(object):
     _language_code = 'en-us'
@@ -36,24 +39,31 @@ class Scenario(object):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
-        self._output_problem(self._failures, 'fail')
+        self._output_problem(self._failures, 'failure')
         self._output_problem(self._errors, 'error')
         return (self._failures, self._errors, self._pendings)
                 
     def _output_problem(self, problems, problem_type):
         if problems:
-            self._output.write(self._colored('\n\n%ss:\n' %
+            self._output.write(self._colored('\n%ss:\n' %
                                         self._language[problem_type], color='red'))
             for problem in problems:
-                if not problem.args:
-                    problem = self._language['exception_thrown'] % str(problem.__class__)
-                self._output.write(self._colored('   %s\n' % problem,
+#                if not problem.args:
+#                    problem = self._language['exception_thrown'] % str(problem.__class__)
+                self._output.write(self._colored('%s\n' % problem,
                                                     color='red'))
 
     def _replace_template(self, message, args):
         for arg in args:
             message = re.sub(TEMPLATE_PATTERN, str(arg), message, 1)
         return message
+
+    def _get_traceback_info(self):
+        """this method is like traceback.format_exc,
+        but it internationalizates the phrase and
+        it doesn't need parameters"""
+        exc, value, tb = sys.exc_info()
+        return format_traceback(exc, value, tb, self._language)
 
     def _run_step(self, step, step_name):
         method, message, args = step
@@ -71,13 +81,15 @@ class Scenario(object):
             self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
                                                      message), color='green'))
         except AssertionError, e:
-            self._failures.append(e)
+#            self._failures.append(e)
+            self._failures.append(self._get_traceback_info())
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
                                              self._language['fail'].upper()),
                                              color='red'))
         except Exception, e:
-            self._errors.append(e)
+            self._errors.append(self._get_traceback_info())
+#            self._errors.append(e)
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
                                              self._language['error'].upper()),
