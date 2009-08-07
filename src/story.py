@@ -3,7 +3,7 @@ from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
                       convert_from_cammel_case_to_spaces,)
 from termcolor import colored
-from scenario import Scenario
+from scenario import Scenario, Cenario
 from steps import pending
 import sys
 import re
@@ -62,7 +62,9 @@ class Story(object):
         scenarios = []
         for attr_name in dir(module):
             attr = getattr(module, attr_name)
-            if isinstance(attr, type) and Scenario in attr.__bases__:
+            if isinstance(attr, type) and \
+               Scenario in attr.__bases__ and \
+               attr is not Cenario:
                 scenarios.append(attr)
         return scenarios
 
@@ -84,24 +86,25 @@ class Story(object):
                 self._add_scenario(scenario)
 
     def _create_header(self):
-        header = filter(None, self.__doc__.split('\n'))
-
-        if len(header) < 3:
-            raise InvalidStoryHeader()
-
-        if self._language['as_a'] == 'As a':
-            as_a_match = re.match(r'^\s*As an? (.+)', header[0])
-        else:
-            as_a_match = re.match(r'^\s*%s (.+)' % self._language['as_a'], header[0])
-        i_want_to_match = re.match(r'^\s*%s (.+)' % self._language['i_want_to'], header[1])
-        so_that_match = re.match(r'^\s*%s (.+)' % self._language['so_that'], header[2])
-
-        if as_a_match and i_want_to_match and so_that_match:
-            self._as_a = as_a_match.group(1)
-            self._i_want_to = i_want_to_match.group(1)
-            self._so_that = so_that_match.group(1)
-        else:
-            raise InvalidStoryHeader()
+        pass
+#        header = filter(None, self.__doc__.split('\n'))
+#
+#        if len(header) < 3:
+#            raise InvalidStoryHeader()
+#
+#        if self._language['as_a'] == 'As a':
+#            as_a_match = re.match(r'^\s*As an? (.+)', header[0])
+#        else:
+#            as_a_match = re.match(r'^\s*%s (.+)' % self._language['as_a'], header[0])
+#        i_want_to_match = re.match(r'^\s*%s (.+)' % self._language['i_want_to'], header[1])
+#        so_that_match = re.match(r'^\s*%s (.+)' % self._language['so_that'], header[2])
+#
+#        if as_a_match and i_want_to_match and so_that_match:
+#            self._as_a = as_a_match.group(1)
+#            self._i_want_to = i_want_to_match.group(1)
+#            self._so_that = so_that_match.group(1)
+#        else:
+#            raise InvalidStoryHeader()
 
     def _convert_to_int(self, args):
         '''returns a new container where each string
@@ -183,11 +186,12 @@ class Story(object):
         self._output.write('%s: %s\n' % (self._language['story'], self._title))
 
     def show_header(self):
-        if not (self._as_a == self._i_want_to and self._so_that == ''):
-            self._output.write('%s %s\n' % (self._language['as_a'], self._as_a))
-            self._output.write('%s %s\n' % (self._language['i_want_to'],
-                                          self._i_want_to))
-            self._output.write('%s %s\n' % (self._language['so_that'], self._so_that))
+        for line in self.__doc__.split('\n'):
+            self._output.write(line.strip() + '\n')
+#        self._output.write('%s %s\n' % (self._language['as_a'], self._as_a))
+#        self._output.write('%s %s\n' % (self._language['i_want_to'],
+#                                      self._i_want_to))
+#        self._output.write('%s %s\n' % (self._language['so_that'], self._so_that))
 
     @classmethod
     def run(instance_or_class):
