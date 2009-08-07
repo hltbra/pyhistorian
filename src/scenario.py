@@ -68,7 +68,7 @@ class Scenario(object):
     def _run_step(self, step, step_name):
         method, message, args = step
         message = self._replace_template(message, args)
-        if getattr(method, 'pending', False):
+        if hasattr(method, 'pending'):
             self._output.write(self._colored('  %s %s   ... %s\n' % (
                                              self._language[step_name],
                                              message,
@@ -81,7 +81,6 @@ class Scenario(object):
             self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
                                                      message), color='green'))
         except AssertionError, e:
-#            self._failures.append(e)
             self._failures.append(self._get_traceback_info())
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
@@ -89,7 +88,6 @@ class Scenario(object):
                                              color='red'))
         except Exception, e:
             self._errors.append(self._get_traceback_info())
-#            self._errors.append(e)
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
                                              self._language['error'].upper()),
