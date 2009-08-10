@@ -1,0 +1,13 @@
+criar pyhistorian_console pra rodar as historias de um modulo X
+criar atributos pra classe de historia com as cores das saídas
+*----------------------------------------------------------------------
+      File ".../tests/scenario.py", line ..., in raise_empty_exception
+        raise Exception
+      Exception ...Exception... was thrown!
+
+      Atualmente só faz:
+      ...
+      Exception
+-----------------------------------------------------------------------*
+colocar dois newlines antes das falhas/erros
+colocar cores diferentes das padroes para a template da historia
