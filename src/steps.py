@@ -15,6 +15,8 @@ class Step(object):
         self._steps.append((None, self._message, self._args))
 
     def _set_step_attrs(self, local_attrs):
+        """this method set _givens, _whens and _thens to the class,
+        because the steps are called while the class is been defined"""
         for private_step in ['_givens', '_whens', '_thens']:
             if not private_step in local_attrs:
                 local_attrs[private_step] = []
