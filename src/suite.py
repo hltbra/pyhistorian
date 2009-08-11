@@ -22,12 +22,12 @@ __all__= ['PyhistorianSuite', ]
 
 class Failure(object):
     '''
-        >>> try:
-        ...     raise Exception('foo')
-        ... except Exception, e:
-        ...     fail = Failure(e)
+        >>> fail = Failure(Exception('foo'))
         >>> fail.shortDescription()
         'foo'
+        >>> fail2 = Failure(Exception())
+        >>> fail2.shortDescription()
+        ''
     '''
     failureException = AssertionError
 
@@ -40,23 +40,23 @@ class Failure(object):
         return ''
 
 
-class StoryTestCase(object):
+class StoryCase(object):
     def __init__(self, story):
         self._story = story
-        self._tests = []
-        self._set_test_methods()
+        self._steps = []
+        self._set_step_methods()
 
-    def _set_test_methods(self):
+    def _set_step_methods(self):
         for scenario in self._story._scenarios:
-            for method in scenario._givens + scenario._whens + scenario._thens:
-                self._tests.append(getattr(scenario, method[0].func_name))
+            for method, message, args in scenario._givens + scenario._whens + scenario._thens:
+                self._steps.append(getattr(scenario, method.func_name))
 
-    def runTest(self, result):
-        for test in self._tests:
-            result.startTest(test)
+    def run_steps(self, result):
+        for step in self._steps:
+            result.startTest(step)
             try:
-                test()
-                result.addSuccess(test)
+                step()
+                result.addSuccess(step)
             except AssertionError, e:
                 result.addFailure(Failure(e), sys.exc_info())
             except Exception, e:
@@ -65,13 +65,17 @@ class StoryTestCase(object):
 
 class PyhistorianSuite(object):
     def __init__(self, *stories):
-        self._test_cases = [StoryTestCase(story) for story in stories]
+        self._story_cases = [StoryCase(story) for story in stories]
 
     def __call__(self, result):
-        for story in self._test_cases:
-            story.runTest(result)
+        for story in self._story_cases:
+            story.run_steps(result)
 
-class Scenario1(Scenario):
+
+"""
+    down here is the needs to run the doctest
+"""
+class ExampleScenario(Scenario):
     attribute_to_be_ignored = True
 
     @Given('foo')
@@ -99,7 +103,7 @@ class IntegrationWithUnittest(Story):
     """As an unittest tester
        I want to have integration with pyhistorian
        So that I have a nicer continuous integration"""
-    scenarios = [Scenario1]
+    scenarios = [ExampleScenario]
 
 story = IntegrationWithUnittest()
 

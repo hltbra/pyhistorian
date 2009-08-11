@@ -41,11 +41,15 @@ class Story(object):
         self._add_scenarios()
 
     def _get_output(self):
+        """return output stream depending on the ``output`` class attribute.
+        if ``output`` is a kind of string, it returns an open file stream.
+        if not, returns the output itself"""
         if type(self.__class__.output) in [str, unicode]:
             return open(self.__class__.output, 'w')
         return self.__class__.output
 
     def _get_this_class_module(self):
+        """return the class' module"""
         module_root = __import__(self.__class__.__module__)
         for module in self.__class__.__module__.split('.')[1:]:
             module_root = getattr(module_root, module)
@@ -58,6 +62,7 @@ class Story(object):
         return getattr(module, scenario)
 
     def _get_scenarios_from_story_module(self):
+        """return all Scenario's subclasses from the story module"""
         module = self._get_this_class_module()
         scenarios = []
         for attr_name in dir(module):
@@ -69,6 +74,9 @@ class Story(object):
         return scenarios
 
     def _add_scenario(self, scenario):
+        """add a scenario based on its value.
+        if it is a string, look for it in the story's module,
+        if not, instantiate it"""
         if scenario.__class__ in [unicode, str]:
             this_scenario_class = self._look_for_scenario_in_story_module(scenario)
             this_scenario = this_scenario_class(self)
@@ -79,6 +87,8 @@ class Story(object):
         return self
 
     def _add_scenarios(self):
+        """add all scenarios specified in the Story class.
+        if not specified any, get all from story's module"""
         scenarios = self.__class__.scenarios
         if len(self.__class__.scenarios) == 0:
             scenarios = self._get_scenarios_from_story_module()
@@ -87,24 +97,6 @@ class Story(object):
 
     def _create_header(self):
         pass
-#        header = filter(None, self.__doc__.split('\n'))
-#
-#        if len(header) < 3:
-#            raise InvalidStoryHeader()
-#
-#        if self._language['as_a'] == 'As a':
-#            as_a_match = re.match(r'^\s*As an? (.+)', header[0])
-#        else:
-#            as_a_match = re.match(r'^\s*%s (.+)' % self._language['as_a'], header[0])
-#        i_want_to_match = re.match(r'^\s*%s (.+)' % self._language['i_want_to'], header[1])
-#        so_that_match = re.match(r'^\s*%s (.+)' % self._language['so_that'], header[2])
-#
-#        if as_a_match and i_want_to_match and so_that_match:
-#            self._as_a = as_a_match.group(1)
-#            self._i_want_to = i_want_to_match.group(1)
-#            self._so_that = so_that_match.group(1)
-#        else:
-#            raise InvalidStoryHeader()
 
     def _convert_to_int(self, args):
         '''returns a new container where each string
@@ -113,16 +105,19 @@ class Story(object):
            what is not an integer, will not be affected'''
         new_args = []
         for arg in args:
-            if type(arg) == str:
-                if re.search(r'^\s*-?\d+\s*$', arg):
-                    arg = int(arg)
+            if type(arg) == str and \
+               re.search(r'^\s*-?\d+\s*$', arg):
+                arg = int(arg)
             new_args.append(arg)
         return new_args
 
     def _find_step_matching_to(self, step, msg_set, args_default):
+        """find step matching to ``msg_set`` in all scenarios,
+           passing ``args_default``"""
         @pending
         def undefined_step(self, *args, **kw):
             """it doesn't do anything, is just marked as pending"""
+
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
                 msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
@@ -144,11 +139,11 @@ class Story(object):
                                                                     msg,
                                                                     args)
 
-    def _close_output_stream(self):
+    def _close_output_file_stream(self):
         if type(self._output) == file:
             self._output.close()
 
-    def output_statistics(self, number_of_scenarios,
+    def _output_statistics(self, number_of_scenarios,
                                 number_of_failures,
                                 number_of_errors,
                                 number_of_pendings):
@@ -182,33 +177,27 @@ class Story(object):
                                                       step_word,
                                                       pending_word])))
 
-    def show_story_title(self):
+    def _show_header(self):
+        """shows story's title and feature request, role and motivation"""
         self._output.write('%s: %s\n' % (self._language['story'], self._title))
-
-    def show_header(self):
         for line in self.__doc__.split('\n'):
             self._output.write(line.strip() + '\n')
-#        self._output.write('%s %s\n' % (self._language['as_a'], self._as_a))
-#        self._output.write('%s %s\n' % (self._language['i_want_to'],
-#                                      self._i_want_to))
-#        self._output.write('%s %s\n' % (self._language['so_that'], self._so_that))
 
     @classmethod
     def run(instance_or_class):
         """``run`` can be called with a Story instance or a Story subclass.
            If passed a class, instantiates it"""
         if isinstance(instance_or_class, type):
-            instance = instance_or_class()
+            self = instance_or_class()
         else:
-            instance = instance_or_class
-        instance.show_story_title()
-        instance.show_header()
+            self = instance_or_class
+        self._show_header()
 
-        number_of_scenarios = len(instance._scenarios)
+        number_of_scenarios = len(self._scenarios)
         number_of_failures = number_of_errors = number_of_pendings = 0
 
-        for scenario, number in zip(instance._scenarios, range(1, len(instance._scenarios)+1)):
-            instance._output.write('\n%s %d: %s\n' % (instance._language['scenario'],
+        for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
+            self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
                                                 number,
                                                 scenario.title))
             failures, errors, pendings = scenario.run()
@@ -216,11 +205,11 @@ class Story(object):
             number_of_errors += len(errors)
             number_of_pendings += len(pendings)
 
-        instance.output_statistics(number_of_scenarios,
+        self._output_statistics(number_of_scenarios,
                                number_of_failures,
                                number_of_errors,
                                number_of_pendings)
-        instance._close_output_stream()
+        self._close_output_file_stream()
 
 class Historia(Story):
     saida = sys.stdout

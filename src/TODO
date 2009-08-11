@@ -1,4 +1,3 @@
-criar pyhistorian_console pra rodar as historias de um modulo X
 criar atributos pra classe de historia com as cores das saídas
 *----------------------------------------------------------------------
       File ".../tests/scenario.py", line ..., in raise_empty_exception

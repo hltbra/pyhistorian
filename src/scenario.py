@@ -19,7 +19,6 @@ class Scenario(object):
         self._language = story._language
         self._output = story._output
         self._should_be_colored = story._colored
-        self._language_code = 'en-us'
         self._failures = []
         self._errors = []
         self._pendings = []
@@ -41,19 +40,18 @@ class Scenario(object):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
-        self._output_problem(self._failures, 'failure')
-        self._output_problem(self._errors, 'error')
+        if self._failures:
+            self._output_problem(self._failures, 'failure')
+        if self._errors:
+            self._output_problem(self._errors, 'error')
         return (self._failures, self._errors, self._pendings)
                 
     def _output_problem(self, problems, problem_type):
-        if problems:
-            self._output.write(self._colored('\n%ss:\n' %
-                                        self._language[problem_type], color='red'))
-            for problem in problems:
-#                if not problem.args:
-#                    problem = self._language['exception_thrown'] % str(problem.__class__)
-                self._output.write(self._colored('%s\n' % problem,
-                                                    color='red'))
+        self._output.write(self._colored('\n%ss:\n' % 
+                                self._language[problem_type], color='red'))
+        for problem in problems:
+            self._output.write(self._colored('%s\n' % problem,
+                                                      color='red'))
 
     def _replace_template(self, message, args):
         for arg in args:
@@ -75,7 +73,7 @@ class Scenario(object):
                                              self._language[step_name],
                                              message,
                                              self._language['pending'].upper()),
-                                            color='blue'))
+                                             color='blue'))
             self._pendings.append(method)
             return
         try:
@@ -97,13 +95,11 @@ class Scenario(object):
 
     def run_steps(self, steps, step_name):
         if steps == []:
-            return False
-
+            return
         self._run_step(steps[0], step_name)
         for step in steps[1:]:
             self._run_step(step, 'and_word')
 
 class Cenario(Scenario):
     """Portuguese translation"""
-    _language_code = 'pt-br'
 

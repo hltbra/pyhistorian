@@ -99,6 +99,8 @@ class StoryLanguage(object):
         return self._language[term]
 
 def format_traceback(exc, value, tb, language):
+    """format the traceback to show the user a nice and
+    internationalized message"""
     def remove_initial_blanks(msg):
         return re.sub('^\s*', '', msg)
         
@@ -112,6 +114,7 @@ def format_traceback(exc, value, tb, language):
         return re.sub(r', in ', ', %s ' % language['in_word'].lower(), msg)
 
     info_msg = ''
+    # skip the first item because it is the pyhistorian's call
     for info in traceback.format_tb(tb)[1:]:
         file_info, call_info = map(remove_initial_blanks, info.split('\n')[:-1])
         file_info = translate_in_word(
