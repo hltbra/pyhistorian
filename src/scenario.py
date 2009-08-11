@@ -9,15 +9,9 @@ import traceback
 
 
 class Scenario(object):
-    _language_code = 'en-us'
     _givens = []
     _whens = []
     _thens = []
-    _failures = []
-    _errors = []
-    _pendings = []
-    _output = sys.stdout
-    _should_be_colored = True
 
     def __init__(self, story):
         self._title = self._get_title_from_class_name_or_docstring()
@@ -25,6 +19,10 @@ class Scenario(object):
         self._language = story._language
         self._output = story._output
         self._should_be_colored = story._colored
+        self._language_code = 'en-us'
+        self._failures = []
+        self._errors = []
+        self._pendings = []
 
     def _get_title_from_class_name_or_docstring(self):
         return self.__doc__ or\
