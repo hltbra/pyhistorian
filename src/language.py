@@ -126,6 +126,11 @@ def format_traceback(exc, value, tb, language):
     last_line = '  ' + traceback.format_exception_only(exc, value)[-1]
     return info_msg + last_line
 
+def pluralize(word, size):
+    if size >= 2 or size == 0:
+        return word+'s'
+    return word
+
 
 if __name__ == '__main__':
     import doctest

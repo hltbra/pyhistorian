@@ -1,7 +1,8 @@
 # coding: utf-8
 from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
-                      convert_from_cammel_case_to_spaces,)
+                      convert_from_cammel_case_to_spaces,
+                      pluralize)
 from termcolor import colored
 from scenario import Scenario, Cenario
 from steps import pending
@@ -15,12 +16,6 @@ class InvalidStoryHeader(Exception):
 
 class ScenarioNotFound(Exception):
     '''Scenario not found!'''
-
-def pluralize(word, size):
-    if size >= 2 or size == 0:
-        return word+'s'
-    return word
-
 
 class Story(object):
     _as_a = ''
