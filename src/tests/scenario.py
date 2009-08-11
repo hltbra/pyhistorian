@@ -88,11 +88,11 @@ Scenario 1: Failing scenario
 Failures:
   File ".../tests/scenario.py", line ..., in failing_spec
     ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
-  File "/home/hugo/virtualenv2_4/lib/python2.4/site-packages/should_dsl-1.0-py2.4.egg/should_dsl/should_dsl.py", line 25, in __or__
+  File ".../should_dsl.py", line 25, in __or__
     return self._check_expectation()
-  File "/home/hugo/virtualenv2_4/lib/python2.4/site-packages/should_dsl-1.0-py2.4.egg/should_dsl/should_dsl.py", line 109, in _check_expectation
-    raise ShouldNotSatisfied(self._error_message % (self._lvalue,
-  ShouldNotSatisfied: ...ZeroDivisionError is thrown by <function divide_one_by_zero at ...>
+  File ".../should_dsl.py", line ..., in _check_expectation
+  ...
+  ShouldNotSatisfied: ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
 <BLANKLINE>
 <BLANKLINE>
 Errors:
