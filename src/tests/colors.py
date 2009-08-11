@@ -29,6 +29,7 @@ from termcolor import colored
 import os
 
 SHOULD_DSL_PATH = os.path.dirname(should_dsl.__file__) + '/should_dsl.py'
+HERE = os.path.dirname(__file__) + '/colors.py'
 
 class GreenColor(Scenario):
     @Given('I want my output colored and it pass')
@@ -89,7 +90,7 @@ red_output = red_colored('\
   red_colored('\
   Then I have red messages   ... FAIL\n') +\
   red_colored('\nFailures:\n')+\
-  red_colored("""  File "%(here)s", line 45, in fail1
+  red_colored("""  File "%(here)s", line 46, in fail1
     'this scenario' |should_be| 'red colored'
   File "%(should_dsl)s", line 25, in __or__
     return self._check_expectation()
@@ -97,8 +98,8 @@ red_output = red_colored('\
     self._rvalue))
   ShouldNotSatisfied: this scenario is not red colored
 
-""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': __file__})+\
-  red_colored("""  File "%(here)s", line 49, in fail2
+""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})+\
+  red_colored("""  File "%(here)s", line 50, in fail2
     'this fail color' |should_be| 'red'
   File "%(should_dsl)s", line 25, in __or__
     return self._check_expectation()
@@ -106,7 +107,7 @@ red_output = red_colored('\
     self._rvalue))
   ShouldNotSatisfied: this fail color is not red
 
-""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': __file__})
+""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})
 green_and_red_output = green_colored('\
   Given I want my output colored (green and red)   ... OK\n')+\
   green_colored('\
@@ -114,7 +115,7 @@ green_and_red_output = green_colored('\
   red_colored('\
   And I have red message   ... FAIL\n') +\
   red_colored('\nFailures:\n') + \
-  red_colored("""  File "%(here)s", line 63, in red_message
+  red_colored("""  File "%(here)s", line 64, in red_message
     'this step' |should_be| 'red'
   File "%(should_dsl)s", line 25, in __or__
     return self._check_expectation()
@@ -122,4 +123,4 @@ green_and_red_output = green_colored('\
     self._rvalue))
   ShouldNotSatisfied: this step is not red
 
-""" % {'should_dsl': SHOULD_DSL_PATH, 'here': __file__})
+""" % {'should_dsl': SHOULD_DSL_PATH, 'here': HERE})
