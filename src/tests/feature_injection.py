@@ -11,8 +11,8 @@
     Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
     <BLANKLINE>
 
-    >>> UsingInOrderTo.run()
-    Traceback ...
+    >>> UsingWrongInOrderTo.run()
+    Traceback (most recent call last):
     ...
     InvalidStoryHeader: Invalid Story Header!
 '''

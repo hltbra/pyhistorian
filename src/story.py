@@ -34,11 +34,22 @@ class Story(object):
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
         self._title = convert_from_cammel_case_to_spaces(self.__class__.__name__)
+        self._validate_header()
         self._create_header()
         self._scenarios = []
         self._output = self._get_output()
         self._colored = self.__class__.colored
         self._add_scenarios()
+
+    def _validate_header(self):
+        meaningful_lines = [line.strip() for line in self.__doc__.split('\n')
+                                if line.strip()]
+        for line in meaningful_lines:
+            if not (line.startswith(self._language['as_a']) or\
+                    line.startswith(self._language['i_want_to']) or\
+                    line.startswith(self._language['so_that']) or\
+                    line.startswith(self._language['in_order_to'])):
+                raise InvalidStoryHeader('Invalid Story Header!')
 
     def _get_output(self):
         """return output stream depending on the ``output`` class attribute.
