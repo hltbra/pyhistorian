@@ -1,5 +1,6 @@
 '''Adding support to termcolor.
 Failures and errors are red and sucessful is green.
+PS.: At each should_dsl version it may change!!!
 
 
 >>> SupportToTermcolor.run()
@@ -25,6 +26,9 @@ from pyhistorian import *
 from should_dsl import *
 from cStringIO import StringIO
 from termcolor import colored
+from os.path import dirname
+
+SHOULD_DSL_PATH = dirname(should_dsl.__file__) + '/should_dsl.py'
 
 class GreenColor(Scenario):
     @Given('I want my output colored and it pass')
@@ -85,7 +89,7 @@ red_output = red_colored('\
   red_colored('\
   Then I have red messages   ... FAIL\n') +\
   red_colored('\nFailures:\n')+\
-  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 41, in fail1
+  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 45, in fail1
     'this scenario' |should_be| 'red colored'
   File "/home/hugo/virtualenv2_5/lib/python2.5/site-packages/should_dsl-1.0-py2.5.egg/should_dsl/should_dsl.py", line 25, in __or__
     return self._check_expectation()
@@ -94,15 +98,15 @@ red_output = red_colored('\
   ShouldNotSatisfied: this scenario is not red colored
 
 """)+\
-  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 45, in fail2
+  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 49, in fail2
     'this fail color' |should_be| 'red'
-  File "/home/hugo/virtualenv2_5/lib/python2.5/site-packages/should_dsl-1.0-py2.5.egg/should_dsl/should_dsl.py", line 25, in __or__
+  File "%(should_dsl)s", line 25, in __or__
     return self._check_expectation()
-  File "/home/hugo/virtualenv2_5/lib/python2.5/site-packages/should_dsl-1.0-py2.5.egg/should_dsl/should_dsl.py", line 111, in _check_expectation
+  File "%(should_dsl)s", line 111, in _check_expectation
     self._rvalue))
   ShouldNotSatisfied: this fail color is not red
 
-""")
+""" % {'should_dsl' : SHOULD_DSL_PATH})
 green_and_red_output = green_colored('\
   Given I want my output colored (green and red)   ... OK\n')+\
   green_colored('\
@@ -110,12 +114,12 @@ green_and_red_output = green_colored('\
   red_colored('\
   And I have red message   ... FAIL\n') +\
   red_colored('\nFailures:\n') + \
-  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 59, in red_message
+  red_colored("""  File "/home/hugo/pyhistorian/src/tests/colors.py", line 63, in red_message
     'this step' |should_be| 'red'
-  File "/home/hugo/virtualenv2_5/lib/python2.5/site-packages/should_dsl-1.0-py2.5.egg/should_dsl/should_dsl.py", line 25, in __or__
+  File "%(should_dsl)s", line 25, in __or__
     return self._check_expectation()
-  File "/home/hugo/virtualenv2_5/lib/python2.5/site-packages/should_dsl-1.0-py2.5.egg/should_dsl/should_dsl.py", line 111, in _check_expectation
+  File "%(should_dsl)s", line 111, in _check_expectation
     self._rvalue))
   ShouldNotSatisfied: this step is not red
 
-""")
+""" % {'should_dsl' : SHOULD_DSL_PATH})
