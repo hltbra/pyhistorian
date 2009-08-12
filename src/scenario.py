@@ -8,6 +8,7 @@ import sys
 import traceback
 from steps import pending
 
+__all__ = ['Scenario', 'Cenario',]
 
 class Scenario(object):
     _givens = []
