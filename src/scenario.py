@@ -25,7 +25,7 @@ class Scenario(object):
         self._story = story
         self._language = story._language
         self._output = story._output
-        self._should_be_colored = story._colored
+        self._should_be_colored = story.colored
         self._failures = []
         self._errors = []
         self._pendings = []

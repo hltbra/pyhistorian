@@ -2,9 +2,9 @@
 from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
                       convert_from_cammel_case_to_spaces,
-                      pluralize)
-from termcolor import colored
+                      pluralize,)
 from scenario import Scenario, Cenario
+import termcolor
 import sys
 import re
 
@@ -24,6 +24,7 @@ class Story(object):
     colored = True
     language = 'en-us'
     scenarios = []
+    template_color = 'term'
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
@@ -32,7 +33,6 @@ class Story(object):
         self._create_header()
         self._scenarios = []
         self._output = self._get_output()
-        self._colored = self.__class__.colored
         self._add_scenarios()
 
     def _validate_header(self):
@@ -141,7 +141,10 @@ class Story(object):
                                                                     args)
 
     def _close_output_file_stream(self):
-        if type(self._output) == file:
+        """close output files that are not
+           sys.stdout, sys.stderr, sys.stdin"""
+        if type(self._output) == file and\
+           self._output.fileno() > 3:
             self._output.close()
 
     def _output_statistics(self, number_of_scenarios,
@@ -164,7 +167,8 @@ class Story(object):
         ran = self._language['ran'].capitalize()
         with_word = self._language['with_word'].lower()
         and_word = self._language['and_word'].lower()
-        self._output.write('\n%s\n' % ' '.join(map(str,
+        self._output.write(
+            self._colored('\n%s\n' % ' '.join(map(str,
                                                       [ran,
                                                       number_of_scenarios,
                                                       scenario_word,
@@ -176,13 +180,23 @@ class Story(object):
                                                       and_word,
                                                       number_of_pendings,
                                                       step_word,
-                                                      pending_word])))
+                                                      pending_word])),
+                                                        self.template_color))
+
+    def _colored(self, msg, color):
+        if self.colored == False or color == 'term':
+            return msg
+        return termcolor.colored(msg, color)
 
     def _show_header(self):
         """shows story's title and feature request, role and motivation"""
-        self._output.write('%s: %s\n' % (self._language['story'], self._title))
+        self._output.write(self._colored(
+                                '%s: %s\n' % (self._language['story'],
+                                              self._title),
+                                                  self.template_color))
         for line in self.__doc__.split('\n'):
-            self._output.write(line.strip() + '\n')
+            self._output.write(self._colored(
+                                line.strip() + '\n', self.template_color))
 
     @classmethod
     def run(instance_or_class):
@@ -198,9 +212,11 @@ class Story(object):
         number_of_failures = number_of_errors = number_of_pendings = 0
 
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
-            self._output.write('\n%s %d: %s\n' % (self._language['scenario'],
+            self._output.write(self._colored('\n%s %d: %s\n' % (
+                                                self._language['scenario'],
                                                 number,
-                                                scenario.title))
+                                                scenario.title),
+                                                    self.template_color))
             failures, errors, pendings = scenario.run()
             number_of_failures += len(failures)
             number_of_errors += len(errors)
