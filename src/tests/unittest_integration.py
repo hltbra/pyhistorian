@@ -5,7 +5,7 @@
 >>> suite.addTest(unittest.TestLoader().loadTestsFromTestCase(sillyTestCase))
 >>> runner = unittest.TextTestRunner(stream=StringIO())
 >>> runner.run(suite)
-<unittest._TextTestResult run=5 errors=0 failures=1>
+<unittest._TextTestResult run=6 errors=0 failures=1>
 '''
 
 from pyhistorian import *
@@ -33,6 +33,8 @@ class SillyTestcase(Scenario):
     @Then('I have two as result')
     def two_as_result(self):
         self.result |should_be.equal_to| 2
+
+    Then('the pending stuff is ran as sucessful')
 
 
 output = StringIO()

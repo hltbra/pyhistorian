@@ -5,7 +5,6 @@ from language import (StoryLanguage,
                       pluralize)
 from termcolor import colored
 from scenario import Scenario, Cenario
-from steps import pending
 import sys
 import re
 
@@ -120,10 +119,6 @@ class Story(object):
     def _find_step_matching_to(self, step, msg_set, args_default):
         """find step matching to ``msg_set`` in all scenarios,
            passing ``args_default``"""
-        @pending
-        def undefined_step(self, *args, **kw):
-            """it doesn't do anything, is just marked as pending"""
-
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
                 msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
@@ -133,7 +128,7 @@ class Story(object):
                 if regex:
                     new_args = self._convert_to_int(regex.groups())
                     return meth, msg_set, new_args
-        return undefined_step, msg_set, args_default
+        return Scenario.undefined_step, msg_set, args_default
 
     def _set_defined_steps(self, scenario):
         for step in ['_givens', '_whens', '_thens']:

@@ -2,9 +2,9 @@
 >>> story.run()
 >>> print output.getvalue()
 Story: Faked story
-As a fake
-I want to run a simple story
-So that it runs sucessfully and give me a good output
+In order to write specifications
+As a python developer
+I want to write them in Python language
 <BLANKLINE>
 Scenario 1: Fake scenario
   Given I run it   ... OK
@@ -21,7 +21,6 @@ output = StringIO()
 
 class FakeScenario(object):
     _givens = _whens = _thens = []
-    _failures = _errors = _pendings = []
     title = 'Fake scenario'
 
     def __init__(self, story):
@@ -31,13 +30,13 @@ class FakeScenario(object):
         output.write('  Given I run it   ... OK\n')
         output.write('  When I type X   ... OK\n')
         output.write('  Then it shows me X   ... OK\n')
-        return (self._failures, self._errors, self._pendings)
+        return [], [], []
 
 
 class FakedStory(Story):
-    """As a fake
-       I want to run a simple story
-       So that it runs sucessfully and give me a good output"""
+    """In order to write specifications
+       As a python developer
+       I want to write them in Python language"""
     output = output
     scenarios = [FakeScenario]
 

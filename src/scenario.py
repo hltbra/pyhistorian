@@ -6,12 +6,18 @@ from termcolor import colored
 import re
 import sys
 import traceback
+from steps import pending
 
 
 class Scenario(object):
     _givens = []
     _whens = []
     _thens = []
+    
+    @staticmethod
+    @pending
+    def undefined_step(*args, **kw):
+        """it doesn't do anything, is just marked as pending"""
 
     def __init__(self, story):
         self._title = self._get_title_from_class_name_or_docstring()
@@ -32,20 +38,6 @@ class Scenario(object):
             return colored(message, color)
         return message
 
-    @property
-    def title(self):
-        return self._title
-
-    def run(self):
-        self.run_steps(self._givens, 'given')
-        self.run_steps(self._whens, 'when')
-        self.run_steps(self._thens, 'then')
-        if self._failures:
-            self._output_problem(self._failures, 'failure')
-        if self._errors:
-            self._output_problem(self._errors, 'error')
-        return (self._failures, self._errors, self._pendings)
-                
     def _output_problem(self, problems, problem_type):
         self._output.write(self._colored('\n%ss:\n' % 
                                 self._language[problem_type], color='red'))
@@ -93,6 +85,20 @@ class Scenario(object):
                                              self._language['error'].upper()),
                                              color='red'))
 
+    @property
+    def title(self):
+        return self._title
+
+    def run(self):
+        self.run_steps(self._givens, 'given')
+        self.run_steps(self._whens, 'when')
+        self.run_steps(self._thens, 'then')
+        if self._failures:
+            self._output_problem(self._failures, 'failure')
+        if self._errors:
+            self._output_problem(self._errors, 'error')
+        return (self._failures, self._errors, self._pendings)
+                
     def run_steps(self, steps, step_name):
         if steps == []:
             return
