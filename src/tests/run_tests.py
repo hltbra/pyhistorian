@@ -15,10 +15,9 @@ def run_all_python_modules_here():
                                           if filename.endswith('.py')]
 
     for python_file in all_python_files_here:
-        if python_file in ['run_tests.py', '__init__.py']:
-            continue
-        python_module = __import__(python_file[:-3])
-        status = doctest.testmod(python_module, optionflags=FLAGS)[0] or status
+        if python_file not in ['run_tests.py', '__init__.py']:
+            python_module = __import__(python_file[:-3])
+            status = doctest.testmod(python_module, optionflags=FLAGS)[0] or status
     return status
 
 def run_python_modules_outhere():
