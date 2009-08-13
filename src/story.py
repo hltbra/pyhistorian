@@ -56,7 +56,7 @@ class Story(object):
         return self.__class__.output
 
     def _get_this_class_module(self):
-        """return the class' module"""
+        """return the class' module object"""
         module_root = __import__(self.__class__.__module__)
         for module in self.__class__.__module__.split('.')[1:]:
             module_root = getattr(module_root, module)

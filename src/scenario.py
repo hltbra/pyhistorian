@@ -34,15 +34,20 @@ class Scenario(object):
         self._pending_color = story.pending_color
 
     def _get_title_from_class_name_or_docstring(self):
+        """returns the docstring if defined or
+           the class name converted from cammel case to spaces"""
         return self.__doc__ or\
                convert_from_cammel_case_to_spaces(self.__class__.__name__)
 
     def _colored(self, message, color):
+        """returns message colored with color
+           if the scenario is allowed to use colors"""
         if self._should_be_colored:
             return colored(message, color)
         return message
 
     def _output_problems_info(self, problems, problem_type, color):
+        """outputs problems information, like failures and its traceback"""
         self._output.write(self._colored('\n%ss:\n' % 
                                 self._language[problem_type],
                                 color=color))
@@ -51,18 +56,24 @@ class Scenario(object):
                                                       color=color))
 
     def _output_failures_info(self):
+        """outputs failures and its traceback"""
         if self._failures:
             self._output_problems_info(self._failures,
                                        'failure',
                                        self._failure_color)
 
     def _output_errors_info(self):
+        """outputs errors and its traceback"""
         if self._errors:
             self._output_problems_info(self._errors,
                                        'error',
                                        self._error_color)
     
-    def _replace_template(self, message, args):
+    def _get_message_with_values_based_on_template(self, message, args):
+        """returns a message based on a template and values:
+           message_template -> Hello (.+)!
+           values -> [World]
+           message returned -> Hello World!"""
         for arg in args:
             message = re.sub(TEMPLATE_PATTERN, str(arg), message, 1)
         return message
@@ -74,33 +85,51 @@ class Scenario(object):
         exc, value, tb = sys.exc_info()
         return format_traceback(exc, value, tb, self._language)
 
+    def _output_step_line_by_type(self, step_name, message, type_name, color):
+        """this method is responsible for the template of step line output,
+           it shows the step line and info about it, like ``... OK``"""
+        self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
+                                         message,
+                                         self._language[type_name].upper()),
+                                         color=color))
+
+    def _output_pending_step_line(self, step_name, message):
+        self._output_step_line_by_type(step_name,
+                                       message,
+                                       'pending',
+                                       self._pending_color)
+
+    def _output_ok_step_line(self, step_name, message):
+        self._output_step_line_by_type(step_name, message, 'ok', 'green')
+
+    def _output_fail_step_line(self, step_name, message):
+        self._output_step_line_by_type(step_name,
+                                       message,
+                                       'fail',
+                                       self._failure_color)
+ 
+    def _output_error_step_line(self, step_name, message):
+        self._output_step_line_by_type(step_name,
+                                       message,
+                                       'error',
+                                       self._error_color)
+
     def _run_step(self, step, step_name):
-        method, message, args = step
-        message = self._replace_template(message, args)
+        method, message_template, args = step
+        message = self._get_message_with_values_based_on_template(message_template, args)
         if hasattr(method, 'pending'):
-            self._output.write(self._colored('  %s %s   ... %s\n' % (
-                                             self._language[step_name],
-                                             message,
-                                             self._language['pending'].upper()),
-                                             color=self._pending_color))
             self._pendings.append(method)
+            self._output_pending_step_line(step_name, message)
             return
         try:
             method(self, *args)
-            self._output.write(self._colored('  %s %s   ... OK\n' % (self._language[step_name],
-                                                     message), color='green'))
+            self._output_ok_step_line(step_name, message)
         except AssertionError, e:
             self._failures.append(self._get_traceback_info())
-            self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
-                                             message,
-                                             self._language['fail'].upper()),
-                                             color=self._failure_color))
+            self._output_fail_step_line(step_name, message)
         except Exception, e:
             self._errors.append(self._get_traceback_info())
-            self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
-                                             message,
-                                             self._language['error'].upper()),
-                                             color=self._error_color))
+            self._output_error_step_line(step_name, message)
 
     @property
     def title(self):
@@ -115,7 +144,7 @@ class Scenario(object):
         return (self._failures, self._errors, self._pendings)
                 
     def run_steps(self, steps, step_name):
-        if steps == []:
+        if len(steps) == 0:
             return
         self._run_step(steps[0], step_name)
         for step in steps[1:]:
