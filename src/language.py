@@ -1,4 +1,8 @@
 # coding: utf-8
+"""
+    this module contains all stuff related to
+    internationalization and messages
+"""
 import traceback
 import re
 
@@ -53,6 +57,7 @@ _english = dict(story='Story',
                 file='File',
                 line='line',
                 in_word='in',
+                ok='ok',
                 )
 
 _portuguese = dict(story='História',
@@ -79,6 +84,7 @@ _portuguese = dict(story='História',
                 file='Arquivo',
                 line='linha',
                 in_word='em',
+                ok='ok',
                 )
 
 _LANGUAGES = {'en-us': _english,
