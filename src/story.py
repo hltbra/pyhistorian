@@ -26,6 +26,7 @@ class Story(object):
     scenarios = []
     template_color = 'term'
     failure_color = 'red'
+    error_color = 'red'
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)

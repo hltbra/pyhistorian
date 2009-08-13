@@ -30,7 +30,7 @@ class Scenario(object):
         self._errors = []
         self._pendings = []
         self._failure_color = story.failure_color
-        self._error_color = 'red'
+        self._error_color = story.error_color
 
     def _get_title_from_class_name_or_docstring(self):
         return self.__doc__ or\
@@ -99,7 +99,7 @@ class Scenario(object):
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
                                              self._language['error'].upper()),
-                                             color='red'))
+                                             color=self._error_color))
 
     @property
     def title(self):
