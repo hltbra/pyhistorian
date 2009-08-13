@@ -27,12 +27,12 @@ class Story(object):
     template_color = 'term'
     failure_color = 'red'
     error_color = 'red'
+    pending_color = 'blue'
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
         self._title = convert_from_cammel_case_to_spaces(self.__class__.__name__)
         self._validate_header()
-        self._create_header()
         self._scenarios = []
         self._output = self._get_output()
         self._add_scenarios()
@@ -101,9 +101,6 @@ class Story(object):
             scenarios = self._get_scenarios_from_story_module()
         for scenario in scenarios:
                 self._add_scenario(scenario)
-
-    def _create_header(self):
-        pass
 
     def _convert_to_int(self, args):
         '''returns a new container where each string

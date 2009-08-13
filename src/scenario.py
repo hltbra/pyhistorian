@@ -31,6 +31,7 @@ class Scenario(object):
         self._pendings = []
         self._failure_color = story.failure_color
         self._error_color = story.error_color
+        self._pending_color = story.pending_color
 
     def _get_title_from_class_name_or_docstring(self):
         return self.__doc__ or\
@@ -81,7 +82,7 @@ class Scenario(object):
                                              self._language[step_name],
                                              message,
                                              self._language['pending'].upper()),
-                                             color='blue'))
+                                             color=self._pending_color))
             self._pendings.append(method)
             return
         try:
