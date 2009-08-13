@@ -29,6 +29,8 @@ class Scenario(object):
         self._failures = []
         self._errors = []
         self._pendings = []
+        self._failure_color = story.failure_color
+        self._error_color = 'red'
 
     def _get_title_from_class_name_or_docstring(self):
         return self.__doc__ or\
@@ -39,13 +41,26 @@ class Scenario(object):
             return colored(message, color)
         return message
 
-    def _output_problem(self, problems, problem_type):
+    def _output_problems_info(self, problems, problem_type, color):
         self._output.write(self._colored('\n%ss:\n' % 
-                                self._language[problem_type], color='red'))
+                                self._language[problem_type],
+                                color=color))
         for problem in problems:
             self._output.write(self._colored('%s\n' % problem,
-                                                      color='red'))
+                                                      color=color))
 
+    def _output_failures_info(self):
+        if self._failures:
+            self._output_problems_info(self._failures,
+                                       'failure',
+                                       self._failure_color)
+
+    def _output_errors_info(self):
+        if self._errors:
+            self._output_problems_info(self._errors,
+                                       'error',
+                                       self._error_color)
+    
     def _replace_template(self, message, args):
         for arg in args:
             message = re.sub(TEMPLATE_PATTERN, str(arg), message, 1)
@@ -78,7 +93,7 @@ class Scenario(object):
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
                                              message,
                                              self._language['fail'].upper()),
-                                             color='red'))
+                                             color=self._failure_color))
         except Exception, e:
             self._errors.append(self._get_traceback_info())
             self._output.write(self._colored('  %s %s   ... %s\n' % (self._language[step_name],
@@ -94,10 +109,8 @@ class Scenario(object):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
-        if self._failures:
-            self._output_problem(self._failures, 'failure')
-        if self._errors:
-            self._output_problem(self._errors, 'error')
+        self._output_failures_info()
+        self._output_errors_info()
         return (self._failures, self._errors, self._pendings)
                 
     def run_steps(self, steps, step_name):
