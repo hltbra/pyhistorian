@@ -164,8 +164,8 @@ class Story(object):
                                         number_of_pendings).lower()
 
         ran = self._language['ran'].capitalize()
-        with_word = self._language['with_word'].lower()
-        and_word = self._language['and_word'].lower()
+        with_word = self._language['with'].lower()
+        and_word = self._language['and'].lower()
         self._output.write(
             self._colored('\n%s\n' % ' '.join(map(str,
                                                       [ran,
