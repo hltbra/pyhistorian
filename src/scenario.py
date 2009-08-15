@@ -50,29 +50,6 @@ class Scenario(object):
             return colored(message, color)
         return message
 
-    def _output_problems_info(self, problems, problem_type, color):
-        """outputs problems information, like failures and its traceback"""
-        self._output.write(self._colored('\n%ss:\n' % 
-                                self._language[problem_type],
-                                color=color))
-        for problem in problems:
-            self._output.write(self._colored('%s\n' % problem,
-                                                      color=color))
-
-    def _output_failures_info(self):
-        """outputs failures and its traceback"""
-        if self._failures:
-            self._output_problems_info(self._failures,
-                                       'failure',
-                                       self._failure_color)
-
-    def _output_errors_info(self):
-        """outputs errors and its traceback"""
-        if self._errors:
-            self._output_problems_info(self._errors,
-                                       'error',
-                                       self._error_color)
-    
     def _get_message_with_values_based_on_template(self, message, args):
         """returns a message based on a template and values:
            message_template -> Hello (.+)!
@@ -122,8 +99,10 @@ class Scenario(object):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
         self.run_steps(self._thens, 'then')
-        self._output_failures_info()
-        self._output_errors_info()
+        self._output_writer.output_failures_info(self._failures,
+                                                 self._failure_color)
+        self._output_writer.output_errors_info(self._errors,
+                                                 self._error_color)
         return (self._failures, self._errors, self._pendings)
                 
     def run_steps(self, steps, step_name):

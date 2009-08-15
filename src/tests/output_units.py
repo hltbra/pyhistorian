@@ -35,6 +35,37 @@
       Then it is not colored   ... OK
     <BLANKLINE>
 
+    >>> stringio = StringIO()
+    >>> output_writer = OutputWriter(stringio, language)
+    >>> output_writer.output_failures_info(['hello', 'world'], 'red')
+    >>> stringio.getvalue() == red_colored("""
+    ... Failures:
+    ... """) + red_colored("""hello
+    ... """) + red_colored("""world
+    ... """)
+    True
+
+    >>> stringio = StringIO()
+    >>> output_writer = OutputWriter(stringio, language)
+    >>> output_writer.output_errors_info(['hello', 'world'], 'red')
+    >>> stringio.getvalue() == red_colored("""
+    ... Errors:
+    ... """) + red_colored("""hello
+    ... """) + red_colored("""world
+    ... """)
+    True
+
+    >>> stringio = StringIO()
+    >>> output_writer = OutputWriter(stringio, language)
+    >>> output_writer.output_errors_info([], 'red')
+    >>> stringio.getvalue() == ''
+    True
+
+    >>> stringio = StringIO()
+    >>> output_writer = OutputWriter(stringio, language)
+    >>> output_writer.output_failures_info([], 'red')
+    >>> stringio.getvalue() == ''
+    True
 '''
 
 from termcolor import colored
