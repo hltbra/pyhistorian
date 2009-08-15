@@ -31,61 +31,63 @@ def convert_from_cammel_case_to_spaces(text):
         else:
             spaced_text += char
     return spaced_text
- 
 
-_english = dict(story='Story',
-                as_a='As a',
-                i_want_to='I want to',
-                so_that='So that',
-                in_order_to='In order to',
-                scenario='Scenario',
-                given='Given',
-                when='When',
-                then='Then',
-                fail='Fail',
-                failure='Failure',
-                error='Error',
-                and_word='And',
-                empty_story_title='Empty Story',
-                empty_scenario_title='Empty Sceario',
-                exception_thrown='Exception %s was thrown!',
-                undefined_step='Undefined Step',
-                ran='Ran',
-                with_word='with',
-                pending='pending',
-                step='step',
-                file='File',
-                line='line',
-                in_word='in',
-                ok='ok',
-                )
 
-_portuguese = dict(story='História',
-                as_a='Como um',
-                i_want_to='Eu quero',
-                so_that='Para que',
-                in_order_to='Para que',
-                scenario='Cenário',
-                given='Dado que',
-                when='Quando',
-                then='Então',
-                fail='Falha',
-                failure='Falha',
-                error='Erro', 
-                and_word='E',
-                empty_story_title='História Vazia',
-                empty_scenario_title='Cenário Vazio',
-                exception_thrown='A Exceção %s foi levantada!',
-                undefined_step='Passo não definido',
-                ran='Rodou',
-                with_word='com',
-                pending='pendente',
-                step='passo',
-                file='Arquivo',
-                line='linha',
-                in_word='em',
-                ok='ok',
-                )
+_english = {
+           'story': 'Story',
+           'as_a': 'As a',
+           'i_want_to': 'I want to',
+           'so_that': 'So that',
+           'in_order_to': 'In order to',
+           'scenario': 'Scenario',
+           'given': 'Given',
+           'when': 'When',
+           'then': 'Then',
+           'fail': 'Fail',
+           'failure': 'Failure',
+           'error': 'Error',
+           'and': 'And',
+           'empty_story_title': 'Empty Story',
+           'empty_scenario_title': 'Empty Sceario',
+           'exception_thrown': 'Exception %s was thrown!',
+           'undefined_step': 'Undefined Step',
+           'ran': 'Ran',
+           'with': 'with',
+           'pending': 'pending',
+           'step': 'step',
+           'file': 'File',
+           'line': 'line',
+           'in': 'in',
+           'ok': 'ok',
+           }
+
+_portuguese = {
+              'story': 'História',
+              'as_a': 'Como um',
+              'i_want_to': 'Eu quero',
+              'so_that': 'Para que',
+              'in_order_to': 'Para que',
+              'scenario': 'Cenário',
+              'given': 'Dado que',
+              'when': 'Quando',
+              'then': 'Então',
+              'fail': 'Falha',
+              'failure': 'Falha',
+              'error': 'Erro',
+              'and': 'E',
+              'empty_story_title': 'História Vazia',
+              'empty_scenario_title': 'Cenário Vazio',
+              'exception_thrown': 'A Exceção %s foi levantada!',
+              'undefined_step': 'Passo não definido',
+              'ran': 'Rodou',
+              'with': 'com',
+              'pending': 'pendente',
+              'step': 'passo',
+              'file': 'Arquivo',
+              'line': 'linha',
+              'in': 'em',
+              'ok': 'ok',
+              }
 
 _LANGUAGES = {'en-us': _english,
               'pt-br' : _portuguese}
@@ -120,7 +122,7 @@ def format_traceback(exc, value, tb, language):
     internationalized message"""
     def remove_initial_blanks(msg):
         return re.sub('^\s*', '', msg)
-        
+
     def translate_file_word(msg):
         return re.sub(r'^File', language['file'].capitalize(), msg)
 
@@ -128,7 +130,7 @@ def format_traceback(exc, value, tb, language):
         return re.sub(r', line ', ', %s ' %language['line'].lower(), msg)
 
     def translate_in_word(msg):
-        return re.sub(r', in ', ', %s ' % language['in_word'].lower(), msg)
+        return re.sub(r', in ', ', %s ' % language['in'].lower(), msg)
 
     info_msg = ''
     # skip the first item because it is the pyhistorian's call
