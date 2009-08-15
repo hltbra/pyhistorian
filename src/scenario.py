@@ -148,7 +148,7 @@ class Scenario(object):
             return
         self._run_step(steps[0], step_name)
         for step in steps[1:]:
-            self._run_step(step, 'and_word')
+            self._run_step(step, 'and')
 
 class Cenario(Scenario):
     """Portuguese translation"""
