@@ -12,7 +12,7 @@
     Scenario 2: Second scenario
       Then it is the second scenario   ... OK
     <BLANKLINE>
-    Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
+    Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
     <BLANKLINE>
 
 """

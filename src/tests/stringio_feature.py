@@ -11,7 +11,7 @@ Scenario 1: Using StringIO as output stream
   When I output any message   ... OK
   Then it should be written in my StringIO object   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 

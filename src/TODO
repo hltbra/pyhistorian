@@ -1,12 +1,4 @@
-criar atributos pra classe de historia com as cores das saídas
-*----------------------------------------------------------------------
-      File ".../tests/scenario.py", line ..., in raise_empty_exception
-        raise Exception
-      Exception ...Exception... was thrown!
-
-      Atualmente só faz:
-      ...
-      Exception
------------------------------------------------------------------------*
 colocar dois newlines antes das falhas/erros
+#criar atributos pra classe de historia com as cores das saídas
+- criar mecanismo de nao colocar cor nenhuma, pegar do terminal
 colocar cores diferentes das padroes para a template da historia

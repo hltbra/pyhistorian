@@ -12,7 +12,7 @@ Scenario 1: First scenario
 It's done!
   Then It's done   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 
 
@@ -28,7 +28,7 @@ Scenario 1: Template scenario
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 
 >>> two_different_scenarios_story.run()
@@ -50,7 +50,7 @@ Scenario 2: Template scenario
   When I sum 1 to 1   ... OK
   Then the result is 2   ... OK
 <BLANKLINE>
-Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
+Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 
 
@@ -67,7 +67,7 @@ Scenario 1: It is my third scenario
   And I don't know what to do   ... OK
   Then I go refactor this software   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 
 
@@ -105,7 +105,7 @@ Errors:
   Exception
 <BLANKLINE>
 <BLANKLINE>
-Ran 1 scenario with 1 failure, 2 errors and 0 steps pending
+Ran 1 scenario with 1 failure, 2 errors and 0 pending steps
 <BLANKLINE>
 '''
 

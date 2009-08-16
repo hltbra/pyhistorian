@@ -11,7 +11,7 @@ Scenario 1: Fake scenario
   When I type X   ... OK
   Then it shows me X   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 

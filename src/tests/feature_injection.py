@@ -8,7 +8,7 @@
     <BLANKLINE>
     Scenario 1: Empty scenario
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+    Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
     <BLANKLINE>
 
     >>> UsingWrongInOrderTo.run()

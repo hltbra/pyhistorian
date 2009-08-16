@@ -13,7 +13,7 @@ Scenario 1: my scenario
   When when 1   ... OK
   And when 2   ... OK
 <BLANKLINE>
-Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 from pyhistorian import Step, Scenario, Story

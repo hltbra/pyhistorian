@@ -16,16 +16,16 @@ PS.: At each should_dsl version it may change!!!
 ... """+red_output+"""
 ... Scenario 3: Green and red colors
 ... """+green_and_red_output+"""
-... Ran 3 scenarios with 3 failures, 0 errors and 0 steps pending
+... Ran 3 scenarios with 3 failures, 0 errors and 0 pending steps
 ... """
 >>> colored_output2 in output.getvalue()
 True
 '''
 
 from pyhistorian import *
+from pyhistorian.output import colored
 from should_dsl import *
 from cStringIO import StringIO
-from termcolor import colored
 import os
 
 SHOULD_DSL_PATH = os.path.dirname(should_dsl.__file__) + '/should_dsl.py'

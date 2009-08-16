@@ -16,7 +16,7 @@
     Exception: Hello Motto
     <BLANKLINE>
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 1 error and 0 steps pending
+    Ran 1 scenario with 0 failures, 1 error and 0 pending steps
     <BLANKLINE>
 
     >>> FormatandoExcecoes.run()

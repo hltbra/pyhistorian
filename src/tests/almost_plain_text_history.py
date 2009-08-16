@@ -13,7 +13,7 @@
       Then the machine throws my money   ... PENDING
       And if I request my balance I see U$5   ... PENDING
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 0 errors and 4 steps pending
+    Ran 1 scenario with 0 failures, 0 errors and 4 pending steps
     <BLANKLINE>
     >>> output_file.close()
     >>> remove(output_filename)

@@ -2,9 +2,8 @@ from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
                       convert_from_cammel_case_to_spaces,
                       format_traceback)
-from output import OutputWriter
+from output import OutputWriter, colored
 from steps import pending
-from termcolor import colored
 import re
 import sys
 import traceback

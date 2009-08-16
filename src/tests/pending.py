@@ -4,8 +4,7 @@
     ... """, color='blue') in my_output.getvalue()
     True
 
-    >>> "Ran 1 scenario with 0 failures, 0 errors and 1 step pending" in \
-                                                        my_output.getvalue()
+    >>> "Ran 1 scenario with 0 failures, 0 errors and 1 pending step" in my_output.getvalue()
     True
 
     >>> SpecifyingPendingsWithNoDecorators.run()
@@ -19,7 +18,7 @@
       Given I don't write the implementation and this pass is not defined   ... PENDING
       Then it runs as pending (both Given and Then)   ... PENDING
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 0 errors and 2 steps pending
+    Ran 1 scenario with 0 failures, 0 errors and 2 pending steps
     <BLANKLINE>
 
 '''
@@ -31,7 +30,7 @@ from pyhistorian import (Story,
                          Then,
                          pending)
 from cStringIO import StringIO
-from termcolor import colored
+from pyhistorian.output import colored
 
 my_output = StringIO()
 second_output = StringIO()

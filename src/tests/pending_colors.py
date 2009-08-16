@@ -6,7 +6,7 @@
 
 '''
 from pyhistorian import *
-from termcolor import colored
+from pyhistorian.output import colored
 from cStringIO import StringIO
 
 output = StringIO()

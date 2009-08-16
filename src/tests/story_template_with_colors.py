@@ -19,11 +19,11 @@
     True
 
     >>> yellow_colored("""
-    ... Ran 1 scenario with 0 failures, 0 errors and 0 steps pending
+    ... Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
     ... """) in output.getvalue()
     True
 '''
-from termcolor import colored
+from pyhistorian.output import colored
 from pyhistorian import Story, Scenario, Then
 from cStringIO import StringIO
 

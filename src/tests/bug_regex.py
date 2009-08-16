@@ -14,7 +14,7 @@ Scenario 2: Regex fails
   Given an ((irregular regex[[   ... OK
   Then it should fail here   ... OK
 <BLANKLINE>
-Ran 2 scenarios with 0 failures, 0 errors and 0 steps pending
+Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 

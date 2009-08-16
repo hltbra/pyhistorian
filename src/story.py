@@ -4,7 +4,7 @@ from language import (StoryLanguage,
                       convert_from_cammel_case_to_spaces,
                       pluralize,)
 from scenario import Scenario, Cenario
-import termcolor
+from output import OutputWriter, colored
 import sys
 import re
 
@@ -35,6 +35,9 @@ class Story(object):
         self._validate_header()
         self._scenarios = []
         self._output = self._get_output()
+        self._output_writer = OutputWriter(self._output,
+                                           self._language,
+                                           self.colored)
         self._add_scenarios()
 
     def _validate_header(self):
@@ -146,46 +149,10 @@ class Story(object):
            self._output.fileno() > 3:
             self._output.close()
 
-    def _output_statistics(self, number_of_scenarios,
-                                number_of_failures,
-                                number_of_errors,
-                                number_of_pendings):
-        scenario_word = pluralize(self._language['scenario'],
-                                  number_of_scenarios).lower()
-        failure_word = pluralize(self._language['failure'],
-                                 number_of_failures).lower()
-        error_word = pluralize(self._language['error'],
-                               number_of_errors).lower()
-        step_word = pluralize(self._language['step'],
-                               number_of_pendings).lower()
-        pending_word = self._language['pending'].lower()
-        if self._language['pending'].lower() == 'pendente':
-            pending_word = pluralize('pendente',
-                                        number_of_pendings).lower()
-
-        ran = self._language['ran'].capitalize()
-        with_word = self._language['with'].lower()
-        and_word = self._language['and'].lower()
-        self._output.write(
-            self._colored('\n%s\n' % ' '.join(map(str,
-                                                      [ran,
-                                                      number_of_scenarios,
-                                                      scenario_word,
-                                                      with_word,
-                                                      number_of_failures,
-                                                      failure_word+',',
-                                                      number_of_errors,
-                                                      error_word,
-                                                      and_word,
-                                                      number_of_pendings,
-                                                      step_word,
-                                                      pending_word])),
-                                                        self.template_color))
-
     def _colored(self, msg, color):
         if self.colored == False or color == 'term':
             return msg
-        return termcolor.colored(msg, color)
+        return colored(msg, color)
 
     def _show_header(self):
         """shows story's title and feature request, role and motivation"""
@@ -221,10 +188,11 @@ class Story(object):
             number_of_errors += len(errors)
             number_of_pendings += len(pendings)
 
-        self._output_statistics(number_of_scenarios,
+        self._output_writer.output_statistics(number_of_scenarios,
                                number_of_failures,
                                number_of_errors,
-                               number_of_pendings)
+                               number_of_pendings,
+                               self.template_color)
         self._close_output_file_stream()
 
 class Historia(Story):
