@@ -94,6 +94,13 @@ class Scenario(object):
     def title(self):
         return self._title
 
+    def run_steps(self, steps, step_name):
+        if len(steps) == 0:
+            return
+        self._run_step(steps[0], step_name)
+        for step in steps[1:]:
+            self._run_step(step, 'and')
+
     def run(self):
         self.run_steps(self._givens, 'given')
         self.run_steps(self._whens, 'when')
@@ -104,12 +111,6 @@ class Scenario(object):
                                                  self._error_color)
         return (self._failures, self._errors, self._pendings)
                 
-    def run_steps(self, steps, step_name):
-        if len(steps) == 0:
-            return
-        self._run_step(steps[0], step_name)
-        for step in steps[1:]:
-            self._run_step(step, 'and')
 
 class Cenario(Scenario):
     """Portuguese translation"""

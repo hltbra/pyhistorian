@@ -11,7 +11,8 @@ __all__ = ['TEMPLATE_PATTERN',
            'convert_from_cammel_case_to_spaces',
            'StoryLanguage',
            'format_traceback',
-           'pluralize',]
+           'pluralize',
+           'convert_to_int',]
 
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
@@ -31,6 +32,53 @@ def convert_from_cammel_case_to_spaces(text):
         else:
             spaced_text += char
     return spaced_text
+
+
+def format_traceback(exc, value, tb, language):
+    """format the traceback to show the user a nice and
+    internationalized message"""
+    def remove_initial_blanks(msg):
+        return re.sub('^\s*', '', msg)
+
+    def translate_file_word(msg):
+        return re.sub(r'^File', language['file'].capitalize(), msg)
+
+    def translate_line_word(msg):
+        return re.sub(r', line ', ', %s ' %language['line'].lower(), msg)
+
+    def translate_in_word(msg):
+        return re.sub(r', in ', ', %s ' % language['in'].lower(), msg)
+
+    info_msg = ''
+    # skip the first item because it is the pyhistorian's call
+    for info in traceback.format_tb(tb)[1:]:
+        file_info, call_info = map(remove_initial_blanks, info.split('\n')[:-1])
+        file_info = translate_in_word(
+                      translate_line_word(
+                        translate_file_word(file_info)))
+        info_msg += '  %s\n    %s\n'% (file_info, call_info)
+    last_line = '  ' + traceback.format_exception_only(exc, value)[-1]
+    return info_msg + last_line
+
+
+def pluralize(word, size):
+    if size >= 2 or size == 0:
+        return word+'s'
+    return word
+
+
+def convert_to_int(args):
+    '''returns a new container where each string
+       containing just integer (delimited by spaces)
+       will be converted to real integers - casting with int().
+       what is not an integer, will not be affected'''
+    new_args = []
+    for arg in args:
+        if type(arg) == str and \
+           re.search(r'^\s*-?\d+\s*$', arg):
+            arg = int(arg)
+        new_args.append(arg)
+    return new_args
 
 
 _english = {
@@ -116,38 +164,6 @@ class StoryLanguage(object):
         if term not in self._language:
             raise StoryLanguageError('There is no term "%s"' % term)
         return self._language[term]
-
-def format_traceback(exc, value, tb, language):
-    """format the traceback to show the user a nice and
-    internationalized message"""
-    def remove_initial_blanks(msg):
-        return re.sub('^\s*', '', msg)
-
-    def translate_file_word(msg):
-        return re.sub(r'^File', language['file'].capitalize(), msg)
-
-    def translate_line_word(msg):
-        return re.sub(r', line ', ', %s ' %language['line'].lower(), msg)
-
-    def translate_in_word(msg):
-        return re.sub(r', in ', ', %s ' % language['in'].lower(), msg)
-
-    info_msg = ''
-    # skip the first item because it is the pyhistorian's call
-    for info in traceback.format_tb(tb)[1:]:
-        file_info, call_info = map(remove_initial_blanks, info.split('\n')[:-1])
-        file_info = translate_in_word(
-                      translate_line_word(
-                        translate_file_word(file_info)))
-        info_msg += '  %s\n    %s\n'% (file_info, call_info)
-    last_line = '  ' + traceback.format_exception_only(exc, value)[-1]
-    return info_msg + last_line
-
-def pluralize(word, size):
-    if size >= 2 or size == 0:
-        return word+'s'
-    return word
-
 
 if __name__ == '__main__':
     import doctest

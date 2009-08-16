@@ -2,7 +2,8 @@
 from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
                       convert_from_cammel_case_to_spaces,
-                      pluralize,)
+                      pluralize,
+                      convert_to_int)
 from scenario import Scenario, Cenario
 from output import OutputWriter, colored
 import sys
@@ -17,9 +18,6 @@ class ScenarioNotFound(Exception):
     '''Scenario not found!'''
 
 class Story(object):
-    _as_a = ''
-    _i_want_to = ''
-    _so_that = ''
     output = sys.stdout
     colored = True
     language = 'en-us'
@@ -105,19 +103,6 @@ class Story(object):
         for scenario in scenarios:
                 self._add_scenario(scenario)
 
-    def _convert_to_int(self, args):
-        '''returns a new container where each string
-           containing just integer (delimited by spaces)
-           will be converted to real integers - casting with int().
-           what is not an integer, will not be affected'''
-        new_args = []
-        for arg in args:
-            if type(arg) == str and \
-               re.search(r'^\s*-?\d+\s*$', arg):
-                arg = int(arg)
-            new_args.append(arg)
-        return new_args
-
     def _find_step_matching_to(self, step, msg_set, args_default):
         """find step matching to ``msg_set`` in all scenarios,
            passing ``args_default``"""
@@ -128,7 +113,7 @@ class Story(object):
                 msg_pattern = msg_pattern.replace(re.escape(r'(.+?)'), r'(.+?)')
                 regex = re.match(msg_pattern, msg_set)
                 if regex:
-                    new_args = self._convert_to_int(regex.groups())
+                    new_args = convert_to_int(regex.groups())
                     return meth, msg_set, new_args
         return Scenario.undefined_step, msg_set, args_default
 
@@ -150,7 +135,7 @@ class Story(object):
             self._output.close()
 
     def _colored(self, msg, color):
-        if self.colored == False or color == 'term':
+        if self.colored == False:
             return msg
         return colored(msg, color)
 
