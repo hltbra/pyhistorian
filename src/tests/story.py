@@ -1,7 +1,7 @@
 '''
 >>> story.run()
 >>> print output.getvalue()
-Story: Faked story
+Story: Faked Story #1
 In order to write specifications
 As a python developer
 I want to write them in Python language
@@ -39,5 +39,6 @@ class FakedStory(Story):
        I want to write them in Python language"""
     output = output
     scenarios = [FakeScenario]
+    title = 'Faked Story #1'
 
 story = FakedStory()

@@ -26,10 +26,11 @@ class Story(object):
     failure_color = 'red'
     error_color = 'red'
     pending_color = 'blue'
+    title = ''
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
-        self._title = convert_from_cammel_case_to_spaces(self.__class__.__name__)
+        self._title = self._get_title()
         self._validate_header()
         self._scenarios = []
         self._output = self._get_output()
@@ -37,6 +38,9 @@ class Story(object):
                                            self._language,
                                            self.colored)
         self._add_scenarios()
+
+    def _get_title(self):
+        return self.title or convert_from_cammel_case_to_spaces(self.__class__.__name__)
 
     def _validate_header(self):
         meaningful_lines = [line.strip() for line in self.__doc__.split('\n')
