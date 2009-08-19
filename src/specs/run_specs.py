@@ -31,7 +31,7 @@ def run_all_python_modules_here():
     all_python_files_here = [filename for filename in os.listdir(THIS_DIRNAME)
                                           if filename.endswith('.py')]
     run_all_python_modules(all_python_files_here, ['__init__.py',
-                                                   'run_tests.py'])
+                                                   'run_specs.py'])
 
 if __name__ == '__main__':
     sys.exit(run_all_python_modules_here() or run_python_modules_outhere())

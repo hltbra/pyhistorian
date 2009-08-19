@@ -11,7 +11,7 @@
       Then raise an exception with "Hello Motto"   ... ERROR
     <BLANKLINE>
     Errors:
-      File ".../tests/traceback_message.py", line ..., in raise_hello_motto
+      File ".../specs/traceback_message.py", line ..., in raise_hello_motto
         raise Exception("Hello Motto")
     Exception: Hello Motto
     <BLANKLINE>
@@ -30,7 +30,7 @@
       Então levante uma excecao com "Oi Motto"   ... ERRO
     <BLANKLINE>
     Erros:
-      Arquivo ".../tests/traceback_message.py", linha ..., em levantar_oi_motto
+      Arquivo ".../specs/traceback_message.py", linha ..., em levantar_oi_motto
         raise Exception("Oi Motto")
     Exception: Oi Motto
     <BLANKLINE>

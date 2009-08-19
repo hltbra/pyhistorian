@@ -86,7 +86,7 @@ Scenario 1: Failing scenario
   Then I see one FAIL and two ERRORs in my output   ... OK
 <BLANKLINE>
 Failures:
-  File ".../tests/scenario.py", line ..., in failing_spec
+  File ".../specs/scenario.py", line ..., in failing_spec
     ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
   File ".../should_dsl.py", line 25, in __or__
     return self._check_expectation()
@@ -96,11 +96,11 @@ Failures:
 <BLANKLINE>
 <BLANKLINE>
 Errors:
-  File ".../tests/scenario.py", line ..., in an_error_spec
+  File ".../specs/scenario.py", line ..., in an_error_spec
     raise Exception( 'raising Exception!' )
   Exception: raising Exception!
 <BLANKLINE>
-  File ".../tests/scenario.py", line ..., in raise_empty_exception
+  File ".../specs/scenario.py", line ..., in raise_empty_exception
     raise Exception
   Exception
 <BLANKLINE>

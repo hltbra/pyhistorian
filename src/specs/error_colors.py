@@ -8,7 +8,7 @@
     ... Errors:
     ... """) in output.getvalue()
     True
-    >>> error_msg = """  File "/home/hugo/pyhistorian/src/tests/error_colors.py", line 41, in do_error
+    >>> error_msg = """  File "/home/hugo/pyhistorian/src/specs/error_colors.py", line 41, in do_error
     ...     raise Exception("an error occurred!")
     ...   Exception: an error occurred!
     ... 

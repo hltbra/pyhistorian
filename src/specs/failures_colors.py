@@ -8,7 +8,7 @@
     ... Failures:
     ... """) in output.getvalue()
     True
-    >>> failure_msg = """  File "/home/hugo/pyhistorian/src/tests/failures_colors.py", line 41, in fail
+    >>> failure_msg = """  File "/home/hugo/pyhistorian/src/specs/failures_colors.py", line 41, in fail
     ...     assert 1 == 2
     ...   AssertionError
     ... 
