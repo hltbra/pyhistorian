@@ -3,23 +3,23 @@
     >>> yellow_colored("""Story: Story template with colors
     ... """) in output.getvalue()
     True
-    >>> yellow_colored("""In order to avoid distractions
+    >>> yellow_colored("""  In order to avoid distractions
     ... """) in output.getvalue()
     True
-    >>> yellow_colored("""As a distracted person
+    >>> yellow_colored("""  As a distracted person
     ... """) in output.getvalue()
     True
-    >>> yellow_colored("""I want to color the story template
-    ... """) in output.getvalue()
-    True
-
-    >>> yellow_colored("""
-    ... Scenario 1: Black color
+    >>> yellow_colored("""  I want to color the story template
     ... """) in output.getvalue()
     True
 
     >>> yellow_colored("""
-    ... Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
+    ...   Scenario 1: Black color
+    ... """) in output.getvalue()
+    True
+
+    >>> yellow_colored("""
+    ...   Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
     ... """) in output.getvalue()
     True
 '''

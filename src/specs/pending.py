@@ -1,6 +1,6 @@
 '''
     >>> SpecifyingWithPendingStuff.run()
-    >>> colored("""  Given this step is written with no implementation   ... PENDING
+    >>> colored("""    Given this step is written with no implementation   ... PENDING
     ... """, color='blue') in my_output.getvalue()
     True
 
@@ -10,15 +10,15 @@
     >>> SpecifyingPendingsWithNoDecorators.run()
     >>> print second_output.getvalue()
     Story: Specifying pendings with no decorators
-    As a DSL user
-    I want to avoid using pending decorator
-    So that is is more fluent
+      As a DSL user
+      I want to avoid using pending decorator
+      So that is is more fluent
     <BLANKLINE>
-    Scenario 1: Pending without decorators
-      Given I don't write the implementation and this pass is not defined   ... PENDING
-      Then it runs as pending (both Given and Then)   ... PENDING
+      Scenario 1: Pending without decorators
+        Given I don't write the implementation and this pass is not defined   ... PENDING
+        Then it runs as pending (both Given and Then)   ... PENDING
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 0 errors and 2 pending steps
+      Ran 1 scenario with 0 failures, 0 errors and 2 pending steps
     <BLANKLINE>
 
 '''

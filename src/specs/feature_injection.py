@@ -2,13 +2,13 @@
     >>> UsingInOrderTo.run()
     >>> print output.getvalue()
     Story: Using in order to
-    In order to avoid hard understandable stories
-    As a story writer
-    I want to be able to write "In order to/As a/I want to"
+      In order to avoid hard understandable stories
+      As a story writer
+      I want to be able to write "In order to/As a/I want to"
     <BLANKLINE>
-    Scenario 1: Empty scenario
+      Scenario 1: Empty scenario
     <BLANKLINE>
-    Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
+      Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
     <BLANKLINE>
 
     >>> UsingWrongInOrderTo.run()

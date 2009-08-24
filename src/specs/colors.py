@@ -6,17 +6,17 @@ PS.: At each should_dsl version it may change!!!
 >>> SupportToTermcolor.run()
 ...
 >>> colored_output2 = """Story: Support to termcolor
-... As a pyhistorian commiter
-... I want to have support to colored output
-... So that the output becomes more readable
+...   As a pyhistorian commiter
+...   I want to have support to colored output
+...   So that the output becomes more readable
 ... 
-... Scenario 1: Green color
+...   Scenario 1: Green color
 ... """+green_output+"""
-... Scenario 2: Red color
+...   Scenario 2: Red color
 ... """+red_output+"""
-... Scenario 3: Green and red colors
+...   Scenario 3: Green and red colors
 ... """+green_and_red_output+"""
-... Ran 3 scenarios with 3 failures, 0 errors and 0 pending steps
+...   Ran 3 scenarios with 3 failures, 0 errors and 0 pending steps
 ... """
 >>> colored_output2 in output.getvalue()
 True
@@ -81,46 +81,46 @@ class SupportToTermcolor(Story):
     scenarios = (GreenColor, RedColor, GreenAndRedColors)
 
 green_output = green_colored('\
-  Given I want my output colored and it pass   ... OK\n')+ \
+    Given I want my output colored and it pass   ... OK\n')+ \
   green_colored('\
-  Then I have green messages   ... OK\n')
+    Then I have green messages   ... OK\n')
 
 red_output = red_colored('\
-  Given I want my output colored and it fails   ... FAIL\n')+ \
+    Given I want my output colored and it fails   ... FAIL\n')+ \
   red_colored('\
-  Then I have red messages   ... FAIL\n') +\
-  red_colored('\nFailures:\n')+\
-  red_colored("""  File "%(here)s", line 46, in fail1
-    'this scenario' |should_be| 'red colored'
-  File "%(should_dsl)s", line 25, in __or__
-    return self._check_expectation()
-  File "%(should_dsl)s", line 111, in _check_expectation
-    self._rvalue))
-  ShouldNotSatisfied: this scenario is not red colored
+    Then I have red messages   ... FAIL\n') +\
+  red_colored('\n  Failures:\n')+\
+  red_colored("""    File "%(here)s", line 46, in fail1
+      'this scenario' |should_be| 'red colored'
+    File "%(should_dsl)s", line 25, in __or__
+      return self._check_expectation()
+    File "%(should_dsl)s", line 111, in _check_expectation
+      self._rvalue))
+    ShouldNotSatisfied: this scenario is not red colored
 
 """ % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})+\
-  red_colored("""  File "%(here)s", line 50, in fail2
-    'this fail color' |should_be| 'red'
-  File "%(should_dsl)s", line 25, in __or__
-    return self._check_expectation()
-  File "%(should_dsl)s", line 111, in _check_expectation
-    self._rvalue))
-  ShouldNotSatisfied: this fail color is not red
+  red_colored("""    File "%(here)s", line 50, in fail2
+      'this fail color' |should_be| 'red'
+    File "%(should_dsl)s", line 25, in __or__
+      return self._check_expectation()
+    File "%(should_dsl)s", line 111, in _check_expectation
+      self._rvalue))
+    ShouldNotSatisfied: this fail color is not red
 
 """ % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})
 green_and_red_output = green_colored('\
-  Given I want my output colored (green and red)   ... OK\n')+\
+    Given I want my output colored (green and red)   ... OK\n')+\
   green_colored('\
-  Then I have green message   ... OK\n') + \
+    Then I have green message   ... OK\n') + \
   red_colored('\
-  And I have red message   ... FAIL\n') +\
-  red_colored('\nFailures:\n') + \
-  red_colored("""  File "%(here)s", line 64, in red_message
-    'this step' |should_be| 'red'
-  File "%(should_dsl)s", line 25, in __or__
-    return self._check_expectation()
-  File "%(should_dsl)s", line 111, in _check_expectation
-    self._rvalue))
-  ShouldNotSatisfied: this step is not red
+    And I have red message   ... FAIL\n') +\
+  red_colored('\n  Failures:\n') + \
+  red_colored("""    File "%(here)s", line 64, in red_message
+      'this step' |should_be| 'red'
+    File "%(should_dsl)s", line 25, in __or__
+      return self._check_expectation()
+    File "%(should_dsl)s", line 111, in _check_expectation
+      self._rvalue))
+    ShouldNotSatisfied: this step is not red
 
 """ % {'should_dsl': SHOULD_DSL_PATH, 'here': HERE})

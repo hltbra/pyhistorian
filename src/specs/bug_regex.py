@@ -2,19 +2,19 @@
 >>> FixingRegexBugInSteps.run()
 >>> print output.getvalue(),
 Story: Fixing regex bug in steps
-As a issue fixer
-I want to fix regex bugs
-So that people can put ANYTHING into steps texts
+  As a issue fixer
+  I want to fix regex bugs
+  So that people can put ANYTHING into steps texts
 <BLANKLINE>
-Scenario 1: Regex bugged
-  Given an ((irregular regex[[   ... OK
-  Then it should not fail here   ... OK
+  Scenario 1: Regex bugged
+    Given an ((irregular regex[[   ... OK
+    Then it should not fail here   ... OK
 <BLANKLINE>
-Scenario 2: Regex fails
-  Given an ((irregular regex[[   ... OK
-  Then it should fail here   ... OK
+  Scenario 2: Regex fails
+    Given an ((irregular regex[[   ... OK
+    Then it should fail here   ... OK
 <BLANKLINE>
-Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
+  Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 

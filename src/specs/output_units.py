@@ -10,28 +10,28 @@
     >>> stringio = StringIO()
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_ok_step_line('then', 'it works')
-    >>> stringio.getvalue() == green_colored("""  Then it works   ... OK
+    >>> stringio.getvalue() == green_colored("""    Then it works   ... OK
     ... """)
     True
 
     >>> stringio = StringIO()
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_pending_step_line('then', 'it works')
-    >>> stringio.getvalue() == blue_colored("""  Then it works   ... PENDING
+    >>> stringio.getvalue() == blue_colored("""    Then it works   ... PENDING
     ... """)
     True
 
     >>> stringio = StringIO()
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_fail_step_line('then', 'it works')
-    >>> stringio.getvalue() == red_colored("""  Then it works   ... FAIL
+    >>> stringio.getvalue() == red_colored("""    Then it works   ... FAIL
     ... """)
     True
 
     >>> stringio = StringIO()
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_error_step_line('then', 'it works')
-    >>> stringio.getvalue() == red_colored("""  Then it works   ... ERROR
+    >>> stringio.getvalue() == red_colored("""    Then it works   ... ERROR
     ... """)
     True
 
@@ -39,14 +39,14 @@
     >>> output_writer = OutputWriter(stringio, english, should_be_colored=False)
     >>> output_writer.output_ok_step_line('then', 'it is not colored')
     >>> print stringio.getvalue()
-      Then it is not colored   ... OK
+        Then it is not colored   ... OK
     <BLANKLINE>
 
     >>> stringio = StringIO()
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_failures_info(['hello', 'world'], 'red')
     >>> stringio.getvalue() == red_colored("""
-    ... Failures:
+    ...   Failures:
     ... """) + red_colored("""hello
     ... """) + red_colored("""world
     ... """)
@@ -56,7 +56,7 @@
     >>> output_writer = OutputWriter(stringio, english)
     >>> output_writer.output_errors_info(['hello', 'world'], 'red')
     >>> stringio.getvalue() == red_colored("""
-    ... Errors:
+    ...   Errors:
     ... """) + red_colored("""hello
     ... """) + red_colored("""world
     ... """)
@@ -111,7 +111,7 @@
     ...                                 number_of_pendings=1,
     ...                                 color='green')
     >>> stringio.getvalue() == green_colored("""
-    ... Rodou 0 cenários com 1 falha, 1 erro e 1 passo pendente
+    ...   Rodou 0 cenários com 1 falha, 1 erro e 1 passo pendente
     ... """)
     True
 '''

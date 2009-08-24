@@ -2,17 +2,17 @@
     >>> StoryWithModuleScenarios.run()
     >>> print output.getvalue()
     Story: Story with module scenarios
-    As a lazy man
-    I want to avoid typing what scenarios I want in my story
-    So that they are found in the module
+      As a lazy man
+      I want to avoid typing what scenarios I want in my story
+      So that they are found in the module
     <BLANKLINE>
-    Scenario 1: First scenario
-      Then it says "Hi!"   ... OK
+      Scenario 1: First scenario
+        Then it says "Hi!"   ... OK
     <BLANKLINE>
-    Scenario 2: Second scenario
-      Then it is the second scenario   ... OK
+      Scenario 2: Second scenario
+        Then it is the second scenario   ... OK
     <BLANKLINE>
-    Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
+      Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
     <BLANKLINE>
 
 """

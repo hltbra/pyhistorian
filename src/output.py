@@ -23,7 +23,7 @@ class OutputWriter(object):
         if not problems:
             return
 
-        self._stream.write(self._colored('\n%ss:\n' %
+        self._stream.write(self._colored('\n  %ss:\n' %
                                     self._language[problem_type],
                                         color))
         for problem in problems:
@@ -31,7 +31,7 @@ class OutputWriter(object):
                                                 color))
  
     def _output_step_line(self, step_name, message, status, color):
-        self._stream.write(self._colored('  %s %s   ... %s\n' % (
+        self._stream.write(self._colored('    %s %s   ... %s\n' % (
                                       self._language[step_name].capitalize(),
                                       message,
                                       self._language[status].upper()),
@@ -78,7 +78,7 @@ class OutputWriter(object):
         ran = self._language['ran'].capitalize()
         with_word = self._language['with'].lower()
         and_word = self._language['and'].lower()
-        self._stream.write(self._colored('\n%s\n' % ' '.join(map(str,
+        self._stream.write(self._colored('\n  %s\n' % ' '.join(map(str,
                                                       [ran,
                                                       number_of_scenarios,
                                                       scenario_word,

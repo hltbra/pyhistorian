@@ -151,7 +151,7 @@ class Story(object):
                                                   self.template_color))
         for line in self.__doc__.split('\n'):
             self._output.write(self._colored(
-                                line.strip() + '\n', self.template_color))
+                                '  ' + line.strip() + '\n', self.template_color))
 
     @classmethod
     def run(instance_or_class):
@@ -167,7 +167,7 @@ class Story(object):
         number_of_failures = number_of_errors = number_of_pendings = 0
 
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
-            self._output.write(self._colored('\n%s %d: %s\n' % (
+            self._output.write(self._colored('\n  %s %d: %s\n' % (
                                                 self._language['scenario'],
                                                 number,
                                                 scenario.title),

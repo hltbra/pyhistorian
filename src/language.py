@@ -56,8 +56,8 @@ def format_traceback(exc, value, tb, language):
         file_info = translate_in_word(
                       translate_line_word(
                         translate_file_word(file_info)))
-        info_msg += '  %s\n    %s\n'% (file_info, call_info)
-    last_line = '  ' + traceback.format_exception_only(exc, value)[-1]
+        info_msg += '    %s\n      %s\n'% (file_info, call_info)
+    last_line = '    ' + traceback.format_exception_only(exc, value)[-1]
     return info_msg + last_line
 
 

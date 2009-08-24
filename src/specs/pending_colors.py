@@ -1,6 +1,6 @@
 '''
     >>> StoryWithRedColorsToPendingStuff.run()
-    >>> colored("""  Then it will be red   ... PENDING
+    >>> colored("""    Then it will be red   ... PENDING
     ... """, 'red') in output.getvalue()
     True
 

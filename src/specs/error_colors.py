@@ -1,21 +1,20 @@
 '''
     >>> StoryWithBlueColorsToErrors.run()
-    >>> blue_colored("""  Then it will be blue   ... ERROR
+    >>> blue_colored("""    Then it will be blue   ... ERROR
     ... """) in output.getvalue()
     True
 
     >>> blue_colored("""
-    ... Errors:
+    ...   Errors:
     ... """) in output.getvalue()
     True
-    >>> error_msg = """  File "/home/hugo/pyhistorian/src/specs/error_colors.py", line 41, in do_error
-    ...     raise Exception("an error occurred!")
-    ...   Exception: an error occurred!
+    >>> error_msg = """    File "/home/hugo/pyhistorian/src/specs/error_colors.py", line 40, in do_error
+    ...       raise Exception("an error occurred!")
+    ...     Exception: an error occurred!
     ... 
     ... """
     >>> blue_colored(error_msg) in output.getvalue()
     True
-
 '''
 from pyhistorian import *
 from pyhistorian.output import colored
