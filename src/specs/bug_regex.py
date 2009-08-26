@@ -12,13 +12,21 @@ Story: Fixing regex bug in steps
 <BLANKLINE>
   Scenario 2: Regex fails
     Given an ((irregular regex[[   ... OK
-    Then it should fail here   ... OK
+    Then it should fail here   ... FAIL
 <BLANKLINE>
-  Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
+  Failures:
+    File ".../bug_regex.py", line ..., in should_fail_here
+      self._irregular_regex |should_not_be| None
+...
+    ShouldNotSatisfied: None is None
+<BLANKLINE>
+<BLANKLINE>
+  Ran 2 scenarios with 1 failure, 0 errors and 0 pending steps
 <BLANKLINE>
 '''
 
 from pyhistorian import *
+from should_dsl import should_not_be
 from cStringIO import StringIO
 import doctest
 
@@ -36,7 +44,7 @@ class FixingRegexBugInSteps(Story):
 class RegexBugged(Scenario):
     @Given('an ((irregular regex[[')
     def nothing(self):
-        pass
+        self._irregular_regex = None
     @Then('it should not fail here')
     def should_not_fail(self):
         pass
@@ -47,4 +55,4 @@ class RegexFails(Scenario):
 
     @Then('it should fail here')
     def should_fail_here(self):
-        pass
+        self._irregular_regex |should_not_be| None

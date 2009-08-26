@@ -14,6 +14,16 @@ class Calculator(object):
     def multiply(self, n1, n2):
         return n1*n2
 
+
+class SpecifyingMyNewCalculator(Story):
+    """As a lazy mathematician
+       I want to use a calculator
+       So that I don't waste my time thinking"""
+    colored = True
+    template_color = 'yellow'
+    scenarios = ['SumScenario', 'SumAndReduceScenario', 'DivisionScenario', 'MultiplyScenario']
+
+
 class SumScenario(Scenario):
     @Given('I have a calculator')
     def set_my_calculator(self):
@@ -62,14 +72,4 @@ class MultiplyScenario(Scenario):
 
 
 if __name__ == '__main__':
-    calculator_story = Story(title='Specifying my new calculator',
-                             as_a='lazy mathematician',
-                             i_want_to='use a calculator',
-                             so_that="I don't waste my time thinking",
-                             colored=True)
-    (calculator_story
-                    .add_scenario(SumScenario('Sum of 1 and 1'))
-                    .add_scenario(SumAndReduceScenario('Sum and Reduce'))
-                    .add_scenario(DivisionScenario('Division Scenario'))
-                    .add_scenario(MultiplyScenario('Multiplication Scenario'))
-                    .run())
+    SpecifyingMyNewCalculator.run()

@@ -15,7 +15,17 @@ class Calculadora(object):
     def multiplicar(self, n1, n2):
         return n1*n2
 
-class SomaCenario(Scenario):
+
+class EspecificandoMinhaNovaCalculadora(Historia):
+    """Como um matemático preguiçoso
+    Eu quero usar uma calculadora
+    Para que eu não gastei tempo pensando"""
+    colorido = True
+    template_color = 'yellow'
+    cenarios = ['Soma', 'SomaESubtracao', 'Divisao', 'Multiplicacao']
+
+
+class Soma(Scenario):
     @DadoQue('eu tenho uma calculadora')
     def criar_calculadora(self):
         self.calculadora = Calculadora()
@@ -29,7 +39,8 @@ class SomaCenario(Scenario):
         self.resultado |should_be| valor
 
 
-class SomaESubtracaoCenario(Scenario):
+class SomaESubtracao(Scenario):
+    """Soma e Subtração"""
     DadoQue('eu tenho uma calculadora')
 
     Quando('eu entro com 1 + 1')
@@ -41,7 +52,8 @@ class SomaESubtracaoCenario(Scenario):
     Entao('eu tenho -1 como resultado')
 
 
-class DivisaoCenario(Scenario):
+class Divisao(Scenario):
+    """Divisão"""
     DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 5 / 2')
@@ -51,7 +63,8 @@ class DivisaoCenario(Scenario):
     Entao('eu tenho 2 como resultado')
 
 
-class MultiplyScenario(Scenario):
+class Multiplicacao(Scenario):
+    """Multiplicação"""
     DadoQue('eu tenho uma calculadora')
 
     @Quando('eu entro com 2 * 3')
@@ -62,14 +75,4 @@ class MultiplyScenario(Scenario):
 
 
 if __name__ == '__main__':
-    calculadora_historia = Historia('Especificando minha nova calculadora',
-                             como_um='matemático preguiçoso',
-                             eu_quero='usar uma calculadora',
-                             para_que='eu não gastei tempo pensando',
-                             colorido=True)
-    (calculadora_historia
-                        .adicionar_cenario(SomaCenario('Soma de 1 e 1'))
-                        .adicionar_cenario(SomaESubtracaoCenario('Subtração de uma soma'))
-                        .adicionar_cenario(DivisaoCenario('Divisão de inteiros'))
-                        .adicionar_cenario(MultiplyScenario('Multiplicação simples'))
-                        .rodar())
+    EspecificandoMinhaNovaCalculadora.run()
