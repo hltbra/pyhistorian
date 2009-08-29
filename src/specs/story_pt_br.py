@@ -14,9 +14,9 @@ Cenário 1: Somando 1 e 1
 <BLANKLINE>
 Cenário 2: Fazendo subtracao duas vezes
   Dado que eu tenho uma calculadora   ... OK
-  Quando eu entro com 2 - 1   ... OK
+  Quando eu entro com 22 - 11   ... OK
   E eu subtraio 2 desse resultado   ... OK
-  Então eu tenho -1 como resultado   ... OK
+  Então eu tenho 9 como resultado   ... OK
 <BLANKLINE>
 Rodou 2 cenários com 0 falhas, 0 erros e 0 passos pendentes
 <BLANKLINE>
@@ -52,15 +52,15 @@ class Somando1E1(Cenario):
 class FazendoSubtracaoDuasVezes(Cenario):
     DadoQue('eu tenho uma calculadora')
 
-    @Quando('eu entro com 2 - 1')
+    @Quando('eu entro com 22 - 11')
     def entrar_com_dois_menos_um(self):
-        self.resultado = self.calculadora.subtrair(2, 1)
+        self.resultado = self.calculadora.subtrair(22, 11)
 
     @Quando('eu subtraio 2 desse resultado')
     def subtrai_dois(self):
         self.resultado = self.calculadora.subtrair(self.resultado, 2)
 
-    Entao('eu tenho -1 como resultado')
+    Entao('eu tenho 9 como resultado')
 
 
 class CalculadoraBrasileira(Historia):

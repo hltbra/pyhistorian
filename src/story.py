@@ -111,9 +111,9 @@ class Story(object):
            passing ``args_default``"""
         for scenario in self._scenarios:
             for meth, msg, args in getattr(scenario, step):
-                msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+?)', msg)
+                msg_pattern = re.sub(TEMPLATE_PATTERN, r'(.+)', msg)
                 msg_pattern = re.escape(msg_pattern)
-                msg_pattern = msg_pattern.replace(re.escape(r'(.+?)'), r'(.+?)')
+                msg_pattern = msg_pattern.replace(re.escape(r'(.+)'), r'(.+)')
                 regex = re.match(msg_pattern, msg_set)
                 if regex:
                     return meth, msg_set, regex.groups()
