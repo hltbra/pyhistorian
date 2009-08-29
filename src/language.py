@@ -11,8 +11,7 @@ __all__ = ['TEMPLATE_PATTERN',
            'convert_from_cammel_case_to_spaces',
            'StoryLanguage',
            'format_traceback',
-           'pluralize',
-           'convert_to_int',]
+           'pluralize',]
 
 
 TEMPLATE_PATTERN = r'\$[a-zA-Z]\w*'
@@ -65,20 +64,6 @@ def pluralize(word, size):
     if size >= 2 or size == 0:
         return word+'s'
     return word
-
-
-def convert_to_int(args):
-    '''returns a new container where each string
-       containing just integer (delimited by spaces)
-       will be converted to real integers - casting with int().
-       what is not an integer, will not be affected'''
-    new_args = []
-    for arg in args:
-        if type(arg) == str and \
-           re.search(r'^\s*-?\d+\s*$', arg):
-            arg = int(arg)
-        new_args.append(arg)
-    return new_args
 
 
 _english = {

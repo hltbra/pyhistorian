@@ -2,8 +2,7 @@
 from language import (StoryLanguage,
                       TEMPLATE_PATTERN,
                       convert_from_cammel_case_to_spaces,
-                      pluralize,
-                      convert_to_int)
+                      pluralize,)
 from scenario import Scenario, Cenario
 from output import OutputWriter, colored
 import sys
@@ -117,8 +116,7 @@ class Story(object):
                 msg_pattern = msg_pattern.replace(re.escape(r'(.+?)'), r'(.+?)')
                 regex = re.match(msg_pattern, msg_set)
                 if regex:
-                    new_args = convert_to_int(regex.groups())
-                    return meth, msg_set, new_args
+                    return meth, msg_set, regex.groups()
         return Scenario.undefined_step, msg_set, args_default
 
     def _set_defined_steps(self, scenario):

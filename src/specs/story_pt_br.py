@@ -45,9 +45,9 @@ class Somando1E1(Cenario):
     def entrar_com_um_mais_um(self):
         self.resultado = self.calculadora.somar(1, 1)
 
-    @Entao('eu tenho $valor como resultado', 2)
+    @Entao('eu tenho $valor como resultado', '2')
     def pegar_resultado(self, valor):
-        self.resultado |should_be.equal_to| valor
+        self.resultado |should_be.equal_to| int(valor)
 
 class FazendoSubtracaoDuasVezes(Cenario):
     DadoQue('eu tenho uma calculadora')
