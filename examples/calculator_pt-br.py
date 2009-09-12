@@ -34,9 +34,9 @@ class Soma(Scenario):
     def somar_um_e_um(self):
         self.resultado = self.calculadora.somar(1, 1)
 
-    @Entao('eu tenho $valor como resultado', 2)
+    @Entao('eu tenho $valor como resultado', '2')
     def pegar_resultado(self, valor):
-        self.resultado |should_be| valor
+        self.resultado |should_be| int(valor)
 
 
 class SomaESubtracao(Scenario):
