@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.6'
+version = '0.6.1'
 readme_fd = open('README.rst')
 readme = readme_fd.read()
 readme_fd.close()
@@ -27,11 +27,9 @@ setup(name='pyhistorian',
       license='MIT License',
       packages=['pyhistorian', 'pyhistorian.specs', ],
       package_dir={'pyhistorian': 'src', 'pyhistorian.specs': 'src/specs'},
-      package_data={'':['README.rst', 'INSTALL', 'LICENSE', 'Makefile', ]},
       include_package_data=True,
       zip_safe=False,
-      install_requires=['setuptools',
-                        'should-dsl',
+      install_requires=['should-dsl',
                         'termcolor',],
       entry_points="",
       )
