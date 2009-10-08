@@ -79,7 +79,8 @@ class Story(object):
         for attr_name in dir(module):
             attr = getattr(module, attr_name)
             if isinstance(attr, type) and \
-               Scenario in attr.__bases__ and \
+               (Scenario in attr.__bases__ or \
+                Cenario in attr.__bases__) and \
                attr is not Cenario:
                 scenarios.append(attr)
         return scenarios
