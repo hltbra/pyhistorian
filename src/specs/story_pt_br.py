@@ -1,6 +1,6 @@
 # coding: utf-8
 '''
->>> CalculadoraBrasileira.run()
+>>> CalculadoraBrasileira.rodar()
 >>> print OUTPUT.getvalue()
 História: Calculadora brasileira
 Como um matemático preguiçoso

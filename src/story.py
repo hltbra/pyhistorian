@@ -195,4 +195,6 @@ class Historia(Story):
         self.__class__.output = self.__class__.saida
         super(Historia, self).__init__()
 
-    rodar = Story.run
+    @classmethod
+    def rodar(cls):
+        super(Historia, cls).run()
