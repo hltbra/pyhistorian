@@ -8,4 +8,4 @@ install:
 test:
 	@echo
 	@echo
-	@$(PYTHON) src/specs/run_specs.py && echo 'Ran specs succesfully' || echo 'Ran specs with failures'
+	@$(PYTHON) specs/run_specs.py && echo 'Ran specs succesfully' || echo 'Ran specs with failures'
