@@ -1,5 +1,6 @@
 '''
 >>> FixingRegexBugInSteps.run()
+False
 >>> print output.getvalue(),
 Story: Fixing regex bug in steps
   As a issue fixer

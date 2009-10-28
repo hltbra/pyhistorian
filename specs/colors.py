@@ -4,7 +4,7 @@ PS.: At each should_dsl version it may change!!!
 
 
 >>> SupportToTermcolor.run()
-...
+False
 >>> colored_output2 = """Story: Support to termcolor
 ...   As a pyhistorian commiter
 ...   I want to have support to colored output

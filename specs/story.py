@@ -1,5 +1,6 @@
 '''
 >>> story.run()
+True
 >>> print output.getvalue()
 Story: Faked Story #1
 In order to write specifications

@@ -1,5 +1,6 @@
 '''
 >>> EmptyStory.run()
+True
 >>> print new_scenario_output.getvalue()
 Story: Empty story
 As a programmer
@@ -17,6 +18,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 
 
 >>> SecondStory.run()
+True
 >>> print template_output.getvalue()
 Story: Second story
 As a programmer
@@ -32,7 +34,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 <BLANKLINE>
 
 >>> two_different_scenarios_story.run()
-
+True
 >>> print two_different_scenarios_output.getvalue()
 Story: Running two different scenarios
 As a programmer
@@ -55,6 +57,7 @@ Ran 2 scenarios with 0 failures, 0 errors and 0 pending steps
 
 
 >>> third_scenario_story.run()
+True
 >>> print third_scenario_output.getvalue()
 Story: Showing how two whens become when plus and
 As a software developer
@@ -72,6 +75,7 @@ Ran 1 scenario with 0 failures, 0 errors and 0 pending steps
 
 
 >>> fail_story.run()
+False
 >>> print fail_scenario_output.getvalue()
 Story: Failures
 As a x

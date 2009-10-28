@@ -1,6 +1,7 @@
 # coding: utf-8
 """
     >>> FormattingExceptions.run()
+    False
     >>> print english_output.getvalue()
     Story: Formatting exceptions
     As a user interested in rastreability
@@ -20,6 +21,7 @@
     <BLANKLINE>
 
     >>> FormatandoExcecoes.run()
+    False
     >>> print portuguese_output.getvalue()
     História: Formatando excecoes 
     Como um usuário interessado em rastreabilidade

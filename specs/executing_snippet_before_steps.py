@@ -1,5 +1,6 @@
 '''
     >>> ExecutingSnippetBeforeScenarios.run()
+    True
     >>> print output.getvalue()
     Story: Executing snippet before scenarios
       As a smart dev
@@ -15,6 +16,7 @@
     <BLANKLINE>
 
     >>> ExecutingSnippetBeforeEachScenario.run()
+    True
     >>> print output2.getvalue()
     Story: Executing snippet before each scenario
       As a smart dev

@@ -1,5 +1,6 @@
 '''
     >>> UsingInOrderTo.run()
+    True
     >>> print output.getvalue()
     Story: Using in order to
       In order to avoid hard understandable stories

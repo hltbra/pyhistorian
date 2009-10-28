@@ -1,5 +1,6 @@
 """
     >>> StoryWithModuleScenarios.run()
+    True
     >>> print output.getvalue()
     Story: Story with module scenarios
       As a lazy man

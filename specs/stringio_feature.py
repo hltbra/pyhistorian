@@ -1,5 +1,6 @@
 '''
 >>> story.run() # see, no output
+True
 >>> print string_io.getvalue()
 Story: Different stream feature
 As a pyhistorian commiter

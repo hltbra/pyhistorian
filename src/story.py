@@ -177,6 +177,8 @@ class Story(object):
         self.namespace = Namespace()
         self.before_all(self.namespace)
 
+        status_code = True
+
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
             self._output.write(self._colored('\n  %s %d: %s\n' % (
                                                 self._language['scenario'],
@@ -188,6 +190,7 @@ class Story(object):
             number_of_failures += len(failures)
             number_of_errors += len(errors)
             number_of_pendings += len(pendings)
+            status_code = status_code and len(errors) == 0 and len(failures) == 0
 
         self._output_writer.output_statistics(number_of_scenarios,
                                number_of_failures,
@@ -195,6 +198,7 @@ class Story(object):
                                number_of_pendings,
                                self.template_color)
         self._close_output_file_stream()
+        return status_code
 
     def before_all(self, scenario):
         pass
@@ -217,4 +221,4 @@ class Historia(Story):
 
     @classmethod
     def rodar(cls):
-        super(Historia, cls).run()
+        return super(Historia, cls).run()

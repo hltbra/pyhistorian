@@ -1,6 +1,7 @@
 '''
 >>> story = MyStory()
 >>> story.run()
+True
 >>> print myscenario_output.getvalue()
 Story: My story
 In order to check the steps order

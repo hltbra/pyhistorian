@@ -1,6 +1,7 @@
 # coding: utf-8
 """
     >>> CorrigindoBugDeHeranca.rodar()
+    True
     >>> print saida.getvalue()
     História: Corrigindo bug de heranca
       Como um cara enpenhado em corrigir bugs

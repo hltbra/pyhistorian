@@ -1,5 +1,6 @@
 '''
     >>> StoryWithBlueColorsToFailures.run()
+    False
     >>> blue_colored("""    Then it will be blue   ... FAIL
     ... """) in output.getvalue()
     True
@@ -8,7 +9,7 @@
     ...   Failures:
     ... """) in output.getvalue()
     True
-    >>> failure_msg = """    File "/home/hugo/pyhistorian/src/specs/failures_colors.py", line 41, in fail
+    >>> failure_msg = """    File "/home/hugo/pyhistorian/specs/failures_colors.py", line 42, in fail
     ...       assert 1 == 2
     ...     AssertionError
     ... 

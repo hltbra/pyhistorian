@@ -1,5 +1,6 @@
 '''
     >>> GettingSomeMoney().run()
+    True
     >>> output_file = open(output_filename)
     >>> print output_file.read()
     Story: Getting some money

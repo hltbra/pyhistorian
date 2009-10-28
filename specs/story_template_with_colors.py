@@ -1,5 +1,6 @@
 '''
     >>> StoryTemplateWithColors.run()
+    True
     >>> yellow_colored("""Story: Story template with colors
     ... """) in output.getvalue()
     True
