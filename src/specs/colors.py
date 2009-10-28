@@ -94,7 +94,7 @@ red_output = red_colored('\
       'this scenario' |should_be| 'red colored'
     File "%(should_dsl)s", line 25, in __or__
       return self._check_expectation()
-    File "%(should_dsl)s", line 111, in _check_expectation
+    File "%(should_dsl)s", line 54, in _check_expectation
       self._rvalue))
     ShouldNotSatisfied: this scenario is not red colored
 
@@ -103,7 +103,7 @@ red_output = red_colored('\
       'this fail color' |should_be| 'red'
     File "%(should_dsl)s", line 25, in __or__
       return self._check_expectation()
-    File "%(should_dsl)s", line 111, in _check_expectation
+    File "%(should_dsl)s", line 54, in _check_expectation
       self._rvalue))
     ShouldNotSatisfied: this fail color is not red
 
@@ -119,7 +119,7 @@ green_and_red_output = green_colored('\
       'this step' |should_be| 'red'
     File "%(should_dsl)s", line 25, in __or__
       return self._check_expectation()
-    File "%(should_dsl)s", line 111, in _check_expectation
+    File "%(should_dsl)s", line 54, in _check_expectation
       self._rvalue))
     ShouldNotSatisfied: this step is not red
 

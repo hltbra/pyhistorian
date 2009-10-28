@@ -8,13 +8,21 @@ from output import OutputWriter, colored
 import sys
 import re
 
+
 __all__ = [ 'Story', 'Historia', ]
+
 
 class InvalidStoryHeader(Exception):
     '''Invalid Story Header!'''
 
+
 class ScenarioNotFound(Exception):
     '''Scenario not found!'''
+
+
+class Namespace(object):
+    pass
+
 
 class Story(object):
     output = sys.stdout
@@ -26,6 +34,7 @@ class Story(object):
     error_color = 'red'
     pending_color = 'blue'
     title = ''
+    namespace = None
 
     def __init__(self):
         self._language = StoryLanguage(self.__class__.language)
@@ -148,9 +157,9 @@ class Story(object):
                                 '%s: %s\n' % (self._language['story'],
                                               self._title),
                                                   self.template_color))
-        for line in self.__doc__.split('\n'):
+        for line in [line.strip() for line in self.__doc__.split('\n') if line.strip()]:
             self._output.write(self._colored(
-                                '  ' + line.strip() + '\n', self.template_color))
+                                '  ' + line + '\n', self.template_color))
 
     @classmethod
     def run(instance_or_class):
@@ -165,12 +174,16 @@ class Story(object):
         number_of_scenarios = len(self._scenarios)
         number_of_failures = number_of_errors = number_of_pendings = 0
 
+        self.namespace = Namespace()
+        self.before_all(self.namespace)
+
         for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
             self._output.write(self._colored('\n  %s %d: %s\n' % (
                                                 self._language['scenario'],
                                                 number,
                                                 scenario.title),
                                                     self.template_color))
+            self.before_each(scenario)
             failures, errors, pendings = scenario.run()
             number_of_failures += len(failures)
             number_of_errors += len(errors)
@@ -182,6 +195,13 @@ class Story(object):
                                number_of_pendings,
                                self.template_color)
         self._close_output_file_stream()
+
+    def before_all(self, scenario):
+        pass
+
+    def before_each(self, scenario):
+        pass
+
 
 class Historia(Story):
     saida = sys.stdout

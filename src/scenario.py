@@ -90,6 +90,30 @@ class Scenario(object):
                                                        message,
                                                        self._error_color)
 
+    def __getattr__(self, attr):
+        """ first look at the scenario instance,
+            and if it does not find the attr, it looks to story's namespace.
+            it is useful to ``before_all`` and ``before_each`` story's methods
+        """
+        if attr not in self.__dict__:
+           try:
+                return getattr(self.__getattribute__('_story').namespace, attr)
+           except AttributeError:
+                pass
+        return self.__getattribute__(attr)
+
+    def __setattr__(self, attr, value):
+        """ first look at the scenario instance,
+            and if it does not find the attr, it looks to story's namespace.
+            it is useful to ``before_all`` and ``before_each`` story's methods
+        """
+
+        if attr not in self.__dict__:
+            if getattr(self, '_story', None) and getattr(self._story, 'namespace', None):
+                setattr(self._story.namespace, attr, value)
+                return
+        object.__setattr__(self, attr, value)
+
     @property
     def title(self):
         return self._title
