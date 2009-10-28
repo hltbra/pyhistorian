@@ -107,7 +107,6 @@ class Scenario(object):
             and if it does not find the attr, it looks to story's namespace.
             it is useful to ``before_all`` and ``before_each`` story's methods
         """
-
         if attr not in self.__dict__:
             if getattr(self, '_story', None) and getattr(self._story, 'namespace', None):
                 setattr(self._story.namespace, attr, value)
