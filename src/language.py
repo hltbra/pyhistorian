@@ -51,7 +51,13 @@ def format_traceback(exc, value, tb, language):
     info_msg = ''
     # skip the first item because it is the pyhistorian's call
     for info in traceback.format_tb(tb)[1:]:
-        file_info, call_info = map(remove_initial_blanks, info.split('\n')[:-1])
+        info_lines = map(remove_initial_blanks, info.split('\n')[:-1])
+
+        if len(info_lines) == 1:
+            file_info, call_info = info_lines[0], ''
+        else:
+            file_info, call_info = info_lines
+
         file_info = translate_in_word(
                       translate_line_word(
                         translate_file_word(file_info)))
