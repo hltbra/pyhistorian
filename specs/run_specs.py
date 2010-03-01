@@ -39,4 +39,5 @@ if __name__ == '__main__':
     suite.addTest(run_all_python_modules_here())
     suite.addTest(run_python_modules_outhere())
     runner = unittest.TextTestRunner()
-    runner.run(suite)
+    result = runner.run(suite)
+    exit(result.wasSuccessful() and 0 or 1)
