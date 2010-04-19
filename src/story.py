@@ -176,34 +176,44 @@ class Story(object):
 
         self.namespace = Namespace()
         self.before_all(self.namespace)
-
+         
         status_code = True
+        try:
+          for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
+              self._output.write(self._colored('\n  %s %d: %s\n' % (
+                                                  self._language['scenario'],
+                                                  number,
+                                                  scenario.title),
+                                                      self.template_color))
+              self.before_each(scenario)
+              failures, errors, pendings = scenario.run()
+              self.after_each(scenario)
+              number_of_failures += len(failures)
+              number_of_errors += len(errors)
+              number_of_pendings += len(pendings)
+              status_code = status_code and len(errors) == 0 and len(failures) == 0
 
-        for scenario, number in zip(self._scenarios, range(1, len(self._scenarios)+1)):
-            self._output.write(self._colored('\n  %s %d: %s\n' % (
-                                                self._language['scenario'],
-                                                number,
-                                                scenario.title),
-                                                    self.template_color))
-            self.before_each(scenario)
-            failures, errors, pendings = scenario.run()
-            number_of_failures += len(failures)
-            number_of_errors += len(errors)
-            number_of_pendings += len(pendings)
-            status_code = status_code and len(errors) == 0 and len(failures) == 0
+          self._output_writer.output_statistics(number_of_scenarios,
+                                 number_of_failures,
+                                 number_of_errors,
+                                 number_of_pendings,
+                                 self.template_color)
+          self._close_output_file_stream()
+          return status_code
+        finally:
+          self.after_all(self.namespace)
 
-        self._output_writer.output_statistics(number_of_scenarios,
-                               number_of_failures,
-                               number_of_errors,
-                               number_of_pendings,
-                               self.template_color)
-        self._close_output_file_stream()
-        return status_code
 
     def before_all(self, scenario):
         pass
 
     def before_each(self, scenario):
+        pass
+
+    def after_all(self, scenario):
+        pass
+
+    def after_each(self, scenario):
         pass
 
 
