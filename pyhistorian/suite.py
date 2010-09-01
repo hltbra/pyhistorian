@@ -31,6 +31,15 @@ class _Failure(object):
         return ''
 
 
+class Wrap(unittest.TestCase):
+    def __init__(self, step, msg):
+        self._step = step
+        self._msg = msg
+
+    def __str__(self):
+        return self._msg
+
+
 class _StoryCase(unittest.TestCase):
     def __init__(self, story):
         self._story = story
@@ -40,11 +49,12 @@ class _StoryCase(unittest.TestCase):
     def _set_step_methods(self):
         for scenario in self._story._scenarios:
             for method, message, args in scenario._givens + scenario._whens + scenario._thens:
-                self._steps.append(getattr(scenario, method.func_name))
+                func = getattr(scenario, method.func_name)
+                self._steps.append((func, message))
 
     def run(self, result):
-        for step in self._steps:
-            result.startTest(self)
+        for step, message in self._steps:
+            result.startTest(Wrap(step, message))
             try:
                 step()
                 result.addSuccess(self)
@@ -52,15 +62,16 @@ class _StoryCase(unittest.TestCase):
                 result.addFailure(_Failure(e), sys.exc_info())
             except Exception, e:
                 result.addError(_Failure(e), sys.exc_info())
+            result.stopTest(self)
 
     def __str__(self):
         return self._story._title
 #        return "%s (%s)" % ('run', unittest._strclass(self.__class__))
 
-    def __repr__(self):
-        return "<%s testMethod=%s>" % \
-               (_strclass(self.__class__), 'run')
-
+##    def __repr__(self):
+##        return "<%s testMethod=%s>" % \
+##               (_strclass(self.__class__), 'run')
+##
 
 #    failureException = AssertionError
 #
@@ -158,12 +169,11 @@ class _StoryCase(unittest.TestCase):
 
 class PyhistorianSuite(unittest.TestSuite):
     def __init__(self, *stories):
-        self._story_cases = [_StoryCase(story) for story in stories]
-        self._tests = self._story_cases
+        self._tests = [_StoryCase(story) for story in stories]
 
     def __call__(self, result):
-        for story in self._story_cases:
-            story.run(result)
+        for story in self._tests:
+           story.run(result)
 
 
 if __name__ == '__main__':
