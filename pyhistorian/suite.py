@@ -111,14 +111,13 @@ class WrapTestCase(unittest.TestCase):
 
 
 class FakeTestCase(unittest.TestCase):
-    def __init__(self, obj, prefix):
-        self._title = obj._title
-        self._prefix = prefix
+    def __init__(self, msg):
+        self._msg = msg
         # __str__ is the test method. LOL
         unittest.TestCase.__init__(self, '__str__')
 
     def __str__(self):
-        return '%s: %s' % (self._prefix.title(), self._title)
+        return self._msg
 
     def countTestCases(self):
         return 0
@@ -127,7 +126,7 @@ class FakeTestCase(unittest.TestCase):
 class _ScenarioTestSuite(unittest.TestSuite):
     def __init__(self, scenario):
         self._scenario = scenario
-        self._testcases = [FakeTestCase(scenario, '  scenario')]
+        self._testcases = [FakeTestCase('  Scenario: %s' % scenario._title)]
         self._set_step_methods()
 
     def __iter__(self):
@@ -147,7 +146,8 @@ class _ScenarioTestSuite(unittest.TestSuite):
 
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
-        self._testcases = [FakeTestCase(story, 'story')]
+        header_lines = [line.strip() for line in story.__doc__.split('\n')]
+        self._testcases = [FakeTestCase('Story: %s%s' % (story._title, '\n  '.join(header_lines)))]
         self._testcases += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
     def __iter__(self):
