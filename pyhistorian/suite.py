@@ -31,149 +31,135 @@ class _Failure(object):
         return ''
 
 
-class Wrap(unittest.TestCase):
-    def __init__(self, step, msg):
-        self._step = step
+class WrapTestCase(unittest.TestCase):
+    """
+    Specialization of unittest.TestCase to handle Stories + Steps
+    """
+    def __init__(self, func, func_name, msg, step_name):
+        self._func = func
+        self._func_name = func_name
         self._msg = msg
+        self._step_name = step_name
+
+    def shortDescription(self):
+        doc = self._msg
+        return doc and doc.split("\n")[0].strip() or None
+
+    def id(self):
+        return "%s.%s" % (unittest._strclass(self.__class__), self._func_name)
 
     def __str__(self):
-        return self._msg
+        class_name = self._func.im_class.__module__
+        step_msg = "%s %s" % (self._step_name.title(), self._msg)
+        return "    %s # %s" % (step_msg.ljust(30), class_name)
 
+    def __repr__(self):
+        return "<%s testMethod=%s>" % \
+               (unittest._strclass(self.__class__), self._func_name)
 
-class _StoryCase(unittest.TestCase):
-    def __init__(self, story):
-        self._story = story
-        self._steps = []
-        self._set_step_methods()
-
-    def _set_step_methods(self):
-        for scenario in self._story._scenarios:
-            for method, message, args in scenario._givens + scenario._whens + scenario._thens:
-                func = getattr(scenario, method.func_name)
-                self._steps.append((func, message))
-
-    def run(self, result):
-        for step, message in self._steps:
-            result.startTest(Wrap(step, message))
+    def run(self, result=None):
+        if result is None:
+            result = self.defaultTestResult()
+        result.startTest(self)
+        testMethod = self._func
+        try:
             try:
-                step()
+                self.setUp()
+            except KeyboardInterrupt:
+                raise
+            except:
+                result.addError(self, self.__exc_info())
+                return
+
+            ok = False
+            try:
+                testMethod()
+                ok = True
+            except self.failureException:
+                result.addFailure(self, self.__exc_info())
+            except KeyboardInterrupt:
+                raise
+            except:
+                result.addError(self, self.__exc_info())
+
+            try:
+                self.tearDown()
+            except KeyboardInterrupt:
+                raise
+            except:
+                result.addError(self, self.__exc_info())
+                ok = False
+            if ok:
                 result.addSuccess(self)
-            except AssertionError, e:
-                result.addFailure(_Failure(e), sys.exc_info())
-            except Exception, e:
-                result.addError(_Failure(e), sys.exc_info())
+        finally:
             result.stopTest(self)
 
+    def __exc_info(self):
+        """Return a version of sys.exc_info() with the traceback frame
+           minimised; usually the top level of the traceback frame is not
+           needed.
+        """
+        exctype, excvalue, tb = sys.exc_info()
+        return (exctype, excvalue, tb)
+
+
+    def debug(self):
+        """Run the test without collecting errors in a TestResult"""
+        self.setUp()
+        self._func()
+        self.tearDown()
+
+
+class FakeTestCase(unittest.TestCase):
+    def __init__(self, obj, prefix):
+        self._title = obj._title
+        self._prefix = prefix
+        # __str__ is the test method. LOL
+        unittest.TestCase.__init__(self, '__str__')
+
     def __str__(self):
-        return self._story._title
-#        return "%s (%s)" % ('run', unittest._strclass(self.__class__))
+        return '%s: %s' % (self._prefix.title(), self._title)
 
-##    def __repr__(self):
-##        return "<%s testMethod=%s>" % \
-##               (_strclass(self.__class__), 'run')
-##
+    def countTestCases(self):
+        return 0
 
-#    failureException = AssertionError
-#
-#    def __init__(self, methodName='runTest'):
-#        """Create an instance of the class that will use the named test
-#           method when executed. Raises a ValueError if the instance does
-#           not have a method with the specified name.
-#        """
-#        try:
-#            self.__testMethodName = methodName
-#            testMethod = getattr(self, methodName)
-#            self.__testMethodDoc = testMethod.__doc__
-#        except AttributeError:
-#            raise ValueError, "no such test method in %s: %s" % \
-#                  (self.__class__, methodName)
-#
-#    def setUp(self):
-#        "Hook method for setting up the test fixture before exercising it."
-#        pass
-#
-#    def tearDown(self):
-#        "Hook method for deconstructing the test fixture after testing it."
-#        pass
-#
-#    def countTestCases(self):
-#        return 1
-#
-#    def defaultTestResult(self):
-#        return TestResult()
-#
-#    def shortDescription(self):
-#        """Returns a one-line description of the test, or None if no
-#        description has been provided.
-#
-#        The default implementation of this method returns the first line of
-#        the specified test method's docstring.
-#        """
-#        doc = self.__testMethodDoc
-#        return doc and doc.split("\n")[0].strip() or None
-#
-#    def id(self):
-#        return "%s.%s" % (_strclass(self.__class__), self.__testMethodName)
-#
-#    def __str__(self):
-#        return "%s (%s)" % (self.__testMethodName, _strclass(self.__class__))
-#
-#    def __repr__(self):
-#        return "<%s testMethod=%s>" % \
-#               (_strclass(self.__class__), self.__testMethodName)
-#
-#    def run(self, result=None):
-#        if result is None: result = self.defaultTestResult()
-#        result.startTest(self)
-#        testMethod = getattr(self, self.__testMethodName)
-#        try:
-#            try:
-#                self.setUp()
-#            except KeyboardInterrupt:
-#                raise
-#            except:
-#                result.addError(self, self.__exc_info())
-#                return
-#
-#            ok = False
-#            try:
-#                testMethod()
-#                ok = True
-#            except self.failureException:
-#                result.addFailure(self, self.__exc_info())
-#            except KeyboardInterrupt:
-#                raise
-#            except:
-#                result.addError(self, self.__exc_info())
-#
-#            try:
-#                self.tearDown()
-#            except KeyboardInterrupt:
-#                raise
-#            except:
-#                result.addError(self, self.__exc_info())
-#                ok = False
-#            if ok: result.addSuccess(self)
-#        finally:
-#            result.stopTest(self)
-#
-#    def __call__(self, *args, **kwds):
-#        return self.run(*args, **kwds)
-#
-#    def debug(self):
-#        """Run the test without collecting errors in a TestResult"""
-#        self.setUp()
-#        getattr(self, self.__testMethodName)()
-#        self.tearDown()
-#
+
+class _ScenarioTestSuite(unittest.TestSuite):
+    def __init__(self, scenario):
+        self._scenario = scenario
+        self._testcases = [FakeTestCase(scenario, '  scenario')]
+        self._set_step_methods()
+
+    def __iter__(self):
+        return iter(self._testcases)
+
+    def _set_step_methods(self):
+        for step_name in ['given', 'when', 'then']:
+            self._set_step_method(step_name)
+
+    def _set_step_method(self, step_name):
+        step = getattr(self._scenario, '_%ss' % step_name)
+        for method, message, args in step:
+            func = getattr(self._scenario, method.func_name)
+            wrapped_testcase = WrapTestCase(func, method.func_name, message, step_name)
+            self._testcases.append(wrapped_testcase)
+
+
+class _StoryTestSuite(unittest.TestSuite):
+    def __init__(self, story):
+        self._testcases = [FakeTestCase(story, 'story')]
+        self._testcases += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
+
+    def __iter__(self):
+        return iter(self._testcases)
+    
 
 class PyhistorianSuite(unittest.TestSuite):
     def __init__(self, *stories):
-        self._tests = [_StoryCase(story) for story in stories]
+        self._stories = [_StoryTestSuite(story) for story in stories]
 
-    def __call__(self, result):
-        for story in self._tests:
-           story.run(result)
+    def __iter__(self):
+        return iter(self._stories)
 
 
 if __name__ == '__main__':
