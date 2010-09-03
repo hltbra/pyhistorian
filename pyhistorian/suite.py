@@ -126,11 +126,11 @@ class FakeTestCase(unittest.TestCase):
 class _ScenarioTestSuite(unittest.TestSuite):
     def __init__(self, scenario):
         self._scenario = scenario
-        self._testcases = [FakeTestCase('  Scenario: %s' % scenario._title)]
+        self._tests = [FakeTestCase('  Scenario: %s' % scenario._title)]
         self._set_step_methods()
 
     def __iter__(self):
-        return iter(self._testcases)
+        return iter(self._tests)
 
     def _set_step_methods(self):
         for step_name in ['given', 'when', 'then']:
@@ -141,22 +141,23 @@ class _ScenarioTestSuite(unittest.TestSuite):
         for method, message, args in step:
             func = getattr(self._scenario, method.func_name)
             wrapped_testcase = WrapTestCase(func, method.func_name, message, step_name)
-            self._testcases.append(wrapped_testcase)
+            self._tests.append(wrapped_testcase)
 
 
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
         header_lines = [line.strip() for line in story.__doc__.split('\n')]
-        self._testcases = [FakeTestCase('Story: %s%s' % (story._title, '\n  '.join(header_lines)))]
-        self._testcases += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
+        self._tests = [FakeTestCase('Story: %s\n  %s' % (story._title, '\n  '.join(header_lines)))]
+        self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
     def __iter__(self):
-        return iter(self._testcases)
+        return iter(self._tests)
     
 
 class PyhistorianSuite(unittest.TestSuite):
     def __init__(self, *stories):
         self._stories = [_StoryTestSuite(story) for story in stories]
+        self._tests = self._stories
 
     def __iter__(self):
         return iter(self._stories)
