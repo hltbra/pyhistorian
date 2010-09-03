@@ -14,15 +14,18 @@
     ...     Exception: an error occurred!
     ... 
     ... """ % os.path.abspath(__file__)
-    >>> blue_colored(error_msg) in output.getvalue()
+    >>> expected_output = "...%s..." % (blue_colored(error_msg))
+    >>> checker.check_output(expected_output, output.getvalue(), doctest.ELLIPSIS)
     True
 '''
 from pyhistorian import *
 from pyhistorian.output import colored
 from cStringIO import StringIO
 import os
+import doctest
 
 output = StringIO()
+checker = doctest.OutputChecker()
 
 def blue_colored(msg):
     return colored(msg, 'blue')
