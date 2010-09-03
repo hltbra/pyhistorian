@@ -12,22 +12,6 @@
 >>> runner = unittest.TextTestRunner(stream=StringIO())
 >>> runner.run(suite)
 <unittest._TextTestResult run=6 errors=0 failures=1>
-
-
->>> runner = unittest.TextTestRunner(stream=output, verbosity=3)
->>> passing_suite = PyhistorianSuite(passing_story)
->>> runner.run(passing_suite)
->>> print output.getvalue()
-Story: Passing Story
-  In order to specify the unittest output
-  As a smart dev
-  I want to have a passing story
-<BLANKLINE>
-  Scenario 1: Passing Scenario
-    Then it should pass   ... OK
-<BLANKLINE>
-----------------------------------------------------------------------
-Ran 1 test in 0.000s
 '''
 
 from pyhistorian import *
@@ -101,18 +85,3 @@ class IntegrationWithUnittest(Story):
 
 story = IntegrationWithUnittest()
 
-
-class PassingStory(Story):
-    """In order to specify the unittest output
-    As a smart dev
-    I want to have a passing story
-    """
-    scenarios = ('PassingScenario',)
-
-class PassingScenario(Scenario):
-    @Then('it pass')
-    def should_pass(self):
-        pass
-
-passing_story = PassingStory()
-output = StringIO()

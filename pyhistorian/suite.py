@@ -126,7 +126,7 @@ class FakeTestCase(unittest.TestCase):
 class _ScenarioTestSuite(unittest.TestSuite):
     def __init__(self, scenario):
         self._scenario = scenario
-        self._tests = [FakeTestCase('  Scenario: %s' % scenario._title)]
+        self._tests = [FakeTestCase('  Scenario 1: %s' % scenario._title)]
         self._set_step_methods()
 
     def __iter__(self):
