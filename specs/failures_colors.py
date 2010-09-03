@@ -9,7 +9,7 @@
     ...   Failures:
     ... """) in output.getvalue()
     True
-    >>> failure_msg = """    File "/home/hugo/pyhistorian/specs/failures_colors.py", line 42, in fail
+    >>> failure_msg = """    File ".../specs/failures_colors.py", line 42, in fail
     ...       assert 1 == 2
     ...     AssertionError
     ... 

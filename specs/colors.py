@@ -1,6 +1,5 @@
 '''Adding support to termcolor.
 Failures and errors are red and sucessful is green.
-PS.: At each should_dsl version it may change!!!
 
 
 >>> SupportToTermcolor.run()
@@ -18,7 +17,7 @@ False
 ... """+green_and_red_output+"""
 ...   Ran 3 scenarios with 3 failures, 0 errors and 0 pending steps
 ... """
->>> colored_output2 in output.getvalue()
+>>> checker.check_output(colored_output2, output.getvalue(), doctest.ELLIPSIS)
 True
 '''
 
@@ -27,9 +26,10 @@ from pyhistorian.output import colored
 from should_dsl import *
 from cStringIO import StringIO
 import os
+import doctest
 
-SHOULD_DSL_PATH = os.path.dirname(should_dsl.__file__) + '/should_dsl.py'
 HERE = os.path.dirname(__file__) + '/colors.py'
+checker = doctest.OutputChecker()
 
 class GreenColor(Scenario):
     @Given('I want my output colored and it pass')
@@ -90,24 +90,18 @@ red_output = red_colored('\
   red_colored('\
     Then I have red messages   ... FAIL\n') +\
   red_colored('\n  Failures:\n')+\
-  red_colored("""    File "%(here)s", line 46, in fail1
+  red_colored("""    File "%(here)s", line ..., in fail1
       'this scenario' |should_be| 'red colored'
-    File "%(should_dsl)s", line 25, in __or__
-      return self._check_expectation()
-    File "%(should_dsl)s", line 54, in _check_expectation
-      self._rvalue))
-    ShouldNotSatisfied: this scenario is not red colored
+    ...
+    ShouldNotSatisfied: 'this scenario' is not 'red colored'
 
-""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})+\
-  red_colored("""    File "%(here)s", line 50, in fail2
+""" % {'here': HERE})+\
+  red_colored("""    File "%(here)s", line ..., in fail2
       'this fail color' |should_be| 'red'
-    File "%(should_dsl)s", line 25, in __or__
-      return self._check_expectation()
-    File "%(should_dsl)s", line 54, in _check_expectation
-      self._rvalue))
-    ShouldNotSatisfied: this fail color is not red
+    ...
+    ShouldNotSatisfied: 'this fail color' is not 'red'
 
-""" % {'should_dsl' : SHOULD_DSL_PATH, 'here': HERE})
+""" % {'here': HERE})
 green_and_red_output = green_colored('\
     Given I want my output colored (green and red)   ... OK\n')+\
   green_colored('\
@@ -115,12 +109,9 @@ green_and_red_output = green_colored('\
   red_colored('\
     And I have red message   ... FAIL\n') +\
   red_colored('\n  Failures:\n') + \
-  red_colored("""    File "%(here)s", line 64, in red_message
+  red_colored("""    File "%(here)s", line ..., in red_message
       'this step' |should_be| 'red'
-    File "%(should_dsl)s", line 25, in __or__
-      return self._check_expectation()
-    File "%(should_dsl)s", line 54, in _check_expectation
-      self._rvalue))
-    ShouldNotSatisfied: this step is not red
+    ...
+    ShouldNotSatisfied: 'this step' is not 'red'
 
-""" % {'should_dsl': SHOULD_DSL_PATH, 'here': HERE})
+""" % {'here': HERE})

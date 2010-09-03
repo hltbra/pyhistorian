@@ -9,7 +9,7 @@
     ...   Errors:
     ... """) in output.getvalue()
     True
-    >>> error_msg = """    File "%s", line 42, in do_error
+    >>> error_msg = """    File "%s", line ..., in do_error
     ...       raise Exception("an error occurred!")
     ...     Exception: an error occurred!
     ... 

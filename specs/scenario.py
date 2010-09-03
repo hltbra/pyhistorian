@@ -92,9 +92,6 @@ Scenario 1: Failing scenario
 Failures:
   File ".../specs/scenario.py", line ..., in failing_spec
     ZeroDivisionError |should_not_be.thrown_by| divide_one_by_zero
-  File ".../should_dsl.py", line 25, in __or__
-    return self._check_expectation()
-  File ".../should_dsl.py", line ..., in _check_expectation
   ...
   ShouldNotSatisfied: ...ZeroDivisionError... is thrown by <function divide_one_by_zero at ...>
 <BLANKLINE>
