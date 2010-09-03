@@ -2,7 +2,10 @@ all: install test
 
 PYTHON=python
 
-install:
+clean:
+	rm -rf dist build *egg-info
+
+install: clean
 	@$(PYTHON) setup.py install
 
 test:
