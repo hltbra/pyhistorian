@@ -9,19 +9,19 @@
     ...   Failures:
     ... """) in output.getvalue()
     True
-    >>> failure_msg = """    File ".../specs/failures_colors.py", line 42, in fail
+    >>> failure_msg = """    File "%s", line ..., in fail
     ...       assert 1 == 2
     ...     AssertionError
     ... 
-    ... """
+    ... """ % os.path.abspath(__file__)
     >>> expected_output = "...%s..." % (blue_colored(failure_msg))
     >>> checker.check_output(expected_output, output.getvalue(), doctest.ELLIPSIS)
     True
-
 '''
 from pyhistorian import *
 from pyhistorian.output import colored
 from cStringIO import StringIO
+import os
 import doctest
 
 output = StringIO()
