@@ -48,10 +48,14 @@ class WrapTestCase(unittest.TestCase):
     def id(self):
         return "%s.%s" % (unittest._strclass(self.__class__), self._func_name)
 
+    def shortDescription(self):
+        return self.__str__()
+
     def __str__(self):
         class_name = self._func.im_class.__module__
-        step_msg = "%s %s" % (self._step_name.title(), self._msg)
-        return "    %s # %s" % (step_msg.ljust(30), class_name)
+        step_msg = "    %s %s" % (self._step_name.title(), self._msg)
+        return step_msg
+#        return "    %s # %s" % (step_msg.ljust(30), class_name)
 
     def __repr__(self):
         return "<%s testMethod=%s>" % \
@@ -115,6 +119,12 @@ class FakeTestCase(unittest.TestCase):
         self._msg = msg
         # __str__ is the test method. LOL
         unittest.TestCase.__init__(self, '__str__')
+
+    def run(self, result):
+        result.startTest(self)
+        result.stopTest(self)
+        
+    __call__ = run
 
     def __str__(self):
         return self._msg
