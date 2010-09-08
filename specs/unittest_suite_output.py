@@ -14,7 +14,7 @@ class PassingStory(Story):
     scenarios = ('PassingScenario',)
 
 class PassingScenario(Scenario):
-    @Then('it pass')
+    @Then('it should pass')
     def should_pass(self):
         pass
 
@@ -30,18 +30,20 @@ class UnittestSuiteOutput(unittest.TestCase):
         runner = unittest.TextTestRunner(stream=output, verbosity=3)
         runner.run(passing_suite)
         expected_output = """\
-        Story: Passing Story
-          In order to specify the unittest output
-          As a smart dev
-          I want to have a passing story
+Story: Passing story
+  In order to specify the unittest output
+  As a smart dev
+  I want to have a passing story
 
-          Scenario 1: Passing Scenario
-            Then it should pass   ... OK
+  Scenario 1: Passing scenario
+    Then it should pass ... ok
 
-        ----------------------------------------------------------------------
-        Ran 1 test in 0.000s
-        """
+----------------------------------------------------------------------
+Ran 1 test in ...s
+
+OK
+"""
         self.assertTrue(checker.check_output(expected_output, output.getvalue(), doctest.ELLIPSIS), output.getvalue())
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(argv=[__file__, '-vvvvv'])

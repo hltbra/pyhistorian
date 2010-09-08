@@ -52,9 +52,9 @@ class WrapTestCase(unittest.TestCase):
         return self.__str__()
 
     def __str__(self):
-        class_name = self._func.im_class.__module__
-        step_msg = "    %s %s" % (self._step_name.title(), self._msg)
+        step_msg = "\n    %s %s" % (self._step_name.title(), self._msg)
         return step_msg
+#        class_name = self._func.im_class.__module__
 #        return "    %s # %s" % (step_msg.ljust(30), class_name)
 
     def __repr__(self):
@@ -121,8 +121,16 @@ class FakeTestCase(unittest.TestCase):
         unittest.TestCase.__init__(self, '__str__')
 
     def run(self, result):
+        """
+        patch the test runner to now include the fake in the output
+        """
+        result.showAll = False
+        result.testsRun -= 1
         result.startTest(self)
+        if hasattr(result, 'stream'):
+            result.stream.write(self._msg)
         result.stopTest(self)
+        result.showAll = True
         
     __call__ = run
 
@@ -157,7 +165,7 @@ class _ScenarioTestSuite(unittest.TestSuite):
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
         header_lines = [line.strip() for line in story.__doc__.split('\n')]
-        self._tests = [FakeTestCase('Story: %s\n  %s' % (story._title, '\n  '.join(header_lines)))]
+        self._tests = [FakeTestCase('Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines)))]
         self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
     def __iter__(self):
