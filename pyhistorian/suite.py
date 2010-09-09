@@ -49,9 +49,9 @@ class WrapTestCase(unittest.TestCase):
     def id(self):
         return "%s.%s" % (unittest._strclass(self.__class__), self._func_name)
 
-    def shortDescription(self):
-        return self.__str__()
-
+#    def shortDescription(self):
+#        return self.__str__()
+#
     def __str__(self):
         step_msg = "\n    %s %s" % (self._step_name.title(), self._msg)
         return step_msg
