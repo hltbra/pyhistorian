@@ -6,7 +6,14 @@ from story import *
 from scenario import *
 from steps import *
 from should_dsl import *
-
+try:
+    # FIXME: it should not be here
+    # it is here because we need pyhistorian tests passing
+    # and pyhistorian_plone needs to work too :)
+    from Products.PloneTestCase import PloneTestCase as ptc
+    TestCase = ptc.PloneTestCase
+except ImportError:
+    from unittest import TestCase
 
 __all__= ['PyhistorianSuite', ]
 
@@ -31,16 +38,16 @@ class _Failure(object):
         return ''
 
 
-class WrapTestCase(unittest.TestCase):
+class WrapTestCase(TestCase):
     """
-    Specialization of unittest.TestCase to handle Stories + Steps
+    Specialization of TestCase to handle Stories + Steps
     """
     def __init__(self, func, func_name, msg, step_name):
         self._func = func
         self._func_name = func_name
         self._msg = msg
         self._step_name = step_name
-        unittest.TestCase.__init__(self, '_func')
+        TestCase.__init__(self, '_func')
 
     def shortDescription(self):
         doc = self._msg
@@ -48,6 +55,18 @@ class WrapTestCase(unittest.TestCase):
 
     def id(self):
         return "%s.%s" % (unittest._strclass(self.__class__), self._func_name)
+
+    def setUp(self):
+        """
+        setUp should do NOTHING
+        because if it does anything, every step - given/when/then - sharing vars would break
+        """
+
+    def tearDown(self):
+        """
+        tearDown should do NOTHING
+        because if it does anything, every step - given/when/then - sharing vars would break
+        """
 
     def shortDescription(self):
         return self.__str__()
@@ -64,10 +83,10 @@ class WrapTestCase(unittest.TestCase):
 
 
 
-class FakeTestCase(unittest.TestCase):
+class FakeTestCase(TestCase):
     def __init__(self, msg):
         self._msg = msg
-        unittest.TestCase.__init__(self, 'fake_test')
+        TestCase.__init__(self, 'fake_test')
 
     def fake_test(self):
         pass
