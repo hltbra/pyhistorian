@@ -40,6 +40,7 @@ class WrapTestCase(unittest.TestCase):
         self._func_name = func_name
         self._msg = msg
         self._step_name = step_name
+        unittest.TestCase.__init__(self, '_func')
 
     def shortDescription(self):
         doc = self._msg
@@ -61,57 +62,6 @@ class WrapTestCase(unittest.TestCase):
         return "<%s testMethod=%s>" % \
                (unittest._strclass(self.__class__), self._func_name)
 
-    def run(self, result=None):
-        if result is None:
-            result = self.defaultTestResult()
-        result.startTest(self)
-        testMethod = self._func
-        try:
-            try:
-                self.setUp()
-            except KeyboardInterrupt:
-                raise
-            except:
-                result.addError(self, self.__exc_info())
-                return
-
-            ok = False
-            try:
-                testMethod()
-                ok = True
-            except self.failureException:
-                result.addFailure(self, self.__exc_info())
-            except KeyboardInterrupt:
-                raise
-            except:
-                result.addError(self, self.__exc_info())
-
-            try:
-                self.tearDown()
-            except KeyboardInterrupt:
-                raise
-            except:
-                result.addError(self, self.__exc_info())
-                ok = False
-            if ok:
-                result.addSuccess(self)
-        finally:
-            result.stopTest(self)
-
-    def __exc_info(self):
-        """Return a version of sys.exc_info() with the traceback frame
-           minimised; usually the top level of the traceback frame is not
-           needed.
-        """
-        exctype, excvalue, tb = sys.exc_info()
-        return (exctype, excvalue, tb)
-
-
-    def debug(self):
-        """Run the test without collecting errors in a TestResult"""
-        self.setUp()
-        self._func()
-        self.tearDown()
 
 
 class FakeTestCase(unittest.TestCase):
