@@ -118,8 +118,3 @@ class _StoryTestSuite(unittest.TestSuite):
 class PyhistorianSuite(unittest.TestSuite):
     def __init__(self, *stories):
         self._tests = [_StoryTestSuite(story) for story in stories]
-
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(optionflags=doctest.ELLIPSIS)
