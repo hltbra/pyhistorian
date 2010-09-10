@@ -18,26 +18,6 @@ except ImportError:
 __all__= ['PyhistorianSuite', ]
 
 
-class _Failure(object):
-    '''
-        >>> fail = _Failure(Exception('foo'))
-        >>> fail.shortDescription()
-        'foo'
-        >>> fail2 = _Failure(Exception())
-        >>> fail2.shortDescription()
-        ''
-    '''
-    failureException = AssertionError
-
-    def __init__(self, exception):
-        self._exception = exception
-
-    def shortDescription(self):
-        if len(self._exception.args):
-            return self._exception.args[0]
-        return ''
-
-
 class WrapTestCase(TestCase):
     """
     Specialization of TestCase to handle Stories + Steps
