@@ -1,11 +1,4 @@
-import doctest
 import unittest
-import sys
-from cStringIO import StringIO
-from story import *
-from scenario import *
-from steps import *
-from should_dsl import *
 try:
     # FIXME: it should not be here
     # it is here because we need pyhistorian tests passing
@@ -27,13 +20,6 @@ class WrapTestCase(TestCase):
         self._msg = msg
         self._step_name = step_name
         TestCase.__init__(self, '_func')
-
-    def shortDescription(self):
-        doc = self._msg
-        return doc and doc.split("\n")[0].strip() or None
-
-    def id(self):
-        return "%s.%s" % (unittest._strclass(self.__class__), self._func_name)
 
     def setUp(self):
         """
