@@ -1,3 +1,8 @@
+"""
+The fake objects exist because the unittest result
+cares about output and number of tests
+"""
+
 import unittest
 try:
     # FIXME: it should not be here
@@ -17,38 +22,36 @@ class PyhistorianSuite(unittest.TestSuite):
 
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
-        header_lines = [line.strip() for line in story.__doc__.split('\n')]
-        story_header = 'Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines))
-        self._tests = [_FakeTestCase(story_header)]
+        self._tests = [_FakeStoryTestCase(story)]
         self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
 
 class _ScenarioTestSuite(unittest.TestSuite):
     def __init__(self, scenario):
         self._scenario = scenario
-        self._tests = [_FakeTestCase('  Scenario 1: %s' % scenario._title)]
-        self._set_step_methods()
+        self._tests = [_FakeScenarioTestCase(scenario)]
+        self._add_step_methods()
 
-    def _set_step_methods(self):
-        for step_name in ['given', 'when', 'then']:
-            self._set_step_method(step_name)
+    def _add_step_methods(self):
+        self._add_step_method('given', self._scenario._givens)
+        self._add_step_method('when', self._scenario._whens)
+        self._add_step_method('then', self._scenario._thens)
 
-    def _set_step_method(self, step_name):
-        step = getattr(self._scenario, '_%ss' % step_name)
-        for method, message, args in step:
-            func = getattr(self._scenario, method.func_name)
-            step_testcase = _StepTestCase(func, method.func_name, message, step_name)
+    def _add_step_method(self, step_name, steps):
+        for method, message, args in steps:
+            step_func = getattr(self._scenario, method.func_name)
+            step_testcase = _StepTestCase(step_func, message, step_name)
             self._tests.append(step_testcase)
 
 
 class _FakeTestCase(TestCase):
     """
-    Fake TestCase for Stories and Scenarios
-    It does not count as a test and has a custom message
+    Fake TestCases do not count as a test and has a custom message
     """
-    def __init__(self, msg):
-        self._msg = msg
-        super(self.__class__, self).__init__('fake_test')
+
+    def __init__(self, obj):
+        self._obj = obj
+        TestCase.__init__(self, 'fake_test')
 
     def fake_test(self):
         pass
@@ -57,28 +60,38 @@ class _FakeTestCase(TestCase):
         """
         patch the test runner to not include the fake in the output
         """
-        result.showAll = False
-        result.testsRun -= 1
-        result.startTest(self)
         if hasattr(result, 'stream'):
-            result.stream.write(self._msg)
-        result.stopTest(self)
-        result.showAll = True
+            result.stream.write(str(self))
         
-    def __str__(self):
-        return self._msg
-
     def countTestCases(self):
         return 0
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+
+class _FakeScenarioTestCase(_FakeTestCase):
+    def __str__(self):
+        return '  Scenario 1: %s' % self._obj._title
+
+
+class _FakeStoryTestCase(_FakeTestCase):
+    def __str__(self):
+        story = self._obj
+        header_lines = [line.strip() for line in story.__doc__.split('\n')]
+        story_header = 'Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines))
+        return story_header
 
 
 class _StepTestCase(TestCase):
     """
     Specialization of TestCase to handle Steps
     """
-    def __init__(self, func, func_name, msg, step_name):
+    def __init__(self, func, msg, step_name):
         self._func = func
-        self._func_name = func_name
         self._msg = msg
         self._step_name = step_name
         super(self.__class__, self).__init__('_func')
@@ -103,5 +116,7 @@ class _StepTestCase(TestCase):
         return step_msg
 
     def __repr__(self):
-        return "<%s testMethod=%s>" % \
-               (unittest._strclass(self.__class__), self._func_name)
+        """
+        __repr__ shows function name - help for debuggingthe for debug
+        """
+        return '<Pyhistorian step method "%s">' % self._func.func_name
