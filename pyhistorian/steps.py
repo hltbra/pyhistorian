@@ -10,8 +10,7 @@ class Step(object):
         self._args = args
         self._context = sys._getframe(1)
         self._set_step_attrs(self._context.f_locals)
-        step = self.__class__.name
-        self._steps = self._context.f_locals['_%ss' % step]
+        self._steps = self._context.f_locals['_%ss' % self.__class__.name]
         self._steps.append((None, self._message, self._args))
 
     def _set_step_attrs(self, local_attrs):
