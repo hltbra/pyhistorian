@@ -12,7 +12,7 @@ __all__= ['PyhistorianSuite', ]
 
 class _StepTestCase(TestCase):
     """
-    Specialization of TestCase to handle Stories + Steps
+    Specialization of TestCase to handle Steps
     """
     def __init__(self, func, func_name, msg, step_name):
         self._func = func
@@ -49,6 +49,10 @@ class _StepTestCase(TestCase):
 
 
 class _FakeTestCase(TestCase):
+    """
+    Fake TestCase for Stories and Scenarios
+    It does not count as a test and has a custom message
+    """
     def __init__(self, msg):
         self._msg = msg
         TestCase.__init__(self, 'fake_test')
