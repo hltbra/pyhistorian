@@ -67,10 +67,14 @@ class _FakeTestCase(TestCase):
         return 0
 
     def setUp(self):
-        pass
+        """
+        do nothing
+        """
 
     def tearDown(self):
-        pass
+        """
+        do nothing
+        """
 
 
 class _FakeScenarioTestCase(_FakeTestCase):
@@ -99,13 +103,13 @@ class _StepTestCase(TestCase):
     def setUp(self):
         """
         setUp should do NOTHING
-        because if it does anything, every step - given/when/then - sharing vars would break
+        because if it does anything, every step - given/when/then - break the sharing state
         """
 
     def tearDown(self):
         """
         tearDown should do NOTHING
-        because if it does anything, every step - given/when/then - sharing vars would break
+        because if it does anything, every step - given/when/then - break the sharing state
         """
 
     def shortDescription(self):
