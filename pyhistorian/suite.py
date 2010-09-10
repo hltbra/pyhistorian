@@ -93,7 +93,7 @@ class FakeTestCase(TestCase):
 
     def run(self, result):
         """
-        patch the test runner to now include the fake in the output
+        patch the test runner to not include the fake in the output
         """
         result.showAll = False
         result.testsRun -= 1
