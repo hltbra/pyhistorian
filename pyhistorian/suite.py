@@ -10,8 +10,7 @@ try:
     # FIXME: it should not be here
     # it is here because we need pyhistorian tests passing
     # and pyhistorian_plone needs to work too :)
-    from Products.PloneTestCase import PloneTestCase as ptc
-    TestCase = ptc.PloneTestCase
+    from Products.PloneTestCase.PloneTestCase import PloneTestCase as TestCase
 except ImportError:
     from unittest import TestCase
 
@@ -49,7 +48,7 @@ class WrapTestCase(TestCase):
         """
 
     def shortDescription(self):
-        return self.__str__()
+        return str(self)
 
     def __str__(self):
         step_msg = "\n    %s %s" % (self._step_name.title(), self._msg)
