@@ -1,6 +1,12 @@
 """
 The fake objects exist because the unittest result
 cares about output and number of tests
+
+
+It is recommended to run pyhistorian_plone tests too. Check it out:
+    
+    http://github.com/hugobr/pyhistorian_plone3_buildout
+
 """
 
 import unittest
@@ -58,12 +64,15 @@ class _FakeTestCase(TestCase):
 
     def run(self, result):
         """
-        patch the test runner to not include the fake in the output
+        only show the string representation (story or scenario line)
         """
         if hasattr(result, 'stream'):
             result.stream.write(str(self))
         
     def countTestCases(self):
+        """
+        Plone use this method to increment the number of tests ran
+        """
         return 0
 
     def setUp(self):
@@ -113,6 +122,9 @@ class _StepTestCase(TestCase):
         """
 
     def shortDescription(self):
+        """
+        Plone use this method to retrieve verbose message
+        """
         return str(self)
 
     def __str__(self):
@@ -121,6 +133,6 @@ class _StepTestCase(TestCase):
 
     def __repr__(self):
         """
-        __repr__ shows function name - help for debuggingthe for debug
+        shows function name - help for debugging
         """
         return '<Pyhistorian step method "%s">' % self._func.func_name
