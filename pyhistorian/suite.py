@@ -82,8 +82,6 @@ class FakeTestCase(TestCase):
         result.stopTest(self)
         result.showAll = True
         
-    __call__ = run
-
     def __str__(self):
         return self._msg
 
