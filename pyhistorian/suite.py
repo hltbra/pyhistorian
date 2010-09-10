@@ -48,7 +48,7 @@ class _StepTestCase(TestCase):
 
 
 
-class _FakeTestCase(TestCase):
+class _FakeTestCase(unittest.TestCase):
     """
     Fake TestCase for Stories and Scenarios
     It does not count as a test and has a custom message
