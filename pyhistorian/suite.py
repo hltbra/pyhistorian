@@ -128,8 +128,7 @@ class _StepTestCase(TestCase):
         return str(self)
 
     def __str__(self):
-        step_msg = "\n    %s %s" % (self._step_name.title(), self._msg)
-        return step_msg
+        return "\n    %s %s" % (self._step_name.title(), self._msg)
 
     def __repr__(self):
         """
