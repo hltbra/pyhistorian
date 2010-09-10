@@ -97,9 +97,6 @@ class _ScenarioTestSuite(unittest.TestSuite):
         self._tests = [FakeTestCase('  Scenario 1: %s' % scenario._title)]
         self._set_step_methods()
 
-    def __iter__(self):
-        return iter(self._tests)
-
     def _set_step_methods(self):
         for step_name in ['given', 'when', 'then']:
             self._set_step_method(step_name)
@@ -115,20 +112,14 @@ class _ScenarioTestSuite(unittest.TestSuite):
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
         header_lines = [line.strip() for line in story.__doc__.split('\n')]
-        self._tests = [FakeTestCase('Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines)))]
+        story_header = 'Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines))
+        self._tests = [FakeTestCase(story_header)]
         self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
-    def __iter__(self):
-        return iter(self._tests)
-    
 
 class PyhistorianSuite(unittest.TestSuite):
     def __init__(self, *stories):
-        self._stories = [_StoryTestSuite(story) for story in stories]
-        self._tests = self._stories
-
-    def __iter__(self):
-        return iter(self._stories)
+        self._tests = [_StoryTestSuite(story) for story in stories]
 
 
 if __name__ == '__main__':
