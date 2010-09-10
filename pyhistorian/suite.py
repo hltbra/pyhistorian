@@ -10,7 +10,7 @@ except ImportError:
 __all__= ['PyhistorianSuite', ]
 
 
-class WrapTestCase(TestCase):
+class _StepTestCase(TestCase):
     """
     Specialization of TestCase to handle Stories + Steps
     """
@@ -48,7 +48,7 @@ class WrapTestCase(TestCase):
 
 
 
-class FakeTestCase(TestCase):
+class _FakeTestCase(TestCase):
     def __init__(self, msg):
         self._msg = msg
         TestCase.__init__(self, 'fake_test')
@@ -78,7 +78,7 @@ class FakeTestCase(TestCase):
 class _ScenarioTestSuite(unittest.TestSuite):
     def __init__(self, scenario):
         self._scenario = scenario
-        self._tests = [FakeTestCase('  Scenario 1: %s' % scenario._title)]
+        self._tests = [_FakeTestCase('  Scenario 1: %s' % scenario._title)]
         self._set_step_methods()
 
     def _set_step_methods(self):
@@ -89,15 +89,15 @@ class _ScenarioTestSuite(unittest.TestSuite):
         step = getattr(self._scenario, '_%ss' % step_name)
         for method, message, args in step:
             func = getattr(self._scenario, method.func_name)
-            wrapped_testcase = WrapTestCase(func, method.func_name, message, step_name)
-            self._tests.append(wrapped_testcase)
+            step_testcase = _StepTestCase(func, method.func_name, message, step_name)
+            self._tests.append(step_testcase)
 
 
 class _StoryTestSuite(unittest.TestSuite):
     def __init__(self, story):
         header_lines = [line.strip() for line in story.__doc__.split('\n')]
         story_header = 'Story: %s\n  %s\n' % (story._title, '\n  '.join(header_lines))
-        self._tests = [FakeTestCase(story_header)]
+        self._tests = [_FakeTestCase(story_header)]
         self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
 
 
