@@ -25,8 +25,7 @@ def run_all_python_modules(files, files_to_be_ignored=()):
 def run_python_modules_outhere():
     all_pyhistorian_python_files = ['pyhistorian.'+filename for filename in os.listdir(PYHISTORIAN_DIRNAME)
                                           if filename.endswith('.py')]
-
-    return run_all_python_modules(all_pyhistorian_python_files, ['__init__.py'])
+    return run_all_python_modules(all_pyhistorian_python_files, ['pyhistorian.__init__.py', 'pyhistorian.plone.py'])
 
 def run_all_python_modules_here():
     all_python_files_here = [filename for filename in os.listdir(THIS_DIRNAME)

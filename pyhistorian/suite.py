@@ -1,4 +1,7 @@
 """
+PyhistorianSuite is an unittest compatible test suite
+
+
 The fake objects exist because the unittest result
 cares about output and number of tests
 
@@ -10,54 +13,18 @@ It is recommended to run pyhistorian_plone tests too. Check it out:
 """
 
 import unittest
-try:
-    # FIXME: it should not be here
-    # it is here because we need pyhistorian tests passing
-    # and pyhistorian_plone needs to work too :)
-    from Products.PloneTestCase.PloneTestCase import PloneTestCase as TestCase
-except ImportError:
-    from unittest import TestCase
 
-__all__= ['PyhistorianSuite', ]
+__all__ = ('PyhistorianSuite',)
 
 
-class PyhistorianSuite(unittest.TestSuite):
-    def __init__(self, *stories):
-        self._tests = [_StoryTestSuite(story) for story in stories]
-
-
-class _StoryTestSuite(unittest.TestSuite):
-    def __init__(self, story):
-        self._tests = [_FakeStoryTestCase(story)]
-        self._tests += [_ScenarioTestSuite(scenario) for scenario in story._scenarios]
-
-
-class _ScenarioTestSuite(unittest.TestSuite):
-    def __init__(self, scenario):
-        self._scenario = scenario
-        self._tests = [_FakeScenarioTestCase(scenario)]
-        self._add_step_methods()
-
-    def _add_step_methods(self):
-        self._add_step_method('given', self._scenario._givens)
-        self._add_step_method('when', self._scenario._whens)
-        self._add_step_method('then', self._scenario._thens)
-
-    def _add_step_method(self, step_name, steps):
-        for method, message, args in steps:
-            step_func = getattr(self._scenario, method.func_name)
-            step_testcase = _StepTestCase(step_func, message, step_name)
-            self._tests.append(step_testcase)
-
-
-class _FakeTestCase(TestCase):
+class _FakeTestCase(unittest.TestCase):
     """
     Fake TestCases do not count as a test and has a custom message
     """
 
     def __init__(self, obj):
         self._obj = obj
-        TestCase.__init__(self, 'fake_test')
+        unittest.TestCase.__init__(self, 'fake_test')
 
     def fake_test(self):
         pass
@@ -99,15 +66,18 @@ class _FakeStoryTestCase(_FakeTestCase):
         return story_header
 
 
-class _StepTestCase(TestCase):
+class _StepTestCase(unittest.TestCase):
     """
     Specialization of TestCase to handle Steps
     """
+
+    testcase = unittest.TestCase
+
     def __init__(self, func, msg, step_name):
         self._func = func
         self._msg = msg
         self._step_name = step_name
-        super(self.__class__, self).__init__('_func')
+        self.testcase.__init__(self, '_func')
 
     def setUp(self):
         """
@@ -135,3 +105,43 @@ class _StepTestCase(TestCase):
         shows function name - help for debugging
         """
         return '<Pyhistorian step method "%s">' % self._func.func_name
+
+
+class _ScenarioTestSuite(unittest.TestSuite):
+    fake_scenario_testcase = _FakeScenarioTestCase
+    step_testcase = _StepTestCase
+
+    def __init__(self, scenario):
+        self._scenario = scenario
+        self._tests = [self.fake_scenario_testcase(scenario)]
+        self._add_step_methods()
+
+    def _add_step_methods(self):
+        self._add_step_method('given', self._scenario._givens)
+        self._add_step_method('when', self._scenario._whens)
+        self._add_step_method('then', self._scenario._thens)
+
+    def _add_step_method(self, step_name, steps):
+        for method, message, args in steps:
+            step_func = getattr(self._scenario, method.func_name)
+            step_testcase = self.step_testcase(step_func, message, step_name)
+            self._tests.append(step_testcase)
+
+
+class _StoryTestSuite(unittest.TestSuite):
+    fake_story_testcase = _FakeStoryTestCase
+    scenario_test_suite = _ScenarioTestSuite
+
+    def __init__(self, story):
+        self._tests = [self.fake_story_testcase(story)]
+        self._tests += [self.scenario_test_suite(scenario) for scenario in story._scenarios]
+
+
+class PyhistorianSuite(unittest.TestSuite):
+    story_test_suite = _StoryTestSuite
+
+    def __init__(self, *stories):
+        self._tests = [self.story_test_suite(story) for story in stories]
+
+
+
