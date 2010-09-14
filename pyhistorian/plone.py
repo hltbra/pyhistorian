@@ -31,11 +31,15 @@ class _PloneFakeTestCase(_FakeTestCase, PloneTestCase):
 
 
 class _PloneFakeScenarioTestCase(_PloneFakeTestCase, _FakeScenarioTestCase):
-    pass
+    """
+    Mixin for adding support to PloneTestCase based on _FakeScenarioTestCase
+    """
 
 
 class _PloneFakeStoryTestCase(_PloneFakeTestCase, _FakeStoryTestCase):
-    pass
+    """
+    Mixin for adding support to PloneTestCase based on _FakeStoryTestCase
+    """
 
 
 class _PloneStepTestCase(_StepTestCase, PloneTestCase):
