@@ -65,3 +65,9 @@ Due to DVCS I moved pyhistorian from `Google Gode <http://code.google.com/p/pyhi
 You can get it at `here <http://github.com/hugobr/pyhistorian>`_:
 
 http://github.com/hugobr/pyhistorian
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/hltbra/pyhistorian/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
